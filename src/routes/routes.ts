@@ -2,11 +2,13 @@ import express, { Request, Response } from 'express';
 import { GetCookies } from '../middlewares/getCookies';
 import { AuthAccount } from '../middlewares/authAccount';
 import { GetEntitlements } from '../middlewares/getEntitlements';
+import { GetPlayerInfo } from '../middlewares/PlayerInfo';
 
 const router = express.Router();
 const getCookies = new GetCookies();
 const authAccount = new AuthAccount();
 const getEntitlements = new GetEntitlements();
+const getPlayerInfo = new GetPlayerInfo();
 
 
 const cookies = getCookies.postAuthCookies('85.0.1.1382.3124').then(res => {
@@ -30,8 +32,12 @@ router.post('/auth', async (req: Request, res: Response) => {
     const ent = await getEntitlements.Entitlements(token || '');
     const entitlements_token = ent.data.entitlements_token;
 
+    const info = await getPlayerInfo.PlayerInfo(token || '');
+    const puuid = info.data.sub;
+
     res.header('Cookie', cookiesValue).header('X-Powered-By', 'valorao/1.0.0-beta').status(response.status)
     .json({
+        "puuid": puuid,
         "Bearer": token,
         "Expires in": expires,
         "entitlements": entitlements_token
