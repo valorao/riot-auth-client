@@ -1,7 +1,9 @@
 import { GetCookies } from "./middlewares/getCookies";
 import express from "express";
 import { router } from "./routes/routes";
+import { AuthAccount } from "./middlewares/authAccount";
 
+const authAccount = new AuthAccount();
 const app = express();
 const port = 3000;
 
@@ -12,12 +14,9 @@ app.listen(port, () => {
     console.log(`Server is running on port ${port}`)
 });
 
-
-
-
-// const getCookies = new GetCookies();
-// getCookies.postAuthCookies('85.0.1.1382.3124').then(response => {
-//     console.log(response);
-// }).catch(error => {
-//     console.error(error);
-// });
+authAccount.AuthCookies('85.0.1.1382.3124')
+ .then(response => {
+    console.log(response.data);
+ }).catch(error => {
+    console.log(error);
+ })
