@@ -19,20 +19,23 @@ router.post('/auth', async (req: Request, res: Response) => {
     const cookiesValue = await cookies;
 
     const response = await authAccount.AuthCookies(
-        '85.0.1.1382.3124', req.body.username, req.body.password, cookiesValue || ''
-    );
+        '85.0.1.1382.3124', req.body.username, req.body.password, cookiesValue || '');
+
+    const uri = response.data.response.parameters.uri;
+    const url = new URL(uri);
+    const params = new URLSearchParams(url.search);
+    const token = params.get('access_token');
+    const expires = params.get('expires_in');
+
+    const ent = await getEntitlements.Entitlements(token || '');
+    const entitlements_token = ent.data.entitlements_token;
 
     res.header('Cookie', cookiesValue).header('X-Powered-By', 'valorao/1.0.0-beta').status(response.status)
-    .json(response.data);
-});
-
-
-router.post('/entitlements', async (req: Request, res: Response) => {
-    
-    const response = await getEntitlements.Entitlements(req.headers.authorization || '');
-
-    res.header('X-Powered-By', 'valorao/1.0.0-beta').status(response.status)
-    .json(response.data);
+    .json({
+        "Bearer": token,
+        "Expires in": expires,
+        "entitlements": entitlements_token
+        });
 });
 
 export { router };
