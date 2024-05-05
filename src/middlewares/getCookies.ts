@@ -38,7 +38,6 @@ export class GetCookies {
         };
 
         let response  = await axios.post(url, body, Config).then(res => {
-            console.log(res.status);
             return res;
         })
         return response;
