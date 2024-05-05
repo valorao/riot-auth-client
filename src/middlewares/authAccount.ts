@@ -1,6 +1,5 @@
 import axios, { AxiosRequestConfig } from 'axios';
 import https from 'https';
-import { GetCookies } from './getCookies';
 import 'dotenv/config';
 
 export class AuthAccount {

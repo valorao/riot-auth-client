@@ -15,7 +15,7 @@ const cookies = getCookies.postAuthCookies('85.0.1.1382.3124').then(res => {
     return res.headers['set-cookie']?.find(cookie => /^asid/.test(cookie));
 })
 
-router.put('/auth-cookies', async (req: Request, res: Response) => {
+router.post('/auth', async (req: Request, res: Response) => {
     const cookiesValue = await cookies;
 
     const response = await authAccount.AuthCookies(
@@ -29,11 +29,10 @@ router.put('/auth-cookies', async (req: Request, res: Response) => {
 
 router.post('/entitlements', async (req: Request, res: Response) => {
     
-    const response = await getEntitlements.Entitlements(req.body.token);
+    const response = await getEntitlements.Entitlements(req.headers.authorization || '');
 
     res.header('X-Powered-By', 'valorao/1.0.0-beta').status(response.status)
     .json(response.data);
 });
 
 export { router };
-
