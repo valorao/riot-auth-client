@@ -1,6 +1,7 @@
 import axios, { AxiosRequestConfig } from 'axios';
 import https from 'https';
 import { GetCookies } from './getCookies';
+import 'dotenv/config';
 
 export class AuthAccount {
     readonly chiphers = [
@@ -17,19 +18,19 @@ export class AuthAccount {
             minVersion: 'TLSv1.3'
         });
 
-    AuthCookies = async (riotClientBuild: string) => {
+    AuthCookies = async (riotClientBuild: string, username : string, password : string, asid : string) => {
         const url = 'https://auth.riotgames.com/api/v1/authorization';
         const body = {
             'type': 'auth',
-            'username': '',
-            'password': ''
+            'username': username,
+            'password': password
         };
 
         let UserAgent = `RiotClient/${riotClientBuild} rso-auth (Windows; 10;;Professional, x64)`;
         let headers = {
             'Content-Type': 'application/json',
             'User-Agent': UserAgent,
-            'Cookie': 'asid=Z74wj3ulW9raaoFg7XBfsZN53OKooGArGrkbD2NetgM.KDdSdtKqdf0%3D; Path=/; HttpOnly; Secure; SameSite=Strict'
+            'Cookie': asid
         };
 
         let Config: AxiosRequestConfig = {
@@ -38,7 +39,6 @@ export class AuthAccount {
         };
 
         let response  = await axios.put(url, body, Config).then(res => {
-            console.log(res.status)
             return res;
         })
         return response;

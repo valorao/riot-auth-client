@@ -14,9 +14,9 @@ app.listen(port, () => {
     console.log(`Server is running on port ${port}`)
 });
 
-authAccount.AuthCookies('85.0.1.1382.3124')
- .then(response => {
-    console.log(response.data);
- }).catch(error => {
-    console.log(error);
- })
+// authAccount.AuthCookies('85.0.1.1382.3124',)
+//  .then(response => {
+//     console.log(response.data);
+//  }).catch(error => {
+//     console.log(error);
+//  })
