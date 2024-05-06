@@ -1,6 +1,5 @@
 import axios, { AxiosRequestConfig } from 'axios';
 import https from 'https';
-import 'dotenv/config';
 
 export class AuthAccount {
     readonly chiphers = [
@@ -39,7 +38,9 @@ export class AuthAccount {
 
         let response  = await axios.put(url, body, Config).then(res => {
             return res;
-        })
+        }).catch(err => {
+            return err.response;
+        });
         return response;
 
     }

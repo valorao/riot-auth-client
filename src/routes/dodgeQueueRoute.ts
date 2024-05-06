@@ -19,38 +19,58 @@ const getEntitlements = new GetEntitlements();
 const getPlayerInfo = new GetPlayerInfo();
 const getClientPlatform = new GetClientPlatform();
 
-const cookies = getCookies.postAuthCookies('85.0.1.1382.3124').then(res => {
-    res.headers['set-cookie']?.find(cookie => /^asid/.test(cookie));
+const cookies = getCookies.postAuthCookies().then(res => {
+    res.headers['set-cookie']?.find((cookie: string) => /^asid/.test(cookie));
     
-    return res.headers['set-cookie']?.find(cookie => /^asid/.test(cookie));
+    return res.headers['set-cookie']?.find((cookie: string) => /^asid/.test(cookie));
 })
 
 DodgeQueueRouter.post('/actions/player/pregame/leave', async (req: Request, res: Response) => {
-    const cookiesValue = await cookies;
-    const version = await getClientVersion.ClientVersion(true);
-    const clientversion = version.data.data.version;
-    const response = await authAccount.AuthCookies(
-        clientversion , req.body.username, req.body.password, cookiesValue || '');
-    const uri = response.data.response.parameters.uri;
-    const url = new URL(uri);
-    const params = new URLSearchParams(url.search);
-    const token = params.get('access_token');
-
-    const ent = await getEntitlements.Entitlements(token || '');
-    const entitlements_token = ent.data.entitlements_token;
+    try {
+        const cookiesValue = await cookies;
+        const version = await getClientVersion.ClientVersion();
+        const clientversion = version.data.data.version;
+        const response = await authAccount.AuthCookies(
+            clientversion , req.body.username, req.body.password, cookiesValue || '');
+        const uri = response.data.response.parameters.uri;
+        const url = new URL(uri);
+        const params = new URLSearchParams(url.search);
+        const token = params.get('access_token');
     
-    const info = await getPlayerInfo.PlayerInfo(token || '');
-    const puuid = info.data.sub;
-
-    const clientPlatform = await getClientPlatform.ClientPlatform()
-    const client_platform = clientPlatform.data.data.platform;
-
-    const game_id =  await playerPreGameId.PlayerPreGameId((token || ''), puuid, entitlements_token, client_platform, clientversion);
-    const pregame_id = game_id.data.MatchID;
-
-    const dodgeresponse = await playerDodgeQueue.DodgeQueue((token || ''), pregame_id,
-         entitlements_token, client_platform, clientversion);
-    res.status(dodgeresponse.status).json({
-        "status": dodgeresponse.status,
-    });
+        const ent = await getEntitlements.Entitlements(token || '');
+        const entitlements_token = ent.data.entitlements_token;
+        
+        const info = await getPlayerInfo.PlayerInfo(token || '');
+        const puuid = info.data.sub;
+    
+        const clientPlatform = await getClientPlatform.ClientPlatform()
+        const client_platform = clientPlatform.data.data.platform;
+    
+        const game_id =  await playerPreGameId.PlayerPreGameId((token || ''), puuid, entitlements_token, client_platform, clientversion);
+        const pregame_id = game_id.data.MatchID;
+    
+        const dodgeresponse = await playerDodgeQueue.DodgeQueue((token || ''), pregame_id,
+             entitlements_token, client_platform, clientversion);
+        res.status(dodgeresponse.status).json({
+            "status": dodgeresponse.status,
+        });
+    } catch (error) {
+        if(!req.body.username || !req.body.password) {
+            return res.status(400).json({
+                "status": 400,
+                "message": "Missing username or password"
+            });
+        }if(req.body.username && req.body.password) {
+            return res.status(401).json({
+                "status": 401,
+                "message": "Wrong username or password"
+            });
+        }
+         else {
+            return res.status(500).json({
+                "status": 500,
+                "message": "Internal Server Error"
+            });
+        }
+    }
 });

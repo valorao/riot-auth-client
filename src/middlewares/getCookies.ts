@@ -1,5 +1,8 @@
 import axios, { AxiosRequestConfig } from 'axios';
+import { GetClientVersion } from './GetClientVersionService';
 import https from 'https';
+
+const getClientVersion = new GetClientVersion();
 
 export class GetCookies {
     readonly chiphers = [
@@ -16,7 +19,9 @@ export class GetCookies {
             minVersion: 'TLSv1.3'
         });
 
-    postAuthCookies = async (riotClientBuild: string) => {
+
+    postAuthCookies = async () => {
+        const version = await getClientVersion.ClientVersion();
         const url = 'https://auth.riotgames.com/api/v1/authorization';
         const body = {
             'client_id': 'play-valorant-web-prod',
@@ -27,7 +32,7 @@ export class GetCookies {
             'scope': 'account openid'
         };
 
-        let UserAgent = `RiotClient/${riotClientBuild} rso-auth (Windows; 10;;Professional, x64)`;
+        let UserAgent = `RiotClient/${version} rso-auth (Windows; 10;;Professional, x64)`;
         let headers = {
             'Content-Type': 'application/json',
             'User-Agent': UserAgent
@@ -40,6 +45,8 @@ export class GetCookies {
 
         let response  = await axios.post(url, body, Config).then(res => {
             return res;
+        }).catch(err => {
+            return err.response;
         })
         return response;
 

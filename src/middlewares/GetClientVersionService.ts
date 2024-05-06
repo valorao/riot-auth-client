@@ -1,8 +1,7 @@
-import axios, { AxiosRequestConfig } from 'axios';
-import 'dotenv/config';
+import axios from 'axios';
 
 export class GetClientVersion {
-    ClientVersion = async (token: boolean) => {
+    ClientVersion = async () => {
 
     let response  = await axios.get('https://valorant-api.com/v1/version').then(res => {
         return res

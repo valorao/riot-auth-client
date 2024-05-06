@@ -1,5 +1,4 @@
-import axios, { AxiosRequestConfig } from 'axios';
-import 'dotenv/config';
+import axios from 'axios';
 
 export class GetEntitlements {
     Entitlements = async (token: string) => {

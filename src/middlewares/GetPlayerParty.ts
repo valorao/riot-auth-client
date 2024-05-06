@@ -1,5 +1,4 @@
-import axios, { AxiosRequestConfig } from 'axios';
-import 'dotenv/config';
+import axios from 'axios';
 
 export class GetPlayerParty {
     PlayerParty = async (token: string, puuid: string, entitlements: string, client_platform: string, client_version: string) => {
