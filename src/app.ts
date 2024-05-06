@@ -1,6 +1,6 @@
 import express from "express";
-import { router } from "./routes/routes";
-import { player_router } from "./routes/player-route";
+import { router } from "./routes/playerAuthRoute";
+import { player_router } from "./routes/PlayerInfoRoute";
 import { DodgeQueueRouter } from "./routes/dodgeQueueRoute";
 
 const app = express();
