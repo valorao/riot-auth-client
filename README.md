@@ -26,7 +26,7 @@ Authenticates user to Riot with Username and password.
   ```
 
 ### `/api/riot/client/version`
-Gather Riot Client's Version, neeed in some endpoints.
+Gather Riot Client's Version, needed in some endpoints.
 - Method: `GET`
 
 ```js
