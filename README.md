@@ -2,7 +2,7 @@
 
 ## Endpoints
 ### `/api/riot/auth`
-
+### Authenticates user to Riot with Username and password.
 - Method: `POST`
 
 - Body:
@@ -26,7 +26,7 @@
   ```
 
 ### `/api/riot/client/version`
-
+### Gather Riot Client's Version, neeed in some endpoints.
 - Method: `GET`
 
 ```js
@@ -37,7 +37,7 @@
 ```
 
 ### `/api/riot/client/platform`
-
+### Gather Riot Client's Platform, neeed in some endpoints.
 - Method: `GET`
 
 ```js
@@ -48,7 +48,7 @@
 ```
 
 ### `/api/riot/player/party`
-
+### Gather Player's Party ID.
 - Method: `POST`
 
 - Body:
@@ -71,8 +71,8 @@
     }
   ```
 
-  ### `/api/riot/player/pregame`
-
+### `/api/riot/player/pregame`
+### Gather Player's Pregame ID.
 - Method: `POST`
 
 - Body:
@@ -95,8 +95,8 @@
     }
   ```
 
-    ### `/api/riot/player/pregame/leave`
-
+### `/api/riot/player/pregame/leave`
+### Leave the Pregame (also known as Dodge).
 - Method: `POST`
 
 - Body:
@@ -118,8 +118,8 @@
     }
   ```
 
-  ### `/api/riot/actions/player/pregame/leave`
-
+### `/api/riot/actions/player/pregame/leave`
+### Leave the Pregame with login, instead of token. (also known as Dodge).
 - Method: `POST`
 
 - Body:
