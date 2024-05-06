@@ -51,19 +51,15 @@ DodgeQueueRouter.post('/actions/player/pregame/leave', async (req: Request, res:
     
         const dodgeresponse = await playerDodgeQueue.DodgeQueue((token || ''), pregame_id,
              entitlements_token, client_platform, clientversion);
-        res.status(dodgeresponse.status).json({
-            "status": dodgeresponse.status,
+        res.status(200).json({
+            "status": 200,
+            "message": "Going back to lobby."
         });
     } catch (error) {
         if(!req.body.username || !req.body.password) {
             return res.status(400).json({
                 "status": 400,
                 "message": "Missing username or password"
-            });
-        }if(req.body.username && req.body.password) {
-            return res.status(401).json({
-                "status": 401,
-                "message": "Wrong username or password"
             });
         }
          else {
