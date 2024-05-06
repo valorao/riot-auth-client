@@ -8,7 +8,7 @@ const port = 3000;
 
 app.use(express.json());
 app.use('/api/riot', router);
-app.use('/api/riot/dev/', player_router)
+app.use('/api/riot', player_router)
 app.use('/api/riot', DodgeQueueRouter)
 
 app.listen(port, () => {
