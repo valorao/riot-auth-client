@@ -4,6 +4,7 @@ import { AuthAccount } from '../middlewares/authAccount';
 import { GetEntitlements } from '../middlewares/getEntitlements';
 import { GetPlayerInfo } from '../middlewares/PlayerInfo';
 import { GetClientVersion } from '../services/GetClientVersionService';
+import { GetClientPlatform } from '../services/GetClientPlatformService';
 
 const router = express.Router();
 const getCookies = new GetCookies();
@@ -11,6 +12,7 @@ const authAccount = new AuthAccount();
 const getEntitlements = new GetEntitlements();
 const getPlayerInfo = new GetPlayerInfo();
 const getClientVersion = new GetClientVersion();
+const getClientPlatform = new GetClientPlatform();
 
 
 const cookies = getCookies.postAuthCookies('85.0.1.1382.3124').then(res => {
@@ -20,10 +22,10 @@ const cookies = getCookies.postAuthCookies('85.0.1.1382.3124').then(res => {
 })
 
 router.get('/client/platform', async (req: Request, res: Response) => {
-    const response = 'ew0KCSJwbGF0Zm9ybVR5cGUiOiAiUEMiLA0KCSJwbGF0Zm9ybU9TIjogIldpbmRvd3MiLA0KCSJwbGF0Zm9ybU9TVmVyc2lvbiI6ICIxMC4wLjE5MDQyLjEuMjU2LjY0Yml0IiwNCgkicGxhdGZvcm1DaGlwc2V0IjogIlVua25vd24iDQp9';
+    const response = await getClientPlatform.ClientPlatform();
     res.json({ 
         "status": res.status,
-        "platform": response
+        "platform": response.data.data.platform
     });
 });
 
