@@ -15,7 +15,6 @@ window.onload = function() {
         if (data.puuid && data.otherCookie) {
 
             document.getElementById('page-title').textContent = 'valorao - Control Panel';
-            document.getElementById('header-text').style.display = 'none';
             document.getElementById('loginBtn').disabled = true;
             document.getElementById('reauthBtn').disabled = false;
             document.getElementById('dodgeBtn').disabled = false;
@@ -141,10 +140,10 @@ window.onload = function() {
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         logoutBtn.onclick = function(event) {
         event.preventDefault();
-        fetch('/v1/riot/logout', {  // Corrected line
+        fetch('/v1/riot/fromstatic/logout', {  // Corrected line
             method: 'DELETE'
         })
-        .then(response => response.json())
+        .then(response => response.text())
         .then(data => {
             location.reload();
         });
