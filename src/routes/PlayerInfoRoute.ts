@@ -26,7 +26,6 @@ player_router.post('/actions/player/pregame/leave', async (req: Request, res: Re
 
 player_router.post('/auth', async (req: Request, res: Response) => {
     const response = await authenticatePlayerService.handle(req.body.username, req.body.password);
-    console.log(req.body.username, req.body.password);
     res.status(response.status).header('set-cookie', response.ssid);
     if (response.cookie) {
         const puuidCookie = response.cookie[0];
@@ -35,21 +34,32 @@ player_router.post('/auth', async (req: Request, res: Response) => {
     }
     res.json(response);
 })
-player_router.post('/auth/browser', async (req: Request, res: Response) => {
+player_router.get('/auth/browser', async (req: Request, res: Response) => {
     const response = await authenticatePlayerService.handle((req.headers.username as string),
      (req.headers.password as string));
+     console.log(req.headers.username, req.headers.password)
     res.status(response.status).header('set-cookie', response.ssid);
     if (response.cookie) {
         const puuidCookie = response.cookie[0];
         res.cookie(puuidCookie.name, puuidCookie.value, puuidCookie.options);
         delete response.cookie;
     }
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Request-Headers', 'password,username');
+    res.setHeader('Access-Control-Allow-Method', 'GET');
     res.json(response);
 })
 
+player_router.options('/auth/browser', async (req: Request, res: Response) => {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Method', 'GET');
+    res.setHeader('Access-Control-Allow-Headers', 'username, password');
+    res.json({});
+})
 
 player_router.get('/auth/reauth', async (req: Request, res: Response) => {
     const response = await reauthCookiesService.handle(req.headers.cookie || '');
+    res.setHeader('Access-Control-Allow-Origin', '*');
     res.status(response.status).json({
         "status": response.status,
         "token": response.data
