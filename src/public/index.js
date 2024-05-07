@@ -28,16 +28,22 @@ window.onload = function() {
             document.getElementById('username-inputbox').style.display = 'none';
             document.getElementById('remember-forgot').style.display = 'none';
             document.getElementById('create-account').style.display = 'none';
+            loginBtn.style.cursor = 'default';
         }
     });
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     loginBtn.onclick = function(event) {
+        loginBtn.style.backgroundColor = '#a5a3a3';
+        loginBtn.textContent = 'Logging in...';
+        loginBtn.disabled = true;
+        loginBtn.style.cursor = 'default';
         event.preventDefault();
         let user = username.value;
         let pass = password.value;
         if (user === '' || pass === '') {
             loginBtn.style.backgroundColor = '#ff0000';
             loginBtn.textContent = 'Enter a Username and Password';
+            loginBtn.disabled = false;
             setTimeout(() => {
                 loginBtn.style.backgroundColor = '';
                 loginBtn.textContent = 'Login';
@@ -60,6 +66,8 @@ window.onload = function() {
                 setTimeout(() => {
                     loginBtn.style.backgroundColor = '';
                     loginBtn.textContent = 'Login';
+                    loginBtn.disabled = false;
+                    loginBtn.style.cursor = 'pointer';
                 }, 3000);
             }
             if (response.status === 200) {
