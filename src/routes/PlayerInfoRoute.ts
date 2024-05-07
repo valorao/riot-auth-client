@@ -26,6 +26,7 @@ player_router.post('/actions/player/pregame/leave', async (req: Request, res: Re
 
 player_router.post('/auth', async (req: Request, res: Response) => {
     const response = await authenticatePlayerService.handle(req.body.username, req.body.password);
+    console.log(req.body.username, req.body.password);
     res.status(response.status).header('set-cookie', response.ssid);
     if (response.cookie) {
         const puuidCookie = response.cookie[0];
@@ -34,6 +35,18 @@ player_router.post('/auth', async (req: Request, res: Response) => {
     }
     res.json(response);
 })
+player_router.post('/auth/browser', async (req: Request, res: Response) => {
+    const response = await authenticatePlayerService.handle((req.headers.username as string),
+     (req.headers.password as string));
+    res.status(response.status).header('set-cookie', response.ssid);
+    if (response.cookie) {
+        const puuidCookie = response.cookie[0];
+        res.cookie(puuidCookie.name, puuidCookie.value, puuidCookie.options);
+        delete response.cookie;
+    }
+    res.json(response);
+})
+
 
 player_router.get('/auth/reauth', async (req: Request, res: Response) => {
     const response = await reauthCookiesService.handle(req.headers.cookie || '');
