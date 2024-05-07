@@ -29,7 +29,7 @@ export class AuthenticatePlayerService {
     
         const ent = await getEntitlements.Entitlements(token || '').catch(err => {
             return err.response;
-        });;
+        });
         const entitlements_token = ent.data.entitlements_token;
     
         const info = await getPlayerInfo.PlayerInfo(token || '').catch(err => {
