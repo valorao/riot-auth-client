@@ -26,7 +26,7 @@ player_router.post('/actions/player/pregame/leave', async (req: Request, res: Re
 
 player_router.get('/actions/ping', async (req: Request, res: Response) => {
     res.set('Cache-Control', 'no-cache');
-    res.status(200).json({
+    res.status(400).json({
         "status": 200,
         "message": "pong"
     });
@@ -71,7 +71,7 @@ player_router.get('/auth/reauth', async (req: Request, res: Response) => {
     const response = await reauthCookiesService.handle(req.headers.cookie || '');
     res.setHeader('Access-Control-Allow-Origin', '*');
     if (response.data.accessToken === null) {
-        res.status(400).json({
+        res.status(200).json({
             "status": 400,
             "message": "Bad Request"
         })
@@ -86,7 +86,7 @@ player_router.get('/auth/reauth', async (req: Request, res: Response) => {
 player_router.get('/auth/with/cookies/actions/player/pregame/leave', async (req: Request, res: Response) => {
     const puuid_cookie = await req.cookies['puuid']
     const ssid_cookie = await req.cookies['ssid']
-    const response = await dodgeQueueServiceWithCookies.handle(ssid_cookie || '', puuid_cookie || '');
+    const response = await dodgeQueueServiceWithCookies.handle(req.headers.cookie || '');
     const responseObject = {
         status: response.status,
     };

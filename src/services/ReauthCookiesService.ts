@@ -20,7 +20,7 @@ export class ReauthCookiesService {
             if ((error as any).response && ((error as any).response.status === 301 || (error as any).response.status === 303)) {
                 const redirectUrl = (error as any).response.headers.location;
                 const urlObj = new URL(redirectUrl);
-                const params = new URLSearchParams(urlObj.hash.substring(1)); // remove the leading '#'
+                const params = new URLSearchParams(urlObj.hash.substring(1));
                 const accessToken = params.get('access_token');
                 const ent = await getEntitlements.Entitlements(accessToken || '').catch(err => {
                     return err.response;

@@ -14,14 +14,21 @@ const getClientVersion = new GetClientVersion();
 const playerDodgeQueue = new PlayerDodgeQueue();
 
 export class DodgeQueueServiceWithCookies {
-    handle = async(cookie: string, puuid_cookie: string) => {
-        const response = await reauthCookiesService.handle(cookie);
+    handle = async(cookies: string) => {
+
+        const cookieArray = cookies.split('; ');
+
+        // Extract the individual cookies
+        const cookie1 = cookieArray[0];
+        const cookie2 = cookieArray[1];
+        console.log(cookie2)
+        const response = await reauthCookiesService.handle(cookies);
         if (!response || !response.data) {
             throw new Error('Failed to authenticate account');
         }
         const accessToken = response.data.accessToken;
         const entitlementsToken = response.data.entitlements;
-        const puuid = puuid_cookie;
+        const puuid = cookie1.split('=')[1];
         const clientPlatform = await getClientPlatform.ClientPlatform();
         if (!clientPlatform || !clientPlatform.data) {
             throw new Error('Failed to get client platform');
@@ -34,6 +41,7 @@ export class DodgeQueueServiceWithCookies {
         const clientversion = version.data.data.version;
         
             const game_id =  await playerPreGameId.PlayerPreGameId((accessToken || ''), puuid, entitlementsToken, client_platform, clientversion);
+            console.log(game_id)
             const pregame_id = game_id.data.MatchID;
         
             const dodgeresponse = await playerDodgeQueue.DodgeQueue((accessToken || ''), pregame_id,

@@ -98,6 +98,10 @@ body {
   background: #a5a3a3;
 }
 
+#reauthBtn, #dodgeBtn, #logoutBtn {
+  display: none;
+}
+
 .wrapper .register-link {
   font-size: 14.5px;
   text-align: center;
