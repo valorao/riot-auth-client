@@ -1,31 +1,21 @@
 import express, { Request, Response, response } from 'express';
-import { GetCookies } from '../middlewares/getCookies';
 import { AuthAccount } from '../middlewares/authAccount';
 import { GetEntitlements } from '../middlewares/getEntitlements';
 import { GetPlayerInfo } from '../middlewares/PlayerInfo';
 import { GetClientVersion } from '../middlewares/GetClientVersionService';
-import { GetClientPlatform } from '../middlewares/GetClientPlatformService';
+import { CreateCookie } from '../services/CreateCookie';
 
 export const PlayerAuth_router = express.Router();
-const getCookies = new GetCookies();
 const authAccount = new AuthAccount();
 const getEntitlements = new GetEntitlements();
 const getPlayerInfo = new GetPlayerInfo();
 const getClientVersion = new GetClientVersion();
-const getClientPlatform = new GetClientPlatform();
+const createCookie = new CreateCookie();
 
-
-const cookies = getCookies.postAuthCookies().then(res => {
-    res.headers['set-cookie']?.find((cookie: string) => /^asid/.test(cookie));
-    
-    return res.headers['set-cookie']?.find((cookie: string) => /^asid/.test(cookie));
-})
 
 PlayerAuth_router.post('/auth', async (req: Request, res: Response) => {
-
-    
     try {
-        const cookiesValue = await cookies;
+        const cookiesValue = await createCookie.handle();
         const version = await getClientVersion.ClientVersion();
         const clientversion = version.data.data.version;
         const response = await authAccount.AuthCookies(
