@@ -19,6 +19,21 @@ const reauthCookiesService = new ReauthCookiesService();
 const dodgeQueueServiceWithCookies = new DodgeQueueServiceWithCookies();
 app.use(cookieParser());
 
+player_router.get('/get-cookies', (req, res) => {
+    // Access cookies from the request
+    const puuid = req.cookies.puuid;
+    const otherCookie = req.cookies.ssid;
+
+    // Send cookies in the response
+    res.json({ puuid, otherCookie });
+});
+
+player_router.delete('/logout', (req, res) => {
+    res.clearCookie('puuid');
+    res.clearCookie('ssid');
+    res.json({ message: 'Cookies cleared' });
+})
+
 player_router.post('/actions/player/pregame/leave', async (req: Request, res: Response) => {
     const response = await dodgeQueueService.handle(req.body.username, req.body.password);
     res.status(response.status).json(response.data);
@@ -84,8 +99,6 @@ player_router.get('/auth/reauth', async (req: Request, res: Response) => {
 })
 
 player_router.get('/auth/with/cookies/actions/player/pregame/leave', async (req: Request, res: Response) => {
-    const puuid_cookie = await req.cookies['puuid']
-    const ssid_cookie = await req.cookies['ssid']
     const response = await dodgeQueueServiceWithCookies.handle(req.headers.cookie || '');
     const responseObject = {
         status: response.status,

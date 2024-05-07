@@ -5,9 +5,37 @@ window.onload = function() {
     let username = document.getElementById('usernameBox');
     let password = document.getElementById('passwordBox');
     let logoutBtn = document.getElementById('logoutBtn');
+    const cookies = document.cookie;
 
-    let cookies = document.cookie;
-    console.log(cookies);
+    if (cookies.includes('puuid') && cookies.includes('otherCookie')) {
+        // Enable the buttons
+        document.getElementById('reauthBtn').disabled = false;
+        document.getElementById('dodgeBtn').disabled = false;
+        document.getElementById('logoutBtn').disabled = false;
+        document.getElementById('reauthBtn').style.display = 'block';
+        document.getElementById('dodgeBtn').style.display = 'block';
+        document.getElementById('logoutBtn').style.display = 'block';
+        document.getElementById('usernameBox').style.display = 'none';
+        document.getElementById('passwordBox').style.display = 'none';
+        document.getElementById('input-box').style.display = 'none';
+
+    }
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    fetch('/v1/riot/get-cookies')
+    .then(response => response.json())
+    .then(data => {
+        if (data.puuid && data.otherCookie) {
+
+            document.getElementById('reauthBtn').disabled = false;
+            document.getElementById('dodgeBtn').disabled = false;
+            document.getElementById('logoutBtn').disabled = false;
+            document.getElementById('reauthBtn').style.display = 'block';
+            document.getElementById('dodgeBtn').style.display = 'block';
+            document.getElementById('logoutBtn').style.display = 'block';
+            loginBtn.style.backgroundColor = '#00ff00';
+            loginBtn.textContent = 'Logged in.';
+        }
+    });
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     loginBtn.onclick = function(event) {
         event.preventDefault();
@@ -32,7 +60,6 @@ window.onload = function() {
                 'password': pass
             },
         }).then(response => {
-            console.log(response);
             if (response.status === 400) {
                 loginBtn.style.backgroundColor = '#ff0000';
                 loginBtn.textContent = 'Invalid Username or Password';
@@ -67,7 +94,6 @@ window.onload = function() {
         fetch('http://localhost:5107/v1/riot/auth/reauth', {
             method: 'GET'
         }).then(response => {
-            console.log(response);
             if (response.status === 303) {
                 reauthBtn.style.backgroundColor = '#00ff00';
                 reauthBtn.textContent = 'Cookie Reauthenticated';
@@ -97,7 +123,6 @@ window.onload = function() {
         fetch('http://localhost:5107/v1/riot/auth/with/cookies/actions/player/pregame/leave', {
             method: 'GET'
         }).then(response => {
-            console.log(response);
             if (response.status === 204) {
                 dodgeBtn.style.backgroundColor = '#00ff00';
                 dodgeBtn.textContent = 'Queue Dodged.';
@@ -106,7 +131,7 @@ window.onload = function() {
                     dodgeBtn.textContent = 'Dodge Queue';
                 }, 3000);
             }
-            if (response.status === 400) {
+            if (response.status === 404) {
                 dodgeBtn.style.backgroundColor = '#ff0000';
                 dodgeBtn.textContent = 'You are not in a pre-game.';
                 setTimeout(() => {
@@ -114,29 +139,19 @@ window.onload = function() {
                     dodgeBtn.textContent = 'Dodge Queue';
                 }, 3000);
             }
-            return response.json(); // parse the body of the response
         })
         .catch(error => console.error('Error:', error));
     }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    logoutBtn.onclick = function(event) {
-    event.preventDefault();
-
-    // Delete cookies
-    document.cookie.split(";").forEach((c) => {
-        document.cookie = c
-            .replace(/^ +/, "")
-            .replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/");
-    });
-
-    // Hide the other buttons
-    document.getElementById('reauthBtn').style.display = 'none';
-    document.getElementById('dodgeBtn').style.display = 'none';
-    document.getElementById('logoutBtn').style.display = 'none';
-
-    // Reset the login button
-    loginBtn.style.backgroundColor = '';
-    loginBtn.textContent = 'Login';
+        logoutBtn.onclick = function(event) {
+        event.preventDefault();
+        fetch('/v1/riot/logout', {  // Corrected line
+            method: 'DELETE'
+        })
+        .then(response => response.json())
+        .then(data => {
+            location.reload();
+        });
     }
 }

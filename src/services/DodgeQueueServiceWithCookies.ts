@@ -5,6 +5,7 @@ import { GetPlayerPreGameId } from '../middlewares/GetPlayerPreGameId';
 import { GetClientPlatform } from '../middlewares/GetClientPlatformService';
 import { ReauthCookiesService } from './ReauthCookiesService';
 import { GetClientVersion } from '../middlewares/GetClientVersionService';
+import e from 'express';
 
 export const DodgeQueueRouter = express.Router();
 const playerPreGameId = new GetPlayerPreGameId();
@@ -18,17 +19,23 @@ export class DodgeQueueServiceWithCookies {
 
         const cookieArray = cookies.split('; ');
 
+        let ssid, puuid;
+
         // Extract the individual cookies
-        const cookie1 = cookieArray[0];
-        const cookie2 = cookieArray[1];
-        console.log(cookie2)
-        const response = await reauthCookiesService.handle(cookies);
+        for (let cookie of cookieArray) {
+            if (cookie.startsWith('ssid')) {
+                ssid = cookie;
+            } else if (cookie.startsWith('puuid')) {
+                puuid = cookie.split('=')[1];
+            }
+        }
+
+        const response = await reauthCookiesService.handle(ssid || '');
         if (!response || !response.data) {
             throw new Error('Failed to authenticate account');
         }
         const accessToken = response.data.accessToken;
         const entitlementsToken = response.data.entitlements;
-        const puuid = cookie1.split('=')[1];
         const clientPlatform = await getClientPlatform.ClientPlatform();
         if (!clientPlatform || !clientPlatform.data) {
             throw new Error('Failed to get client platform');
@@ -40,8 +47,7 @@ export class DodgeQueueServiceWithCookies {
         }
         const clientversion = version.data.data.version;
         
-            const game_id =  await playerPreGameId.PlayerPreGameId((accessToken || ''), puuid, entitlementsToken, client_platform, clientversion);
-            console.log(game_id)
+            const game_id =  await playerPreGameId.PlayerPreGameId((accessToken || ''), (puuid || ''), entitlementsToken, client_platform, clientversion);
             const pregame_id = game_id.data.MatchID;
         
             const dodgeresponse = await playerDodgeQueue.DodgeQueue((accessToken || ''), pregame_id,
