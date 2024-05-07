@@ -12,6 +12,17 @@ const playerPreGameId = new GetPlayerPreGameId();
 const dodgeQueueService = new DodgeQueueService();
 const authenticatePlayerService = new AuthenticatePlayerService();
 
+player_router.post('/actions/player/pregame/leave', async (req: Request, res: Response) => {
+    const response = await dodgeQueueService.handle(req.body.username, req.body.password);
+    res.status(response.status).json(response.data);
+});
+
+player_router.post('/auth', async (req: Request, res: Response) => {
+    const response = await authenticatePlayerService.handle(req.body.username, req.body.password);
+    res.status(response.status).json(response);
+})
+
+
 player_router.post('/player/party', async (req: Request, res: Response) => {
     try {
         const response = await getPlayerParty.PlayerParty(req.body.token, req.body.puuid,
@@ -60,13 +71,3 @@ player_router.post('/player/pregame/leave', async (req: Request, res: Response) 
         });
     }
 });
-
-player_router.post('/actions/player/pregame/leave', async (req: Request, res: Response) => {
-    const response = await dodgeQueueService.handle(req.body.username, req.body.password);
-    res.status(response.status).json(response.data);
-});
-
-player_router.post('/auth', async (req: Request, res: Response) => {
-    const response = await authenticatePlayerService.handle(req.body.username, req.body.password);
-    res.status(response.status).json(response);
-})
