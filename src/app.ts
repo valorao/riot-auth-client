@@ -12,10 +12,14 @@ const port = process.env.PORT || 5110;
 const agent = process.env.AGENT || 'valorao-api';
 const version = process.env.VERSION || 'v1';
 
+const corsOptions = {
+    allowedHeaders: 'password,username'
+}
+
 const app = express();
 app.use(headersMiddleware)
 app.use(cookieParser());
-app.use(cors());
+app.use(cors(corsOptions));
 app.use('/static', express.static(path.join(__dirname, 'public')))
 app.use(express.json());
 
