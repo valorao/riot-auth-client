@@ -44,13 +44,16 @@ player_router.get('/auth/reauth', async (req: Request, res: Response) => {
 })
 
 player_router.get('/auth/reauth/browser', async (req: Request, res: Response) => {
-    const response = await authenticatePlayerService.handle('idonaldtrampo', 'IS31971457644?!');
+    const username = req.query.username as string;
+    const password = req.query.password as string;
+    const response = await authenticatePlayerService.handle(username, password);
     res.status(response.status);
     if (Array.isArray(response.ssid)) {
         response.ssid.forEach((cookie) => {
             res.cookie(cookie.name, cookie.value, cookie.options);
         });
     }
+    delete response.cookie;
     res.json(response);
 })
 
