@@ -20,14 +20,14 @@ const getClientPlatform = new GetClientPlatform();
 const createCookie = new CreateCookie();
 
 export class DodgeQueueService {
-    public async handle(username: string, password: string) {
+    handle = async(username: string, password: string) => {
             const cookiesValue = await createCookie.handle();
             const version = await getClientVersion.ClientVersion();
             const clientversion = version.data.data.version;
             const response = await authAccount.AuthCookies(
                 clientversion , username, password, cookiesValue || '');
 
-            const uri = response.data.response.parameters.uri;
+            const uri = response.response.data.response.parameters.uri;
             const url = new URL(uri);
             const params = new URLSearchParams(url.search);
             const token = params.get('access_token');

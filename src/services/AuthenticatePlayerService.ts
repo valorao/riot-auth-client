@@ -37,7 +37,16 @@ export class AuthenticatePlayerService {
         const ssid = response.ssid_cookie
         const puuid = info.data.sub;
         const riotid = info.data.acct.game_name + '#' + info.data.acct.tag_line;
-        return { status: response.response.status, riotid, puuid, token, expires, id_token, entitlements_token, ssid };
+        response.puuid = [
+            {
+                name: 'puuid',
+                value: puuid,
+                options: {
+                    httpOnly: true,
+                }
+            }
+        ];
+        return { status: response.response.status, cookie: response.puuid, riotid, puuid, token, expires, id_token, entitlements_token, ssid };
     }
 }
 
