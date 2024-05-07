@@ -1,4 +1,4 @@
-import express from "express";
+import express, { Request, Response } from "express";
 import 'dotenv/config';
 import cookieParser from 'cookie-parser';
 import path from 'path';
@@ -19,6 +19,10 @@ app.use(express.json());
 
 app.use('/v1/riot', player_router)
 app.use('/v1/riot', ClientInfo_Router)
+
+app.use('/', (req: Request, res: Response) => {
+    res.redirect('/static')
+})
 
 app.listen(port, () => {
     console.log(`${agent}/${version}`)
