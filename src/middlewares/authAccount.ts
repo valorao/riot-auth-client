@@ -41,8 +41,11 @@ export class AuthAccount {
         }).catch(err => {
             return err.response;
         });
-        console.log(response.headers['set-cookie'].find((cookie: string) => cookie.startsWith('ssid')));
-        return response;
+        let ssidCookie = response.headers['set-cookie'].find((cookie: string) => cookie.startsWith('ssid'));
+        return {
+            response: response,
+            ssid_cookie: ssidCookie
+        };
 
     }
 }

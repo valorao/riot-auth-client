@@ -21,7 +21,7 @@ player_router.post('/actions/player/pregame/leave', async (req: Request, res: Re
 
 player_router.post('/auth', async (req: Request, res: Response) => {
     const response = await authenticatePlayerService.handle(req.body.username, req.body.password);
-    res.status(response.status).json(response);
+    res.status(response.status).header('set-cookie', response.ssid).json(response);
 })
 
 player_router.get('/auth/reauth', async (req: Request, res: Response) => {

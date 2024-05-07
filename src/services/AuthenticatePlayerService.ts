@@ -19,8 +19,7 @@ export class AuthenticatePlayerService {
             clientversion , username, password, cookiesValue || '').catch(err => {
                 return err.response;
             });
-            
-        const uri = response.data.response.parameters.uri;
+        const uri = response.response.data.response.parameters.uri;
         const url = new URL(uri);
         const params = new URLSearchParams(url.search);
         const token = params.get('access_token');
@@ -35,9 +34,10 @@ export class AuthenticatePlayerService {
         const info = await getPlayerInfo.PlayerInfo(token || '').catch(err => {
             return err.response;
         });
+        const ssid = response.ssid_cookie
         const puuid = info.data.sub;
         const riotid = info.data.acct.game_name + '#' + info.data.acct.tag_line;
-        return { status: response.status, riotid, puuid, token, expires, id_token, entitlements_token };
+        return { status: response.response.status, riotid, puuid, token, expires, id_token, entitlements_token, ssid };
     }
 }
 
