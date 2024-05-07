@@ -17,6 +17,26 @@ body {
   background-position: center;
 }
 
+#logo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#logo > #valorao-logo {
+  display: block;
+  flex-direction: column;
+  justify-content: center;
+}
+
+#valorao-logo {
+  width: 200px;
+}
+
+.img-loaded {
+  width: 100px;
+}
+
 .wrapper {
     width: 420px;
     background: transparent;
@@ -32,6 +52,15 @@ body {
 .wrapper h1 {
   font-size: 36px;
   text-align: center;
+}
+#header-text {
+  background: url('valorao.png') no-repeat;
+  margin-bottom: 50px;
+}
+
+#username-inputbox,
+#password-inputbox {
+  margin: 10px 0;
 }
 
 .wrapper .input-box {
@@ -61,7 +90,7 @@ body {
   display: flex;
   justify-content: space-between;
   font-size: 14.5px;
-  margin: -15px 0 15px;
+  margin: 15px 0 15px;
 }
 
 .remember-forgot label input {
@@ -90,7 +119,7 @@ body {
   font-size: 16px;
   color: #333;
   font-weight: 600;
-  margin-bottom: 15px;
+  margin-bottom: 10px;
   transition: background 0.15s ease;
 }
 

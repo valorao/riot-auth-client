@@ -4,15 +4,17 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login to your Riot Account</title>
+    <title id="page-title">Login to your Riot Account</title>
     <link rel="stylesheet" href="style.css">
     <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
     <script src="index.js"></script>
 </head>
 <body>
     <div class="wrapper">
+        <div id="logo">
+            <img id="valorao-logo" src="valorao.png">
+        </div>
         <form action="">
-            <h1>Login</h1>
             <div id="username-inputbox" class="input-box">
                 <input id="usernameBox" type="text" placeholder="username" required>
             </div>
@@ -20,7 +22,7 @@
                 <input id="passwordBox" type="password" placeholder="password" required>
             </div>
 
-            <div class="remember-forgot">
+            <div id="remember-forgot" class="remember-forgot">
                 <label><input type="checkbox"> Remember me</label>
                 <a href="https://recovery.riotgames.com/en/forgot-password">Forgot password?</a>
             </div>
@@ -30,7 +32,7 @@
             <button id="dodgeBtn" type="button" class="btn" disabled>Dodge Queue</button>
             <button id="logoutBtn" type="button" class="btn" disabled>Logout</button>
 
-            <div class="register-link">
+            <div id="create-account" class="register-link">
                 <p>Don't have an account? <a href="https://account.riotgames.com/log-in">Register</a></p>
             </div>
             
