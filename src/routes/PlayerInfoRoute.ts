@@ -3,12 +3,14 @@ import { GetPlayerParty } from '../middlewares/GetPlayerParty';
 import { PlayerDodgeQueue } from '../middlewares/PlayerDodgeQueue';
 import { GetPlayerPreGameId } from '../middlewares/GetPlayerPreGameId';
 import { DodgeQueueService } from '../services/DodgeQueueService';
+import { AuthenticatePlayerService } from '../services/AuthenticatePlayerService';
 
 export const player_router = express.Router();
 const getPlayerParty = new GetPlayerParty();
 const playerDodgeQueue = new PlayerDodgeQueue();
 const playerPreGameId = new GetPlayerPreGameId();
 const dodgeQueueService = new DodgeQueueService();
+const authenticatePlayerService = new AuthenticatePlayerService();
 
 player_router.post('/player/party', async (req: Request, res: Response) => {
     try {
@@ -63,3 +65,8 @@ player_router.post('/actions/player/pregame/leave', async (req: Request, res: Re
     const response = await dodgeQueueService.handle(req.body.username, req.body.password);
     res.status(response.status).json(response.data);
 });
+
+player_router.post('/auth', async (req: Request, res: Response) => {
+    const response = await authenticatePlayerService.handle(req.body.username, req.body.password);
+    res.status(response.status).json(response);
+})

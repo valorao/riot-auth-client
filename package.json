@@ -1,6 +1,6 @@
 {
   "name": "riot-auth-api",
-  "version": "1.2.0-beta",
+  "version": "1.4.0-beta",
   "license": "MIT",
   "scripts": {
     "start": "ts-node src/app.ts",
