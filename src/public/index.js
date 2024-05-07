@@ -66,13 +66,7 @@ window.onload = function() {
                 loginBtn.style.backgroundColor = '#00ff00';
                 loginBtn.textContent = 'Logged in.';
 
-                document.getElementById('reauthBtn').disabled = false;
-                document.getElementById('dodgeBtn').disabled = false;
-                document.getElementById('logoutBtn').disabled = false;
-                document.getElementById('reauthBtn').style.display = 'block';
-                document.getElementById('dodgeBtn').style.display = 'block';
-                document.getElementById('logoutBtn').style.display = 'block';
-    
+                location.reload();
             }
             return response.json(); // parse the body of the response
         })
