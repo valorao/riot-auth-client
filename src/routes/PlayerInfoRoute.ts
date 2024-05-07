@@ -24,6 +24,14 @@ player_router.post('/actions/player/pregame/leave', async (req: Request, res: Re
     res.status(response.status).json(response.data);
 });
 
+player_router.get('/actions/ping', async (req: Request, res: Response) => {
+    res.set('Cache-Control', 'no-cache');
+    res.status(200).json({
+        "status": 200,
+        "message": "pong"
+    });
+});
+
 player_router.post('/auth', async (req: Request, res: Response) => {
     const response = await authenticatePlayerService.handle(req.body.username, req.body.password);
     res.status(response.status).header('set-cookie', response.ssid);
@@ -37,8 +45,10 @@ player_router.post('/auth', async (req: Request, res: Response) => {
 player_router.get('/auth/browser', async (req: Request, res: Response) => {
     const response = await authenticatePlayerService.handle((req.headers.username as string),
      (req.headers.password as string));
-     console.log(req.headers.username, req.headers.password)
-    res.status(response.status).header('set-cookie', response.ssid);
+    res.status(response.status)
+    if (response.status === 200) {
+        res.header('set-cookie', response.ssid);
+    }
     if (response.cookie) {
         const puuidCookie = response.cookie[0];
         res.cookie(puuidCookie.name, puuidCookie.value, puuidCookie.options);
@@ -60,24 +70,17 @@ player_router.options('/auth/browser', async (req: Request, res: Response) => {
 player_router.get('/auth/reauth', async (req: Request, res: Response) => {
     const response = await reauthCookiesService.handle(req.headers.cookie || '');
     res.setHeader('Access-Control-Allow-Origin', '*');
-    res.status(response.status).json({
-        "status": response.status,
-        "token": response.data
-    });
-})
-
-player_router.get('/auth/reauth/browser', async (req: Request, res: Response) => {
-    const username = req.query.username as string;
-    const password = req.query.password as string;
-    const response = await authenticatePlayerService.handle(username, password);
-    res.status(response.status);
-    if (Array.isArray(response.ssid)) {
-        response.ssid.forEach((cookie) => {
-            res.cookie(cookie.name, cookie.value, cookie.options);
+    if (response.data.accessToken === null) {
+        res.status(400).json({
+            "status": 400,
+            "message": "Bad Request"
+        })
+    }else {
+        res.status(response.status).json({
+            "status": response.status,
+            "token": response.data
         });
     }
-    delete response.cookie;
-    res.json(response);
 })
 
 player_router.get('/auth/with/cookies/actions/player/pregame/leave', async (req: Request, res: Response) => {

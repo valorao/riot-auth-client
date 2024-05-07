@@ -1,19 +1,22 @@
 import express from "express";
 import 'dotenv/config';
 import cookieParser from 'cookie-parser';
+import path from 'path';
 
 import { player_router } from "./routes/PlayerInfoRoute";
 import { ClientInfo_Router } from "./routes/RiotClientInfo";
 import { headersMiddleware } from "./middlewares/SetHeaders";
 
-const app = express();
-app.use(headersMiddleware)
-app.use(cookieParser());
 const port = process.env.PORT || 5110;
 const agent = process.env.AGENT || 'valorao-api';
 const version = process.env.VERSION || 'v1';
 
+const app = express();
+app.use(headersMiddleware)
+app.use(cookieParser());
+app.use('/static', express.static(path.join(__dirname, 'public')))
 app.use(express.json());
+
 app.use('/v1/riot', player_router)
 app.use('/v1/riot', ClientInfo_Router)
 

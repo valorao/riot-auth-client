@@ -51,7 +51,8 @@ export class AuthenticatePlayerService {
                  cookie: response.puuid, riotid, puuid, token, expires, id_token, entitlements_token, ssid };
         }
         catch (err) {
-            return { status: 400, message: 'Bad Request' };
+            console.log(err)
+            return { status: 400, message: 'Bad Request', };
         }
 
     }
