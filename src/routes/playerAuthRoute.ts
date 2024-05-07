@@ -33,7 +33,7 @@ PlayerAuth_router.post('/auth', async (req: Request, res: Response) => {
         const info = await getPlayerInfo.PlayerInfo(token || '');
         const puuid = info.data.sub;
         const riotid = info.data.acct.game_name + '#' + info.data.acct.tag_line;
-        res.header('Cookie', cookiesValue).header('X-Powered-By', 'valorao/1.0.0-beta').status(response.status)
+        res.status(response.status)
         .json({
             "status": response.status,
             "riotid": riotid,
