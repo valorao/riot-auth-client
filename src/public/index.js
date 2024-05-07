@@ -108,7 +108,7 @@ window.onload = function() {
 
         console.log('Sending fetch request to reauthenticate');
 
-        fetch('/actions/player/pregame/leave', {
+        fetch('/v1/riot/actions/player/pregame/leave', {
             method: 'GET'
         }).then(response => {
             if (response.status === 204) {
