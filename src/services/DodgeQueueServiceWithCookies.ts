@@ -1,15 +1,13 @@
-import express, { Request, Response} from 'express';
+import express from 'express';
 
 import { PlayerDodgeQueue } from '../middlewares/PlayerDodgeQueue';
 import { GetPlayerPreGameId } from '../middlewares/GetPlayerPreGameId';
-import { GetPlayerInfo } from '../middlewares/PlayerInfo';
 import { GetClientPlatform } from '../middlewares/GetClientPlatformService';
 import { ReauthCookiesService } from './ReauthCookiesService';
 import { GetClientVersion } from '../middlewares/GetClientVersionService';
 
 export const DodgeQueueRouter = express.Router();
 const playerPreGameId = new GetPlayerPreGameId();
-const getPlayerInfo = new GetPlayerInfo();
 const getClientPlatform = new GetClientPlatform();
 const reauthCookiesService = new ReauthCookiesService();
 const getClientVersion = new GetClientVersion();

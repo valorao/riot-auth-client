@@ -1,4 +1,4 @@
-import express, { Request, Response} from 'express';
+import express from 'express';
 
 import { PlayerDodgeQueue } from '../middlewares/PlayerDodgeQueue';
 import { GetPlayerPreGameId } from '../middlewares/GetPlayerPreGameId';
