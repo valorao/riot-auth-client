@@ -23,11 +23,9 @@ const getPlayerInfo = new GetPlayerInfo();
 app.use(cookieParser());
 
 player_router.get('/fromstatic/cookies', (req, res) => {
-    // Access cookies from the request
     const puuid = req.cookies.puuid;
     const ssid = req.cookies.ssid;
 
-    // Send cookies in the response
     res.json({ puuid, ssid });
 });
 
@@ -82,27 +80,32 @@ player_router.post('/auth', async (req: Request, res: Response) => {
     }
     res.json(response);
 })
-player_router.get('/auth/browser', async (req: Request, res: Response) => {
-    const response = await authenticatePlayerService.handle((req.headers.username as string),
-     (req.headers.password as string));
+player_router.post('/auth/browser', async (req: Request, res: Response) => {
+    const response = await authenticatePlayerService.handle(
+        (req.body.username as string),
+        (req.body.password as string)
+    );
+    
     res.status(response.status)
     if (response.status === 200) {
-        res.header('set-cookie', response.ssid);
-    }
-    if (response.cookie) {
-        const puuidCookie = response.cookie[0];
-        res.cookie(puuidCookie.name, puuidCookie.value, puuidCookie.options);
-        delete response.cookie;
-    }
-    if (response.ssid) {
-        const ssidCookie = response.ssid[0];
-        res.cookie(ssidCookie.name, ssidCookie.value, ssidCookie.options);
-        delete response.ssid;
+        if (req.body.remember === 'true') {
+            const puuidCookie = response.cookie[0];
+            res.cookie(puuidCookie.name, puuidCookie.value, puuidCookie.options);
+            delete response.cookie;
+            const ssidCookie = response.ssid[0];
+            res.cookie(ssidCookie.name, ssidCookie.value, ssidCookie.options);
+            delete response.ssid;
+        }
+        if (req.body.remember === 'false') {
+            const puuidCookie = response.puuid_onetime[0];
+            res.cookie(puuidCookie.name, puuidCookie.value, puuidCookie.options);
+            delete response.puuid_onetime;
+            const ssidCookie = response.ssid_onetime[0];
+            res.cookie(ssidCookie.name, ssidCookie.value, ssidCookie.options);
+            delete response.ssid_onetime;
+        }
     }
 
-    res.setHeader('Access-Control-Allow-Origin', '*');
-    res.setHeader('Access-Control-Request-Headers', 'password,username');
-    res.setHeader('Access-Control-Allow-Method', 'GET');
     res.json(response);
 })
 

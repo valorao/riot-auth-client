@@ -12,7 +12,7 @@ window.onload = function() {
     fetch('/v1/riot/fromstatic/cookies')
     .then(response => response.json())
     .then(data => {
-        if (data.puuid && data.otherCookie) {
+        if (data.puuid && data.ssid) {
 
             document.getElementById('page-title').textContent = 'valorao - Control Panel';
             document.getElementById('loginBtn').disabled = true;
@@ -44,6 +44,7 @@ window.onload = function() {
             loginBtn.style.backgroundColor = '#ff0000';
             loginBtn.textContent = 'Enter a Username and Password';
             loginBtn.disabled = false;
+            loginBtn.style.backgroundColor = '';
             setTimeout(() => {
                 loginBtn.style.backgroundColor = '';
                 loginBtn.textContent = 'Login';
@@ -51,14 +52,25 @@ window.onload = function() {
             return;
         }
 
-        console.log('Sending fetch request with username and password');
+        var rememberCheckbox = document.getElementById('remember-me');
+        var data = {
+            'username': user,
+            'password': pass
+        };
+        
+        if (rememberCheckbox && rememberCheckbox.checked) {
+            data.remember = 'true';
+        }
+        if (!rememberCheckbox || !rememberCheckbox.checked) {
+            data.remember = 'false';
+        }
 
         fetch('/v1/riot/auth/browser', {
-            method: 'GET',
+            method: 'POST',
             headers: {
-                'username': user,
-                'password': pass
+                'Content-Type': 'application/json'
             },
+            body: JSON.stringify(data)
         }).then(response => {
             if (response.status === 400) {
                 loginBtn.style.backgroundColor = '#ff0000';
@@ -72,7 +84,7 @@ window.onload = function() {
             }
             if (response.status === 200) {
                 loginBtn.style.backgroundColor = '#00ff00';
-                loginBtn.textContent = 'Logged in.';
+                loginBtn.textContent = 'Logged in';
 
                 location.reload();
             }

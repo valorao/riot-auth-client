@@ -4,6 +4,7 @@ import { GetClientVersion } from "../middlewares/GetClientVersionService";
 import { AuthAccount } from "../middlewares/authAccount";
 import { GetEntitlements } from "../middlewares/getEntitlements";
 import { GetPlayerInfo } from "../middlewares/PlayerInfo";
+import path from 'path';
 
 const createCookie = new CreateCookie();
 const getClientVersion = new GetClientVersion();
@@ -21,6 +22,9 @@ export class AuthenticatePlayerService {
                 clientversion , username, password, cookiesValue || '').catch(err => {
                     return err.response;
                 });
+            if (response.response.data.error) {
+                throw new Error(response.data.error);
+            }
             const uri = response.response.data.response.parameters.uri;
             const url = new URL(uri);
             const params = new URLSearchParams(url.search);
@@ -42,7 +46,6 @@ export class AuthenticatePlayerService {
             const ssidExpiry = new Date();
             ssidExpiry.setDate(ssidExpiry.getDate() + 7);
 
-            console.log(ssidValue)
             const puuid = info.data.sub;
             const riotid = info.data.acct.game_name + '#' + info.data.acct.tag_line;
             const expiry = new Date();
@@ -68,9 +71,35 @@ export class AuthenticatePlayerService {
                     }
                 }
             ];
+            response.puuid_onetime = [
+                {
+                    name: 'puuid',
+                    value: puuid,
+                    options: {
+                        httpOnly: true,
+                        path: '/',
+                    }
+                }
+            ];
+            response.ssid_onetime = [
+                {
+                    name: 'ssid',
+                    value: ssidValue,
+                    options: {
+                        httpOnly: true,
+                        path: '/',
+                    }
+                }
+            ];
 
-            return { status: response.response.status,
-                 cookie: response.puuid, ssid: response.ssid, riotid, puuid, token, expires, id_token, entitlements_token };
+            return {
+                    status: response.response.status,
+                    cookie: response.puuid,
+                    ssid: response.ssid,
+                    ssid_onetime: response.ssid_onetime,
+                    puuid_onetime: response.puuid_onetime,
+                    riotid, puuid, token, expires, id_token, entitlements_token
+                 };
         }
         catch (err) {
             return { status: 400, message: 'Bad Request', };
