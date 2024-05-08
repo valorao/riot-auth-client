@@ -7,6 +7,7 @@ import { DodgeQueueService } from '../services/DodgeQueueService';
 import { AuthenticatePlayerService } from '../services/AuthenticatePlayerService';
 import { ReauthCookiesService } from '../services/ReauthCookiesService';
 import { DodgeQueueServiceWithCookies } from '../services/DodgeQueueServiceWithCookies';
+import { GetPlayerInfo } from '../middlewares/PlayerInfo';
 
 export const player_router = express.Router();
 const app = express();
@@ -17,6 +18,8 @@ const dodgeQueueService = new DodgeQueueService();
 const authenticatePlayerService = new AuthenticatePlayerService();
 const reauthCookiesService = new ReauthCookiesService();
 const dodgeQueueServiceWithCookies = new DodgeQueueServiceWithCookies();
+const getPlayerInfo = new GetPlayerInfo();
+
 app.use(cookieParser());
 
 player_router.get('/fromstatic/cookies', (req, res) => {
@@ -50,6 +53,14 @@ player_router.get('/actions/player/pregame/leave', async (req: Request, res: Res
 
 player_router.get('/actions/ping', async (req: Request, res: Response) => {
     res.set('Cache-Control', 'no-cache');
+    res.status(400).json({
+        "status": 200,
+        "message": "pong"
+    });
+});
+
+player_router.get('/player/riotid', async (req: Request, res: Response) => {
+    const response = await getPlayerInfo.PlayerInfo(req.headers.cookie || '');
     res.status(400).json({
         "status": 200,
         "message": "pong"
