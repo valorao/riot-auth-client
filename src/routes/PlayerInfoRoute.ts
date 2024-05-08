@@ -26,7 +26,7 @@ app.use(cookieParser());
 
 player_router.get('/actions/player/rank', async (req: Request, res: Response) => {
     const response = await getPlayerRank.handle(
-        req.headers.token as string , req.headers.entitlements as string, req.headers.puuid as string
+        req.cookies.token as string , req.cookies.entitlements as string, req.cookies.puuid as string
     );
     res.status(response.status).json(response);
 })
@@ -34,8 +34,10 @@ player_router.get('/actions/player/rank', async (req: Request, res: Response) =>
 player_router.get('/fromstatic/cookies', (req, res) => {
     const puuid = req.cookies.puuid;
     const ssid = req.cookies.ssid;
+    const token = req.cookies.token;
+    const entitlements = req.cookies.entitlements;
 
-    res.json({ puuid, ssid });
+    res.json({ puuid, ssid, token, entitlements});
 });
 
 player_router.delete('/fromstatic/logout', (req, res) => {
@@ -158,7 +160,7 @@ player_router.post('/auth/browser', async (req: Request, res: Response) => {
             res.cookie(entitlements.name, entitlements.value, entitlements.options);
         }
     }
-
+    delete response.cookie;
     delete response.bearertoken;
     delete response.bearertoken_onetime;
     delete response.entitlements;

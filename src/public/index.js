@@ -7,6 +7,12 @@ window.onload = function() {
     let username = document.getElementById('usernameBox');
     let password = document.getElementById('passwordBox');
     let logoutBtn = document.getElementById('logoutBtn');
+    const player_id_rank = document.getElementById('player-id-rank');
+    const player_name = document.getElementById('player-name');
+    const player_tagline = document.getElementById('player-tagline');
+    const rank_name = document.getElementById('rank-tier-name');
+    const rank_icon = document.getElementById('rank-tier-icon');
+    player_id_rank.style.display = 'none';
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     fetch('/v1/riot/fromstatic/cookies')
@@ -29,6 +35,21 @@ window.onload = function() {
             document.getElementById('remember-forgot').style.display = 'none';
             document.getElementById('create-account').style.display = 'none';
             loginBtn.style.cursor = 'default';
+
+                fetch('/v1/riot/actions/player/rank', {
+                    method: 'GET',
+                }).then(response => {
+                    if (response.status === 200) {
+                        response.json().then(data => {
+                            player_name.textContent = data.riotid;
+                            player_tagline.textContent = '#' + data.tagline;
+                            rank_name.textContent = data.tierName;
+                            rank_icon.src = data.tierSmallIcon;
+                            player_id_rank.style.display = '';
+                        })
+                        console.log(player_id_rank.textContent)
+                    }
+                })
         }
     });
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

@@ -13,7 +13,7 @@ const agent = process.env.AGENT || 'valorao-api';
 const version = process.env.VERSION || 'v1';
 
 const corsOptions = {
-    allowedHeaders: 'password,username'
+    allowedHeaders: 'password,username,remember'
 }
 
 const app = express();

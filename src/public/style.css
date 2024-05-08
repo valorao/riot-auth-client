@@ -23,6 +23,76 @@ body {
   }
 }
 
+#player-id-rank {
+  padding-top: -30px;
+  padding-bottom: 20px;
+  display: none;
+  gap: 30px;
+}
+
+#riot-id {
+  display: grid;
+  grid-template-areas: "riotid" "tagline", "rank-icon", "rank-name";
+  grid-template-columns: repeat(2, 1fr);
+  padding: 0;
+  gap: 0;
+  margin-bottom: 0;
+}
+
+#player-name {
+  font-weight: 600;
+  grid-area: riotid;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 30px;
+  margin: 0;
+}
+
+#player-tagline {
+  color: rgba(246, 246, 246, 0.4);
+  margin: 0;
+  margin-top: -15px;
+  font-size: 15px;
+  font-weight: 600;
+  grid-area: tagline;
+}
+
+#rank {
+  gap: 5px;
+  justify-content: center;
+  display: flex;
+  align-items: center;
+  grid-template-areas: "rank-icon", "rank-name";
+  grid-template-columns: 1fr 1fr;
+}
+
+#player-id-rank {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 13px;
+  @media screen and (max-width: 768px){
+    width: 100%;
+  }
+}
+
+#rank-tier-icon {
+  grid-area: rank-icon;
+  width: 50px;
+  height: 50px;
+  gap: 5px;
+}
+
+#rank-tier-name {
+  grid-area: rank-name;
+  font-size: 25px;
+  font-weight: 600;
+  color: #fff;
+  text-transform: uppercase;
+}
+
 #logo {
   display: flex;
   flex-direction: column;
