@@ -9,7 +9,6 @@ export class GetPlayerRank {
     handle = async (token: string, entitlements: string, puuid: string) => {
         const getclient_version = await getClientVersion.ClientVersion();
         const client_version = getclient_version.data.data.riotClientVersion;
-        console.log(client_version)
 
         const getclient_platform = await getClientPlatform.ClientPlatform();
         const client_platform = getclient_platform.data.data.platform;
@@ -31,7 +30,11 @@ export class GetPlayerRank {
         const seasonIDs = Object.keys(response.data.QueueSkills.competitive.SeasonalInfoBySeasonID);
         const firstSeasonID = seasonIDs[0];
         const rank = response.data.QueueSkills.competitive.SeasonalInfoBySeasonID[firstSeasonID].Rank;
+
         const getRankName  = await axios.get(`http://valorant.api.valorao.cloud/valorant/v1/competitive/tiers?tier=${rank}&language=pt-BR`)
+        if (!getRankName || !getRankName.data) {
+            throw new Error('Invalid response');
+        }
         const tierID = getRankName.data.latestepisode[0].uuid;
         const tierName = getRankName.data.latestepisode[0].tiers[0].tierName;
         const tierSmallIcon = getRankName.data.latestepisode[0].tiers[0].smallIcon;
