@@ -29,7 +29,7 @@ window.onload = function() {
             document.getElementById('dodgeBtn').style.display = 'block';
             document.getElementById('logoutBtn').style.display = 'block';
             loginBtn.style.backgroundColor = '#00ff00';
-            loginBtn.textContent = 'Logged in.';
+            loginBtn.textContent = 'Logged in';
             document.getElementById('password-inputbox').style.display = 'none';
             document.getElementById('username-inputbox').style.display = 'none';
             document.getElementById('remember-forgot').style.display = 'none';
@@ -46,6 +46,7 @@ window.onload = function() {
                             rank_name.textContent = data.tierName;
                             rank_icon.src = data.tierSmallIcon;
                             player_id_rank.style.display = '';
+                            loginBtn.textContent = 'Logged in as: ' + data.riotid;
                         })
                         console.log(player_id_rank.textContent)
                     }
@@ -65,10 +66,10 @@ window.onload = function() {
             loginBtn.style.backgroundColor = '#ff0000';
             loginBtn.textContent = 'Enter a Username and Password';
             loginBtn.disabled = false;
-            loginBtn.style.backgroundColor = '';
             setTimeout(() => {
                 loginBtn.style.backgroundColor = '';
                 loginBtn.textContent = 'Login';
+                loginBtn.style.cursor = 'pointer';
             }, 3000);
             return;
         }
