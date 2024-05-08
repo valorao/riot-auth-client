@@ -23,12 +23,29 @@ body {
   }
 }
 
-#player-id-rank {
-  padding-top: -30px;
-  padding-bottom: 20px;
-  display: none;
-  gap: 30px;
+.wrapper {
+  max-width: 600px;
+  min-width: 300px;
+  width: 100%;
+  max-height: 550px;
+  min-height: 520px;
+  height: 100%;
+  background: transparent;
+  border: 2px solid rgba(255, 255, 255, .2);
+  -webkit-backdrop-filter: blur(20px);
+  backdrop-filter: blur(20px);
+  box-shadow: 0 0 10px rgba(0, 0, 0, .2);
+  color: #fff;
+  border-radius: 10px;
+  padding: 30px 40px;
+  @media screen and (max-width: 768px){
+    min-width: 300px;
+    max-width: 600px;
+    width: 100%;
+    margin: 20px;
+  };
 }
+
 
 #riot-id {
   display: grid;
@@ -47,6 +64,9 @@ body {
   align-items: center;
   font-size: 30px;
   margin: 0;
+  @media screen and (max-width: 768px){
+    font-size: 20px;
+  }
 }
 
 #player-tagline {
@@ -56,6 +76,9 @@ body {
   font-size: 15px;
   font-weight: 600;
   grid-area: tagline;
+  @media screen and (max-width: 768px){
+    margin-top: -10px;
+  }
 }
 
 #rank {
@@ -68,13 +91,18 @@ body {
 }
 
 #player-id-rank {
+  padding-bottom: 20px;
+  display: none;
   width: 100%;
+  gap: 30px;
   display: flex;
   justify-content: center;
   align-items: center;
   font-size: 13px;
   @media screen and (max-width: 768px){
     width: 100%;
+    margin-top: 0px;
+    gap: 10px;
   }
 }
 
@@ -83,6 +111,13 @@ body {
   width: 50px;
   height: 50px;
   gap: 5px;
+  @media screen and (max-width: 768px){
+    width: 35px;
+    height: 35px;
+    gap: 3px;
+    margin-top: 0px;
+    margin-right: -5px;
+  }
 }
 
 #rank-tier-name {
@@ -91,12 +126,22 @@ body {
   font-weight: 600;
   color: #fff;
   text-transform: uppercase;
+  @media screen and (max-width: 768px){
+    font-size: 20px;
+    height: 35px;
+    gap: 3px;
+    margin-top: 0px;
+  }
 }
 
 #logo {
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin-top: -20px;
+  @media screen and (max-width: 768px){
+    margin-top: 0px;
+  }
 }
 
 #logo > #valorao-logo {
@@ -114,23 +159,6 @@ body {
 
 .img-loaded {
   width: 100px;
-}
-
-.wrapper {
-    width: 600px;
-    height: auto;
-    background: transparent;
-    border: 2px solid rgba(255, 255, 255, .2);
-    -webkit-backdrop-filter: blur(20px);
-    backdrop-filter: blur(20px);
-    box-shadow: 0 0 10px rgba(0, 0, 0, .2);
-    color: #fff;
-    border-radius: 10px;
-    padding: 30px 40px;
-    @media screen and (max-width: 768px){
-      width: auto;
-      margin: 20px;
-    };
 }
 
 #header-text {
