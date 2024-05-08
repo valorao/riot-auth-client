@@ -9,12 +9,18 @@
 
 body {
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
+  margin-left: auto;
   min-height: 100vh;
-  background: url('img.jpg') no-repeat;
+  background: url('https://cdn.valorao.cloud/images%2FEP8_Act_2_Article_1920x1080_Clove.jpg') no-repeat;
   background-size: cover;
+  background-repeat: no-repeat;
   background-position: center;
+  width: 90%;
+  @media screen and (max-width: 768px){
+    width: 100%;
+  }
 }
 
 #logo {
@@ -30,7 +36,10 @@ body {
 }
 
 #valorao-logo {
-  width: 200px;
+  width: 300px;
+  @media screen and (max-width: 768px) {
+    width: 200px;
+  }
 }
 
 .img-loaded {
@@ -38,7 +47,8 @@ body {
 }
 
 .wrapper {
-    width: 420px;
+    width: 600px;
+    height: auto;
     background: transparent;
     border: 2px solid rgba(255, 255, 255, .2);
     -webkit-backdrop-filter: blur(20px);
@@ -47,12 +57,12 @@ body {
     color: #fff;
     border-radius: 10px;
     padding: 30px 40px;
+    @media screen and (max-width: 768px){
+      width: auto;
+      margin: 20px;
+    };
 }
 
-.wrapper h1 {
-  font-size: 36px;
-  text-align: center;
-}
 #header-text {
   background: url('valorao.png') no-repeat;
   margin-bottom: 50px;
@@ -65,8 +75,11 @@ body {
 
 .wrapper .input-box {
   width: 100%;
-  height: 50px;
+  height: 60px;
   margin: 30px 0;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
 }
 
 .input-box input {
