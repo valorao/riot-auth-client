@@ -50,6 +50,28 @@ export class AuthenticatePlayerService {
             const riotid = info.data.acct.game_name + '#' + info.data.acct.tag_line;
             const expiry = new Date();
             expiry.setDate (expiry.getDate() + 7)
+            response.token = [
+                {
+                    name: 'token',
+                    value: token,
+                    options: {
+                        httpOnly: true,
+                        expires: expiry,
+                        path: '/',
+                    }
+                }
+            ];
+            response.entitlements = [
+                {
+                    name: 'entitlements',
+                    value: entitlements_token,
+                    options: {
+                        httpOnly: true,
+                        expires: expiry,
+                        path: '/',
+                    }
+                }
+            ];
             response.puuid = [
                 {
                     name: 'puuid',
@@ -57,6 +79,7 @@ export class AuthenticatePlayerService {
                     options: {
                         httpOnly: true,
                         expires: expiry,
+                        path: '/',
                     }
                 }
             ];
@@ -71,6 +94,9 @@ export class AuthenticatePlayerService {
                     }
                 }
             ];
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// SESSION-ONLY TOKENS:          
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
             response.puuid_onetime = [
                 {
                     name: 'puuid',
@@ -91,13 +117,37 @@ export class AuthenticatePlayerService {
                     }
                 }
             ];
+            response.token_onetime = [
+                {
+                    name: 'token',
+                    value: token,
+                    options: {
+                        httpOnly: true,
+                        path: '/',
+                    }
+                }
+            ];
+            response.entitlements_onetime = [
+                {
+                    name: 'entitlements',
+                    value: entitlements_token,
+                    options: {
+                        httpOnly: true,
+                        path: '/',
+                    }
+                }
+            ];
 
             return {
+                    bearertoken: response.token,
+                    entitlements: response.entitlements,
                     status: response.response.status,
                     cookie: response.puuid,
                     ssid: response.ssid,
                     ssid_onetime: response.ssid_onetime,
                     puuid_onetime: response.puuid_onetime,
+                    bearertoken_onetime: response.token_onetime,
+                    entitlements_onetime: response.entitlements_onetime,
                     riotid, puuid, token, expires, id_token, entitlements_token
                  };
         }

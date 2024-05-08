@@ -82,20 +82,36 @@ player_router.post('/auth', async (req: Request, res: Response) => {
         if (req.body.remember === 'true') {
             const puuidCookie = response.cookie[0];
             res.cookie(puuidCookie.name, puuidCookie.value, puuidCookie.options);
-            delete response.cookie;
+
             const ssidCookie = response.ssid[0];
             res.cookie(ssidCookie.name, ssidCookie.value, ssidCookie.options);
+
+            const token = response.bearertoken[0];
+            res.cookie(token.name, token.value, token.options);
+
+            const entitlements = response.entitlements[0];
+            res.cookie(entitlements.name, entitlements.value, entitlements.options);
         }
 
         if (req.body.remember === 'false' || req.body.remember === undefined) {
             const puuidCookie = response.puuid_onetime[0];
             res.cookie(puuidCookie.name, puuidCookie.value, puuidCookie.options);
-            delete response.puuid_onetime;
+            
             const ssidCookie = response.ssid_onetime[0];
             res.cookie(ssidCookie.name, ssidCookie.value, ssidCookie.options);
+
+            const token = response.bearertoken_onetime[0];
+            res.cookie(token.name, token.value, token.options);
+
+            const entitlements = response.entitlements_onetime[0];
+            res.cookie(entitlements.name, entitlements.value, entitlements.options);
         }
     }
 
+    delete response.bearertoken;
+    delete response.bearertoken_onetime;
+    delete response.entitlements;
+    delete response.entitlements_onetime;
     delete response.puuid;
     delete response.puuid_onetime;
     delete response.ssid;
@@ -115,20 +131,36 @@ player_router.post('/auth/browser', async (req: Request, res: Response) => {
         if (req.body.remember === 'true') {
             const puuidCookie = response.cookie[0];
             res.cookie(puuidCookie.name, puuidCookie.value, puuidCookie.options);
-            delete response.cookie;
+
             const ssidCookie = response.ssid[0];
             res.cookie(ssidCookie.name, ssidCookie.value, ssidCookie.options);
+
+            const token = response.bearertoken[0];
+            res.cookie(token.name, token.value, token.options);
+
+            const entitlements = response.entitlements[0];
+            res.cookie(entitlements.name, entitlements.value, entitlements.options);
         }
 
-        if (req.body.remember === 'false') {
+        if (req.body.remember === 'false' || req.body.remember === undefined) {
             const puuidCookie = response.puuid_onetime[0];
             res.cookie(puuidCookie.name, puuidCookie.value, puuidCookie.options);
-            delete response.puuid_onetime;
+            
             const ssidCookie = response.ssid_onetime[0];
             res.cookie(ssidCookie.name, ssidCookie.value, ssidCookie.options);
+
+            const token = response.bearertoken_onetime[0];
+            res.cookie(token.name, token.value, token.options);
+
+            const entitlements = response.entitlements_onetime[0];
+            res.cookie(entitlements.name, entitlements.value, entitlements.options);
         }
     }
-    
+
+    delete response.bearertoken;
+    delete response.bearertoken_onetime;
+    delete response.entitlements;
+    delete response.entitlements_onetime;
     delete response.puuid;
     delete response.puuid_onetime;
     delete response.ssid;
