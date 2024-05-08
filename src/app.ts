@@ -26,10 +26,6 @@ app.use(express.json());
 app.use('/v1/riot', player_router)
 app.use('/v1/riot', ClientInfo_Router)
 
-app.use('/', (req: Request, res: Response) => {
-    res.redirect('/static')
-})
-
 app.listen(port, () => {
     console.log(`${agent}/${version}`)
     console.log(`Server is running on port ${port}`)

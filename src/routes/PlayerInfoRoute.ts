@@ -41,6 +41,8 @@ player_router.get('/fromstatic/cookies', (req, res) => {
 player_router.delete('/fromstatic/logout', (req, res) => {
     res.clearCookie('puuid');
     res.clearCookie('ssid');
+    res.clearCookie('token');
+    res.clearCookie('entitlements');
     res.status(200).json({ message: 'Cookies cleared' });
 })
 
