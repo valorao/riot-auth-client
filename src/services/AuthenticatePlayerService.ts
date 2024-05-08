@@ -1,3 +1,4 @@
+import cookie from 'cookie';
 import { CreateCookie } from "./CreateCookie";
 import { GetClientVersion } from "../middlewares/GetClientVersionService";
 import { AuthAccount } from "../middlewares/authAccount";
@@ -36,19 +37,40 @@ export class AuthenticatePlayerService {
                 return err.response;
             });
             const ssid = response.ssid_cookie
+            const ssidCookie = cookie.parse(ssid);
+            const ssidValue = ssidCookie.ssid;
+            const ssidExpiry = new Date();
+            ssidExpiry.setDate(ssidExpiry.getDate() + 7);
+
+            console.log(ssidValue)
             const puuid = info.data.sub;
             const riotid = info.data.acct.game_name + '#' + info.data.acct.tag_line;
+            const expiry = new Date();
+            expiry.setDate (expiry.getDate() + 7)
             response.puuid = [
                 {
                     name: 'puuid',
                     value: puuid,
                     options: {
                         httpOnly: true,
+                        expires: expiry,
                     }
                 }
             ];
+            response.ssid = [
+                {
+                    name: 'ssid',
+                    value: ssidValue,
+                    options: {
+                        httpOnly: true,
+                        expires: ssidExpiry,
+                        path: '/',
+                    }
+                }
+            ];
+
             return { status: response.response.status,
-                 cookie: response.puuid, riotid, puuid, token, expires, id_token, entitlements_token, ssid };
+                 cookie: response.puuid, ssid: response.ssid, riotid, puuid, token, expires, id_token, entitlements_token };
         }
         catch (err) {
             return { status: 400, message: 'Bad Request', };

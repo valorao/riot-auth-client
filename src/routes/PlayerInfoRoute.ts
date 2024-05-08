@@ -25,10 +25,10 @@ app.use(cookieParser());
 player_router.get('/fromstatic/cookies', (req, res) => {
     // Access cookies from the request
     const puuid = req.cookies.puuid;
-    const otherCookie = req.cookies.ssid;
+    const ssid = req.cookies.ssid;
 
     // Send cookies in the response
-    res.json({ puuid, otherCookie });
+    res.json({ puuid, ssid });
 });
 
 player_router.delete('/fromstatic/logout', (req, res) => {
@@ -75,6 +75,11 @@ player_router.post('/auth', async (req: Request, res: Response) => {
         res.cookie(puuidCookie.name, puuidCookie.value, puuidCookie.options);
         delete response.cookie;
     }
+    if (response.ssid) {
+        const ssidCookie = response.ssid[0];
+        res.cookie(ssidCookie.name, ssidCookie.value, ssidCookie.options);
+        delete response.ssid;
+    }
     res.json(response);
 })
 player_router.get('/auth/browser', async (req: Request, res: Response) => {
@@ -89,17 +94,16 @@ player_router.get('/auth/browser', async (req: Request, res: Response) => {
         res.cookie(puuidCookie.name, puuidCookie.value, puuidCookie.options);
         delete response.cookie;
     }
+    if (response.ssid) {
+        const ssidCookie = response.ssid[0];
+        res.cookie(ssidCookie.name, ssidCookie.value, ssidCookie.options);
+        delete response.ssid;
+    }
+
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Request-Headers', 'password,username');
     res.setHeader('Access-Control-Allow-Method', 'GET');
     res.json(response);
-})
-
-player_router.options('/auth/browser', async (req: Request, res: Response) => {
-    res.setHeader('Access-Control-Allow-Origin', '*');
-    res.setHeader('Access-Control-Allow-Method', 'GET');
-    res.setHeader('Access-Control-Allow-Headers', 'username, password');
-    res.json({});
 })
 
 player_router.get('/auth/reauth', async (req: Request, res: Response) => {
