@@ -14,12 +14,11 @@ window.onload = function() {
     const rank_icon = document.getElementById('rank-tier-icon');
     player_id_rank.style.display = 'none';
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     fetch('/v1/riot/fromstatic/cookies')
     .then(response => response.json())
     .then(data => {
         if (data.puuid && data.ssid) {
-
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
             let cooldown = Number(localStorage.getItem('cooldown'));
             if (cooldown) {
                 dodgeBtn.textContent = 'On Cooldown: ' + cooldown + 's';
@@ -36,7 +35,7 @@ window.onload = function() {
                     }
                 }, 1000);
             }
-
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
             document.getElementById('page-title').textContent = 'valorao - Control Panel';
             document.getElementById('loginBtn').disabled = true;
             document.getElementById('reauthBtn').disabled = false;
