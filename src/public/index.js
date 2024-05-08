@@ -13,12 +13,29 @@ window.onload = function() {
     const rank_name = document.getElementById('rank-tier-name');
     const rank_icon = document.getElementById('rank-tier-icon');
     player_id_rank.style.display = 'none';
-
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     fetch('/v1/riot/fromstatic/cookies')
     .then(response => response.json())
     .then(data => {
         if (data.puuid && data.ssid) {
+
+            let cooldown = Number(localStorage.getItem('cooldown'));
+            if (cooldown) {
+                dodgeBtn.textContent = 'On Cooldown: ' + cooldown + 's';
+                dodgeBtn.disabled = true;
+                const intervalId = setInterval(() => {
+                    cooldown--;
+                    dodgeBtn.textContent = 'On Cooldown: ' + cooldown + 's';
+                    localStorage.setItem('cooldown', cooldown);
+                    if (cooldown === 0) {
+                        clearInterval(intervalId);
+                        dodgeBtn.disabled = false;
+                        dodgeBtn.textContent = 'Dodge Queue';
+                        localStorage.removeItem('cooldown');
+                    }
+                }, 1000);
+            }
 
             document.getElementById('page-title').textContent = 'valorao - Control Panel';
             document.getElementById('loginBtn').disabled = true;
@@ -148,25 +165,42 @@ window.onload = function() {
     dodgeBtn.onclick = function(event) {
         event.preventDefault();
 
-        console.log('Sending fetch request to reauthenticate');
-
         fetch('/v1/riot/actions/player/pregame/leave', {
             method: 'GET'
         }).then(response => {
             if (response.status === 204) {
                 dodgeBtn.style.backgroundColor = '#00ff00';
                 dodgeBtn.textContent = 'Queue Dodged.';
-                setTimeout(() => {
-                    dodgeBtn.style.backgroundColor = '';
-                    dodgeBtn.textContent = 'Dodge Queue';
-                }, 3000);
+                dodgeBtn.style.backgroundColor = '#ffa500';
+                let counter = 60;
+                const intervalId = setInterval(() => {
+                    counter--;
+                    dodgeBtn.textContent = 'On Cooldown: ' + counter + 's';
+                    dodgeBtn.style.cursor = 'default';
+                    dodgeBtn.disabled = true;
+                    localStorage.setItem('cooldown', counter);
+                    if (counter === 0) {
+                        clearInterval(intervalId);
+                        dodgeBtn.disabled = false;
+                        dodgeBtn.textContent = 'Dodge Queue';
+                        localStorage.removeItem('cooldown');
+                    }
+                }, 1000);
+
+                dodgeBtn.style.cursor = '';
+                dodgeBtn.style.backgroundColor = '';
+                dodgeBtn.disabled = true;
             }
             if (response.status === 404) {
                 dodgeBtn.style.backgroundColor = '#ff0000';
                 dodgeBtn.textContent = 'You are not in a pre-game.';
+                dodgeBtn.style.cursor = 'default';
+                dodgeBtn.disabled = true;
                 setTimeout(() => {
                     dodgeBtn.style.backgroundColor = '';
                     dodgeBtn.textContent = 'Dodge Queue';
+                    dodgeBtn.style.cursor = '';
+                    dodgeBtn.disabled = false;
                 }, 3000);
             }
         })
@@ -184,3 +218,4 @@ window.onload = function() {
         });
     }
 }
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
