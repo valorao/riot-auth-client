@@ -8,6 +8,7 @@ import { AuthenticatePlayerService } from '../services/AuthenticatePlayerService
 import { ReauthCookiesService } from '../services/ReauthCookiesService';
 import { DodgeQueueServiceWithCookies } from '../services/DodgeQueueServiceWithCookies';
 import { GetPlayerInfo } from '../middlewares/PlayerInfo';
+import { GetPlayerRank } from '../services/PlayerRank';
 
 export const player_router = express.Router();
 const app = express();
@@ -19,8 +20,15 @@ const authenticatePlayerService = new AuthenticatePlayerService();
 const reauthCookiesService = new ReauthCookiesService();
 const dodgeQueueServiceWithCookies = new DodgeQueueServiceWithCookies();
 const getPlayerInfo = new GetPlayerInfo();
+const getPlayerRank = new GetPlayerRank();
 
 app.use(cookieParser());
+
+player_router.get('/actions/player/rank', async (req: Request, res: Response) => {
+    const tier = Number(req.query.tier)
+    const response = await getPlayerRank.handle(tier);
+    res.status(response.status).json(response.data);
+})
 
 player_router.get('/fromstatic/cookies', (req, res) => {
     const puuid = req.cookies.puuid;
@@ -67,19 +75,34 @@ player_router.get('/player/riotid', async (req: Request, res: Response) => {
 
 player_router.post('/auth', async (req: Request, res: Response) => {
     const response = await authenticatePlayerService.handle(req.body.username, req.body.password);
-    res.status(response.status).header('set-cookie', response.ssid);
-    if (response.cookie) {
-        const puuidCookie = response.cookie[0];
-        res.cookie(puuidCookie.name, puuidCookie.value, puuidCookie.options);
-        delete response.cookie;
+
+    res.status(response.status)
+    if (response.status === 200) {
+        if (req.body.remember === 'true') {
+            const puuidCookie = response.cookie[0];
+            res.cookie(puuidCookie.name, puuidCookie.value, puuidCookie.options);
+            delete response.cookie;
+            const ssidCookie = response.ssid[0];
+            res.cookie(ssidCookie.name, ssidCookie.value, ssidCookie.options);
+        }
+
+        if (req.body.remember === 'false' || req.body.remember === undefined) {
+            const puuidCookie = response.puuid_onetime[0];
+            res.cookie(puuidCookie.name, puuidCookie.value, puuidCookie.options);
+            delete response.puuid_onetime;
+            const ssidCookie = response.ssid_onetime[0];
+            res.cookie(ssidCookie.name, ssidCookie.value, ssidCookie.options);
+        }
     }
-    if (response.ssid) {
-        const ssidCookie = response.ssid[0];
-        res.cookie(ssidCookie.name, ssidCookie.value, ssidCookie.options);
-        delete response.ssid;
-    }
+
+    delete response.puuid;
+    delete response.puuid_onetime;
+    delete response.ssid;
+    delete response.ssid_onetime;
+
     res.json(response);
 })
+
 player_router.post('/auth/browser', async (req: Request, res: Response) => {
     const response = await authenticatePlayerService.handle(
         (req.body.username as string),
@@ -94,17 +117,21 @@ player_router.post('/auth/browser', async (req: Request, res: Response) => {
             delete response.cookie;
             const ssidCookie = response.ssid[0];
             res.cookie(ssidCookie.name, ssidCookie.value, ssidCookie.options);
-            delete response.ssid;
         }
+
         if (req.body.remember === 'false') {
             const puuidCookie = response.puuid_onetime[0];
             res.cookie(puuidCookie.name, puuidCookie.value, puuidCookie.options);
             delete response.puuid_onetime;
             const ssidCookie = response.ssid_onetime[0];
             res.cookie(ssidCookie.name, ssidCookie.value, ssidCookie.options);
-            delete response.ssid_onetime;
         }
     }
+    
+    delete response.puuid;
+    delete response.puuid_onetime;
+    delete response.ssid;
+    delete response.ssid_onetime;
 
     res.json(response);
 })
