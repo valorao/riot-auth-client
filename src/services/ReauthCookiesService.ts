@@ -32,7 +32,7 @@ export class ReauthCookiesService {
                         entitlements: entitlements_token
                     },
                     status: (error as any).response.status,
-                    headers: (error as any).response.headers
+                    headers: (error as any).response.headers,
                 }
             } else {
                 throw error;

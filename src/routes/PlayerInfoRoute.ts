@@ -182,6 +182,16 @@ player_router.get('/auth/reauth', async (req: Request, res: Response) => {
             "message": "Bad Request"
         })
     }else {
+        res.clearCookie('token');
+        res.clearCookie('entitlements');
+        res.cookie('token', response.data.accessToken, {
+            maxAge: 60 * 60 * 24 * 7 * 1000,
+            httpOnly: true,
+        });
+        res.cookie('entitlements', response.data.entitlements, {
+            maxAge: 60 * 60 * 24 * 7 * 1000,
+            httpOnly: true,
+        });
         res.status(response.status).json({
             "status": response.status,
             "token": response.data
