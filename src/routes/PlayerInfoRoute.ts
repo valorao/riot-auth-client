@@ -25,9 +25,10 @@ const getPlayerRank = new GetPlayerRank();
 app.use(cookieParser());
 
 player_router.get('/actions/player/rank', async (req: Request, res: Response) => {
-    const tier = Number(req.query.tier)
-    const response = await getPlayerRank.handle(tier);
-    res.status(response.status).json(response.data);
+    const response = await getPlayerRank.handle(
+        req.headers.token as string , req.headers.entitlements as string, req.headers.puuid as string
+    );
+    res.status(response.status).json(response);
 })
 
 player_router.get('/fromstatic/cookies', (req, res) => {
