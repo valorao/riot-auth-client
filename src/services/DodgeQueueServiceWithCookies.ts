@@ -10,7 +10,8 @@ const playerDodgeQueue = new PlayerDodgeQueue();
 
 export class DodgeQueueServiceWithCookies {
     handle = async(cookies: string) => {
-
+        try {
+            
         const cookieArray = cookies.split('; ');
 
         let token, entitlements, puuid;
@@ -48,4 +49,9 @@ export class DodgeQueueServiceWithCookies {
 
             return dodgeresponse;
         }
+        catch (error) {
+            return {status: 500, message: 'Internal Server Error',}
+
+            }
     }
+}
