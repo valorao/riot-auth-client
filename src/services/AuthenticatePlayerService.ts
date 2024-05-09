@@ -30,7 +30,7 @@ export class AuthenticatePlayerService {
             if (response.response.data.type === 'multifactor') {
                 return {
                     status: 403,
-                    message: 'Multifactor authentication required',
+                    message: 'Disable Multifactor Authentication to continue',
                 }
             }
             if (response.response.data.error) {

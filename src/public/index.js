@@ -56,7 +56,7 @@ window.onload = function() {
             document.getElementById('create-account').style.display = 'none';
             loginBtn.style.cursor = 'default';
 
-                fetch('/v1/riot/test/player/rank', {
+                fetch('/v1/riot/actions/player/rank', {
                     method: 'GET',
                 }).then(response => {
                     if (response.status === 200) {
@@ -113,7 +113,7 @@ window.onload = function() {
             data.remember = 'false';
         }
 
-        fetch('/v1/riot/auth/browser', {
+        fetch('/v1/riot/auth', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
