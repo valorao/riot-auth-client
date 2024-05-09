@@ -16,9 +16,6 @@ body {
   background-repeat: no-repeat;
   background-position: center;
   width: 90%;
-  @media screen and (max-width: 768px){
-    width: 100%;
-  }
 }
 
 body::before {
@@ -56,8 +53,6 @@ body::before {
   border-radius: 10px;
   padding: 30px 40px;
   @media screen and (max-width: 768px){
-    min-width: 300px;
-    max-width: 600px;
     width: 100%;
     margin: 20px;
   };
@@ -78,6 +73,24 @@ body::before {
 
 #loginBtn:hover {
   background-color: #971b10;
+}
+
+#player-id-rank {
+  background-color: #292b36;
+  flex-wrap: wrap;
+  gap: 1rem;
+  border-radius: 20px;
+  min-width: fit-content;
+  padding: 10px;
+  display: flex;
+  width: 100%;
+  gap: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 13px;
+  margin-bottom: 20px;
+  margin-top: 20px;
 }
 
 #player-banner {
@@ -140,38 +153,11 @@ body::before {
   grid-template-columns: 1fr 1fr;
 }
 
-#player-id-rank {
-  background-color: #292b36;
-  border-radius: 20px;
-  padding: 10px;
-  display: none;
-  width: 100%;
-  gap: 30px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 13px;
-  margin-bottom: 20px;
-  margin-top: 20px;
-  @media screen and (max-width: 768px){
-    width: 100%;
-    margin-top: 0px;
-    gap: 10px;
-  }
-}
-
 #rank-tier-icon {
   grid-area: rank-icon;
   width: 50px;
   height: 50px;
   gap: 5px;
-  @media screen and (max-width: 768px){
-    width: 35px;
-    height: 35px;
-    gap: 3px;
-    margin-top: 0px;
-    margin-right: -5px;
-  }
 }
 
 #rank-tier-name {
@@ -208,9 +194,6 @@ body::before {
 
 #valorao-logo {
   width: 300px;
-  @media screen and (max-width: 768px) {
-    width: 200px;
-  }
 }
 
 .img-loaded {
