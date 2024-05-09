@@ -1,6 +1,6 @@
 import axios from "axios";
-import { GetClientVersion } from "../middlewares/GetClientVersionService";
-import { GetClientPlatform } from "../middlewares/GetClientPlatformService";
+import { GetClientVersion } from "./GetClientVersionService";
+import { GetClientPlatform } from "./GetClientPlatformService";
 const getClientVersion = new GetClientVersion();
 const getClientPlatform = new GetClientPlatform();
 

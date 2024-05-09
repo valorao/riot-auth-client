@@ -1,6 +1,6 @@
 import cookie from 'cookie';
 import { CreateCookie } from "./CreateCookie";
-import { GetClientVersion } from "../middlewares/GetClientVersionService";
+import { GetClientVersion } from "./GetClientVersionService";
 import { AuthAccount } from "../middlewares/authAccount";
 import { GetEntitlements } from "../middlewares/getEntitlements";
 import { GetPlayerInfo } from "../middlewares/PlayerInfo";
@@ -33,7 +33,6 @@ export class AuthenticatePlayerService {
                     message: 'Multifactor authentication required',
                 }
             }
-            console.log('oi')
             if (response.response.data.error) {
                 return {
                     status: 401,
@@ -60,7 +59,6 @@ export class AuthenticatePlayerService {
             const ssidValue = ssidCookie.ssid;
             const ssidExpiry = new Date();
             ssidExpiry.setDate(ssidExpiry.getDate() + 7);
-
             const puuid = info.data.sub;
             const riotid = info.data.acct.game_name + '#' + info.data.acct.tag_line;
             const expiry = new Date();

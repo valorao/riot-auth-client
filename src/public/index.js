@@ -14,6 +14,7 @@ window.onload = function() {
     const rank_icon = document.getElementById('rank-tier-icon');
     player_id_rank.style.display = 'none';
     const player_banner_img = document.getElementById('player-banner-img');
+    const page_title = document.getElementById('page-title')
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     fetch('/v1/riot/fromstatic/cookies')
     .then(response => response.json())
@@ -67,6 +68,8 @@ window.onload = function() {
                             rank_icon.src = data.tierSmallIcon;
                             player_id_rank.style.display = '';
                             loginBtn.textContent = 'Logged in as: ' + data.riotid;
+                            page_title.textContent = 'valorao - ' + data.riotid + "'s Profile";
+                            
                         })
                         console.log(player_id_rank.textContent)
                     }
