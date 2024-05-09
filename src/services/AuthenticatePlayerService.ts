@@ -22,8 +22,11 @@ export class AuthenticatePlayerService {
                 clientversion , username, password, cookiesValue || '').catch(err => {
                     return err.response;
                 });
+            if (response.response.data.type === 'multifactor') {
+                throw new Error('Multifactor authentication required');
+            }
             if (response.response.data.error) {
-                throw new Error(response.data.error);
+                throw new Error(response.data.data);
             }
             const uri = response.response.data.response.parameters.uri;
             const url = new URL(uri);
@@ -152,7 +155,10 @@ export class AuthenticatePlayerService {
                  };
         }
         catch (err) {
-            return { status: 400, message: 'Bad Request', };
+            if ((err as Error).message === 'Multifactor authentication required') {
+                return { status: 403, message: (err as Error).message };
+            }
+            return { status: 400, message: (err as Error).message };
         }
 
     }

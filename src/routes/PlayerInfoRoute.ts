@@ -26,6 +26,21 @@ const getCookies = new GetCookies();
 
 app.use(cookieParser());
 
+player_router.post('/test/auth', async (req: Request, res: Response) => {
+    const response = await authenticatePlayerService.handle(req.body.username, req.body.password);
+    delete response.cookie;
+    delete response.bearertoken;
+    delete response.bearertoken_onetime;
+    delete response.entitlements;
+    delete response.entitlements_onetime;
+    delete response.puuid;
+    delete response.puuid_onetime;
+    delete response.ssid;
+    delete response.ssid_onetime;
+    res.status(response.status).json(response);
+});
+
+
 player_router.get('/actions/cookies/generate', async (req: Request, res: Response) => {
     const response = await getCookies.postAuthCookies();
     const cookies = response.headers['set-cookie'];
@@ -121,6 +136,7 @@ player_router.post('/auth', async (req: Request, res: Response) => {
         }
     }
 
+    delete response.cookie;
     delete response.bearertoken;
     delete response.bearertoken_onetime;
     delete response.entitlements;
@@ -140,7 +156,13 @@ player_router.post('/auth/browser', async (req: Request, res: Response) => {
     );
     
     res.status(response.status)
-    if (response.status === 200) {
+    if (response.status === 403) {
+        res.status(403).json({
+            "status": 403,
+            "message": "Multifactor authentication required"
+        });
+    }
+    else if (response.status === 200) {
         if (req.body.remember === 'true') {
             const puuidCookie = response.cookie[0];
             res.cookie(puuidCookie.name, puuidCookie.value, puuidCookie.options);
@@ -168,18 +190,25 @@ player_router.post('/auth/browser', async (req: Request, res: Response) => {
             const entitlements = response.entitlements_onetime[0];
             res.cookie(entitlements.name, entitlements.value, entitlements.options);
         }
-    }
-    delete response.cookie;
-    delete response.bearertoken;
-    delete response.bearertoken_onetime;
-    delete response.entitlements;
-    delete response.entitlements_onetime;
-    delete response.puuid;
-    delete response.puuid_onetime;
-    delete response.ssid;
-    delete response.ssid_onetime;
+        delete response.cookie;
+        delete response.bearertoken;
+        delete response.bearertoken_onetime;
+        delete response.entitlements;
+        delete response.entitlements_onetime;
+        delete response.puuid;
+        delete response.puuid_onetime;
+        delete response.ssid;
+        delete response.ssid_onetime;
 
-    res.json(response);
+        res.json(response);
+    }
+
+    else if (response.status === 400) {
+        res.status(400).json({
+            "status": 400,
+            "message": "Bad Request"
+        });
+    }
 })
 
 player_router.get('/auth/reauth', async (req: Request, res: Response) => {

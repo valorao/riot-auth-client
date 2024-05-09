@@ -110,6 +110,16 @@ window.onload = function() {
             },
             body: JSON.stringify(data)
         }).then(response => {
+            if (response.status === 403) {
+                loginBtn.style.backgroundColor = '#FFA500';
+                loginBtn.textContent = 'Disable MFA to continue.';
+                setTimeout(() => {
+                    loginBtn.style.backgroundColor = '';
+                    loginBtn.textContent = 'Login';
+                    loginBtn.disabled = false;
+                    loginBtn.style.cursor = 'pointer';
+                }, 3000);
+            }
             if (response.status === 400) {
                 loginBtn.style.backgroundColor = '#ff0000';
                 loginBtn.textContent = 'Invalid Username or Password';

@@ -20,6 +20,8 @@ export class AuthAccount {
         const url = 'https://auth.riotgames.com/api/v1/authorization';
         const body = {
             'type': 'auth',
+            'language': 'pt_BR',
+            'remember': true,
             'username': username,
             'password': password
         };
