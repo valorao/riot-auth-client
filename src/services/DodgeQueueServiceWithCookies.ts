@@ -1,7 +1,7 @@
 import { PlayerDodgeQueue } from '../middlewares/PlayerDodgeQueue';
 import { GetPlayerPreGameId } from '../middlewares/GetPlayerPreGameId';
-import { GetClientPlatform } from './GetClientPlatformService';
-import { GetClientVersion } from './GetClientVersionService';
+import GetClientPlatform from './GetClientPlatformService';
+import GetClientVersion from './GetClientVersionService';
 
 const playerPreGameId = new GetPlayerPreGameId();
 const getClientPlatform = new GetClientPlatform();

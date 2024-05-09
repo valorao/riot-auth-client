@@ -1,7 +1,17 @@
 import axios from 'axios';
+import GetClientPlatform from './GetClientPlatformService';
+import GetClientVersion from './GetClientVersionService';
 
-export class GetPlayerName {
-    handle = async (token: string, entitlements: string, puuid: string, version: string, platform: string) => {
+const getClientPlatform = new GetClientPlatform();
+const getClientVersion = new GetClientVersion();
+
+export default class GetPlayerName {
+    handle = async (token: string, entitlements: string, puuid: string) => {
+        const version_response = await getClientVersion.ClientVersion();
+        const platform_response = await getClientPlatform.ClientPlatform();
+        const version = version_response.data.data.riotClientVersion;
+        const platform = platform_response.data.data.platform;
+        
         const url = `https://pd.na.a.pvp.net/name-service/v2/players`
         const config = {
             headers: {

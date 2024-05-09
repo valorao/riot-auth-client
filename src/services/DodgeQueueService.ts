@@ -1,11 +1,11 @@
 import { PlayerDodgeQueue } from '../middlewares/PlayerDodgeQueue';
 import { GetPlayerPreGameId } from '../middlewares/GetPlayerPreGameId';
-import { GetClientVersion } from './GetClientVersionService';
+import GetClientVersion from './GetClientVersionService';
 import { AuthAccount } from '../middlewares/authAccount';
 import { GetEntitlements } from '../middlewares/getEntitlements';
 import { GetPlayerInfo } from '../middlewares/PlayerInfo';
-import { GetClientPlatform } from './GetClientPlatformService';
-import { CreateCookie } from '../services/CreateCookie';
+import GetClientPlatform from './GetClientPlatformService';
+import { CreateCookie } from './CreateCookie';
 
 const playerDodgeQueue = new PlayerDodgeQueue();
 const playerPreGameId = new GetPlayerPreGameId();

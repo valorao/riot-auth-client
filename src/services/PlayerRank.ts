@@ -1,137 +1,44 @@
-import axios from "axios";
-import { GetClientVersion } from "./GetClientVersionService";
-import { GetClientPlatform } from "./GetClientPlatformService";
-const getClientVersion = new GetClientVersion();
-const getClientPlatform = new GetClientPlatform();
+import GetPlayerRank from './GetPlayerRank';
+import GetPlayerName from './GetPlayerName';
+import GetPlayerBanner from './GetPlayerBanner';
+import GetBannerImg from './GetBannerImg';
+import GetTierInfo from './GetTierInfo';
+const getPlayerRank = new GetPlayerRank();
+const getPlayerName = new GetPlayerName();
+const getPlayerBanner = new GetPlayerBanner();
+const getBannerImg = new GetBannerImg();
+const getTierInfo = new GetTierInfo();
 
-export class GetPlayerRank { 
+
+export default class GetPlayerRankandInfo {
     handle = async (token: string, entitlements: string, puuid: string) => {
-        const getclient_version = await getClientVersion.ClientVersion();
-        const client_version = getclient_version.data.data.riotClientVersion;
+        if( !token || !entitlements || !puuid) {
+            return {status: 403, message: 'Missing required parameters',};}
+        const player_rank = await getPlayerRank.handle(token, entitlements, puuid)
+        .catch(err => {return err.response});
 
-        const getclient_platform = await getClientPlatform.ClientPlatform();
-        const client_platform = getclient_platform.data.data.platform;
-        try {
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        const rankurl = `https://pd.na.a.pvp.net/mmr/v1/players/${puuid}`
-        const rankconfig = {
-            headers: {
-                Authorization: `Bearer ${token}`,
-                'X-Riot-Entitlements-JWT': entitlements,
-                'X-Riot-ClientPlatform': client_platform,
-                'X-Riot-ClientVersion': client_version,
-                }
-        };
+        const player_name = await getPlayerName.handle(token, entitlements, puuid)
+        .catch(err => {return err.response});
 
-        const rankresponse  = await axios.get(rankurl, rankconfig).catch(err => {return err.response});
-        if (!rankresponse || !rankresponse.data || rankresponse.status !== 200) {
-            throw rankresponse.data;
-        }
-        let rank: number;
-        const rankData = rankresponse.data.QueueSkills.competitive.SeasonalInfoBySeasonID;
-        if (!rankData) {
-            rank = 0;
-        } else {
-            const seasonIDs = Object.keys(rankData);
-            if(seasonIDs.length === 0) {
-                rank = 0;
-            } else {
-                const firstSeasonID = seasonIDs[0];
-                rank = rankData[firstSeasonID].Rank;
-            }
-        }
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        const nameurl = `https://pd.na.a.pvp.net/name-service/v2/players`
-        const nameconfig = {
-            headers: {
-                Authorization: `Bearer ${token}`,
-                'X-Riot-Entitlements-JWT': entitlements,
-                'X-Riot-ClientPlatform': client_platform,
-                'X-Riot-ClientVersion': client_version,
-            }
-        }
-        const namebody = [
-            puuid
-        ]
+        const player_banner = await getPlayerBanner.handle(token, entitlements, puuid)
+        .catch(err => {return err.response});
 
-        const nameresponse  = await axios.put(nameurl, namebody, nameconfig).catch(err => {return err.response});
-        if (!nameresponse || !nameresponse.data || nameresponse.status !== 200) {
-            throw nameresponse.data;
-        }
-        const riotid = nameresponse.data[0].GameName;
-        const tagline = nameresponse.data[0].TagLine;
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        const bannerurl = `https://pd.na.a.pvp.net/personalization/v2/players/${puuid}/playerloadout`
-        const bannerconfig = {
-            headers: {
-                Authorization: `Bearer ${token}`,
-                'X-Riot-Entitlements-JWT': entitlements,
-                'X-Riot-ClientPlatform': client_platform,
-                'X-Riot-ClientVersion': client_version,
-            }
-        }
-        const bannerresponse  = await axios.get(bannerurl, bannerconfig).catch(err => {return err.response});
-        if (!bannerresponse || !bannerresponse.data || bannerresponse.status !== 200) {
-            throw bannerresponse.data;
-        }
-        const banner = bannerresponse.data.Identity.PlayerCardID;
-        const title = bannerresponse.data.Identity.PlayerTitleID;
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        const ranknameurl = `http://valorant.api.valorao.cloud/valorant/v1/competitive/tiers?tier=${rank}&language=en-US`
-        const getRankName  = await axios.get(ranknameurl)
-        if (!getRankName || !getRankName.data || getRankName.status !== 200) {
-            throw getRankName.data;
-        }
-        const tierID = getRankName.data.latestepisode[0].uuid;
-        const tierName = getRankName.data.latestepisode[0].tiers[0].tierName;
-        const tierSmallIcon = getRankName.data.latestepisode[0].tiers[0].smallIcon;
-        const tierLargeIcon = getRankName.data.latestepisode[0].tiers[0].largeIcon;
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        const bannerimg = `https://valorant-api.com/v1/playercards/${banner}?language=en-US`
-        const getbannerimg  = await axios.get(bannerimg)
-        if (!getbannerimg || !getbannerimg.data || getbannerimg.status !== 200) {
-            throw getbannerimg.data;
-        }
-        const bannerwideimg = getbannerimg.data.data.wideArt;
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        if (title === '00000000-0000-0000-0000-000000000000') {
-            return {
-                status: rankresponse.status,
-                riotid: riotid,
-                tagline: tagline,
-                tier: rank,
-                tierName: tierName,
-                tierSmallIcon: tierSmallIcon,
-                tierLargeIcon: tierLargeIcon,
-                bannerimg: bannerwideimg,
-                tierID: tierID
-            };
-        }
-        const playertitle = `https://valorant-api.com/v1/playertitles/${title}?language=en-US`
-        const nametitle  = await axios.get(playertitle)
-        if (!nametitle || !nametitle.data || nametitle.status !== 200) {
-            throw nametitle.data;
-        }
-        const titletext = nametitle.data.data.titleText;
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        const player_banner_img = await getBannerImg.handle(player_banner.playerbanner)
+        .catch(err => {return err.response});
+
+        const tier_info = await getTierInfo.handle(player_rank)
+        .catch(err => {return err.response});
+
         return {
-            status: rankresponse.status,
-            riotid: riotid,
-            tagline: tagline,
-            tier: rank,
-            tierName: tierName,
-            tierSmallIcon: tierSmallIcon,
-            tierLargeIcon: tierLargeIcon,
-            bannerimg: bannerwideimg,
-            title: titletext,
-            tierID: tierID
+            status: 200,
+             riotid: player_name.riotid,
+            tagline: player_name.tagline,
+            tier: player_rank,
+            tierName: tier_info.tierName,
+            tierID: tier_info.tierID,
+            tierSmallIcon: tier_info.tierSmallIcon,
+            tierLargeIcon: tier_info.tierLargeIcon,
+            bannerimg: player_banner_img.bannerimg,
         };
-        } catch (err) {
-            const errorResponse = {
-                status: 500,
-                message: (err as Error).message
-            };
-            return errorResponse;
-        }
     }
 }

@@ -56,7 +56,7 @@ window.onload = function() {
             document.getElementById('create-account').style.display = 'none';
             loginBtn.style.cursor = 'default';
 
-                fetch('/v1/riot/actions/player/rank', {
+                fetch('/v1/riot/test/player/rank', {
                     method: 'GET',
                 }).then(response => {
                     if (response.status === 200) {

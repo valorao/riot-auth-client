@@ -1,6 +1,6 @@
 import express, { Request, Response } from 'express';
-import { GetClientPlatform } from '../services/GetClientPlatformService';
-import { GetClientVersion } from '../services/GetClientVersionService';
+import GetClientPlatform from '../services/GetClientPlatformService';
+import GetClientVersion from '../services/GetClientVersionService';
 import { CreateCookie } from '../services/CreateCookie';
 
 export const ClientInfo_Router = express.Router();

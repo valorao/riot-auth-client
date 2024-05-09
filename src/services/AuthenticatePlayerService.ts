@@ -1,6 +1,6 @@
 import cookie from 'cookie';
 import { CreateCookie } from "./CreateCookie";
-import { GetClientVersion } from "./GetClientVersionService";
+import GetClientVersion from "./GetClientVersionService";
 import { AuthAccount } from "../middlewares/authAccount";
 import { GetEntitlements } from "../middlewares/getEntitlements";
 import { GetPlayerInfo } from "../middlewares/PlayerInfo";

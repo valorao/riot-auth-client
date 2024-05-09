@@ -8,8 +8,9 @@ import { AuthenticatePlayerService } from '../services/AuthenticatePlayerService
 import { ReauthCookiesService } from '../services/ReauthCookiesService';
 import { DodgeQueueServiceWithCookies } from '../services/DodgeQueueServiceWithCookies';
 import { GetPlayerInfo } from '../middlewares/PlayerInfo';
-import { GetPlayerRank } from '../services/PlayerRank';
+import GetPlayerRank from '../services/GetPlayerRank';
 import { GetCookies } from '../middlewares/getCookies';
+import GetPlayerRankandInfo from '../services/playerRank';
 
 export const player_router = express.Router();
 const app = express();
@@ -21,23 +22,16 @@ const authenticatePlayerService = new AuthenticatePlayerService();
 const reauthCookiesService = new ReauthCookiesService();
 const dodgeQueueServiceWithCookies = new DodgeQueueServiceWithCookies();
 const getPlayerInfo = new GetPlayerInfo();
-const getPlayerRank = new GetPlayerRank();
 const getCookies = new GetCookies();
+const getPlayerRankandInfo = new GetPlayerRankandInfo();
 
 app.use(cookieParser());
 
-player_router.post('/test/auth', async (req: Request, res: Response) => {
-    const response = await authenticatePlayerService.handle(req.body.username, req.body.password);
-    delete response.cookie;
-    delete response.bearertoken;
-    delete response.bearertoken_onetime;
-    delete response.entitlements;
-    delete response.entitlements_onetime;
-    delete response.puuid;
-    delete response.puuid_onetime;
-    delete response.ssid;
-    delete response.ssid_onetime;
-    res.status(response.status).json(response);
+player_router.get('/test/player/rank', async (req: Request, res: Response) => {
+    const response = await getPlayerRankandInfo.handle(
+        req.cookies.token, req.cookies.entitlements, req.cookies.puuid
+    );
+    res.status(200).json(response);
 });
 
 
@@ -48,12 +42,12 @@ player_router.get('/actions/cookies/generate', async (req: Request, res: Respons
     res.status(response.status).json({cookie: asidCookie})
 })
 
-player_router.get('/actions/player/rank', async (req: Request, res: Response) => {
-    const response = await getPlayerRank.handle(
-        req.cookies.token as string , req.cookies.entitlements as string, req.cookies.puuid as string
-    );
-    res.status(response.status).json(response);
-})
+// player_router.get('/actions/player/rank', async (req: Request, res: Response) => {
+//     const response = await getPlayerRank.handle(
+//         req.cookies.token as string , req.cookies.entitlements as string, req.cookies.puuid as string
+//     );
+//     res.status(response.status).json(response);
+// })
 
 player_router.get('/fromstatic/cookies', (req, res) => {
     const puuid = req.cookies.puuid;

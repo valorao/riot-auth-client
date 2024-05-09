@@ -1,5 +1,5 @@
 import axios, { AxiosRequestConfig } from 'axios';
-import { GetClientVersion } from '../services/GetClientVersionService';
+import GetClientVersion from '../services/GetClientVersionService';
 import https from 'https';
 
 const getClientVersion = new GetClientVersion();
