@@ -16,13 +16,15 @@ export const ReauthCookie = async (req: Request, res: Response) => {
         req.headers.cookie || ''
     )
     if (response.data.accessToken === null) {
-        res.status(400).json({
+        return res.status(400).json({
             "status": 400,
             "message": "Bad Request - NO_TOKEN"
         })
     }
     res.clearCookie('token');
     res.clearCookie('entitlements');
+    res.clearCookie('bearertoken_onetime');
+    res.clearCookie('entitlements_onetime');
     res.cookie('token', response.data.accessToken, {
         maxAge: 60 * 60 * 24 * 7 * 1000,
         httpOnly: true,
