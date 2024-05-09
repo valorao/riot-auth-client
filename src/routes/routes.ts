@@ -9,26 +9,33 @@ import { ReauthCookie } from '../controllers/ReauthenticateUserController';
 import { PlayerParty } from '../controllers/PlayerPartyController';
 import { PlayerPreGameId } from '../controllers/PlayerPreGameController';
 import { PlayerDodge } from '../controllers/PlayerPreGameLeave';
+import { ClientPlatform, ClientVersion, TestCookies } from '../controllers/RiotClient/VersionController';
 
-export const player_router = express.Router();
+export const routes = express.Router();
 const app = express();
 
 app.use(cookieParser());
 
-player_router.get('/actions/player/rank', GetPlayerRank)
+routes.get('/actions/player/rank', GetPlayerRank)
 
-player_router.get('/fromstatic/cookies', GetBrowserCookies)
+routes.get('/fromstatic/cookies', GetBrowserCookies)
 
-player_router.delete('/fromstatic/logout', BrowserLogout)
+routes.delete('/fromstatic/logout', BrowserLogout)
 
-player_router.get('/actions/player/pregame/leave', LeavePregameWithCookies)
+routes.get('/actions/player/pregame/leave', LeavePregameWithCookies)
 
-player_router.post('/auth',AuthenticateUser)
+routes.post('/auth',AuthenticateUser)
 
-player_router.get('/auth/reauth', ReauthCookie)
+routes.get('/auth/reauth', ReauthCookie)
 
-player_router.post('/player/party', PlayerParty);
+routes.post('/player/party', PlayerParty);
 
-player_router.post('/player/pregame', PlayerPreGameId);
+routes.post('/player/pregame', PlayerPreGameId);
 
-player_router.post('/player/pregame/leave', PlayerDodge);
+routes.post('/player/pregame/leave', PlayerDodge);
+
+routes.get('/client/platform', ClientPlatform);
+
+routes.get('/client/version', ClientVersion);
+
+routes.get('/test/cookies', TestCookies);
