@@ -27,9 +27,19 @@ export class GetPlayerRank {
         if (!rankresponse || !rankresponse.data || rankresponse.status !== 200) {
             throw rankresponse.data;
         }
-        const seasonIDs = Object.keys(rankresponse.data.QueueSkills.competitive.SeasonalInfoBySeasonID);
-        const firstSeasonID = seasonIDs[0];
-        const rank = rankresponse.data.QueueSkills.competitive.SeasonalInfoBySeasonID[firstSeasonID].Rank;
+        let rank: number;
+        const rankData = rankresponse.data.QueueSkills.competitive.SeasonalInfoBySeasonID;
+        if (!rankData) {
+            rank = 0;
+        } else {
+            const seasonIDs = Object.keys(rankData);
+            if(seasonIDs.length === 0) {
+                rank = 0;
+            } else {
+                const firstSeasonID = seasonIDs[0];
+                rank = rankData[firstSeasonID].Rank;
+            }
+        }
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         const nameurl = `https://pd.na.a.pvp.net/name-service/v2/players`
         const nameconfig = {
@@ -86,6 +96,19 @@ export class GetPlayerRank {
         }
         const bannerwideimg = getbannerimg.data.data.wideArt;
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        if (title === '00000000-0000-0000-0000-000000000000') {
+            return {
+                status: rankresponse.status,
+                riotid: riotid,
+                tagline: tagline,
+                tier: rank,
+                tierName: tierName,
+                tierSmallIcon: tierSmallIcon,
+                tierLargeIcon: tierLargeIcon,
+                bannerimg: bannerwideimg,
+                tierID: tierID
+            };
+        }
         const playertitle = `https://valorant-api.com/v1/playertitles/${title}?language=en-US`
         const nametitle  = await axios.get(playertitle)
         if (!nametitle || !nametitle.data || nametitle.status !== 200) {
