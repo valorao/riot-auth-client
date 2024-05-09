@@ -16,7 +16,7 @@ export function dodge () {
                             fetch('/v1/riot/actions/player/pregame/leave', {
                                 method: 'GET'
                             })
-                            if(response.status === 204) {
+                            if (response.status === 204) {
                                 dodgeBtn.style.backgroundColor = '#005400';
                                 dodgeBtn.textContent = 'Queue Dodged.';
                                 dodgeBtn.style.backgroundColor = '#ffa500';
