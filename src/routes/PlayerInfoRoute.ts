@@ -9,6 +9,7 @@ import { ReauthCookiesService } from '../services/ReauthCookiesService';
 import { DodgeQueueServiceWithCookies } from '../services/DodgeQueueServiceWithCookies';
 import { GetPlayerInfo } from '../middlewares/PlayerInfo';
 import { GetPlayerRank } from '../services/PlayerRank';
+import { GetCookies } from '../middlewares/getCookies';
 
 export const player_router = express.Router();
 const app = express();
@@ -21,8 +22,16 @@ const reauthCookiesService = new ReauthCookiesService();
 const dodgeQueueServiceWithCookies = new DodgeQueueServiceWithCookies();
 const getPlayerInfo = new GetPlayerInfo();
 const getPlayerRank = new GetPlayerRank();
+const getCookies = new GetCookies();
 
 app.use(cookieParser());
+
+player_router.get('/actions/cookies/generate', async (req: Request, res: Response) => {
+    const response = await getCookies.postAuthCookies();
+    const cookies = response.headers['set-cookie'];
+    const asidCookie = cookies.filter((cookie: string) => cookie.startsWith('asid='));
+    res.status(response.status).json({cookie: asidCookie})
+})
 
 player_router.get('/actions/player/rank', async (req: Request, res: Response) => {
     const response = await getPlayerRank.handle(
