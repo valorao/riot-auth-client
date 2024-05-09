@@ -13,8 +13,6 @@ body {
   align-items: center;
   margin-left: auto;
   min-height: 100vh;
-  background: url('https://cdn.valorao.cloud/images%2FEP8_Act_2_Article_1920x1080_Clove.jpg') no-repeat;
-  background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
   width: 90%;
@@ -23,14 +21,33 @@ body {
   }
 }
 
+body::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: 
+    linear-gradient(
+      rgba(0, 0, 0, 20%), 
+      rgba(0, 0, 0, 20%)
+    ),
+    url('https://cdn.valorao.cloud/images%2FEP8_Act_2_Article_1920x1080_Clove.jpg') no-repeat;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  z-index: -1;
+}
+
 .wrapper {
   max-width: 600px;
   min-width: 300px;
   width: 100%;
-  max-height: 550px;
+  max-height: 700px;
   min-height: 520px;
   height: 100%;
-  background: transparent;
+  background: #171A26;
   border: 2px solid rgba(255, 255, 255, .2);
   -webkit-backdrop-filter: blur(20px);
   backdrop-filter: blur(20px);
@@ -44,6 +61,39 @@ body {
     width: 100%;
     margin: 20px;
   };
+}
+
+#loginBtn {
+  justify-content: center;
+  align-items: center;
+  background-color: #D63021;
+  margin-right: auto;
+}
+
+#loginBtn img {
+  height: 20px;
+  vertical-align: middle;
+  margin-left: 10px;
+}
+
+#loginBtn:hover {
+  background-color: #971b10;
+}
+
+#player-banner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+#player-banner-img {
+  max-width: 516px;
+  min-width: 100px;
+  width: 100%;
+  height: 100%;
+  border-radius: 20px;
+  opacity: 90%;
 }
 
 
@@ -91,7 +141,9 @@ body {
 }
 
 #player-id-rank {
-  padding-bottom: 20px;
+  background-color: #292b36;
+  border-radius: 20px;
+  padding: 10px;
   display: none;
   width: 100%;
   gap: 30px;
@@ -99,6 +151,8 @@ body {
   justify-content: center;
   align-items: center;
   font-size: 13px;
+  margin-bottom: 20px;
+  margin-top: 20px;
   @media screen and (max-width: 768px){
     width: 100%;
     margin-top: 0px;
@@ -135,10 +189,12 @@ body {
 }
 
 #logo {
+  background-color: #292b36;
+  border-radius: 20px;
   display: flex;
+  margin-bottom: 20px;
   flex-direction: column;
   align-items: center;
-  margin-top: -20px;
   @media screen and (max-width: 768px){
     margin-top: 0px;
   }
@@ -221,25 +277,29 @@ body {
 .wrapper .btn {
   width: 100%;
   height: 45px;
-  background: #fff;
+  background: #0C258F;
   border: none;
   outline: none;
-  border-radius: 40px;
+  border-radius: 20px;
   box-shadow: 0 0 10px rgba(0, 0, 0, .1);
   cursor: pointer;
   font-size: 16px;
-  color: #333;
+  color: #fff;
   font-weight: 600;
   margin-bottom: 10px;
   transition: background 0.15s ease;
 }
 
 .wrapper .btn:hover {
-  background: #a5a3a3;
+  background: #071658;
 }
 
 #reauthBtn, #dodgeBtn, #logoutBtn {
   display: none;
+}
+
+#dodgeBtn:disabled {
+  pointer-events: none;
 }
 
 .wrapper .register-link {

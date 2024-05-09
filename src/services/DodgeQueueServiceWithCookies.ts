@@ -25,7 +25,6 @@ export class DodgeQueueServiceWithCookies {
                 puuid = cookie.split('=')[1];
             }
         }
-        console.log("ssid:" + token, "puuid:" + entitlements )
 
         const clientPlatform = await getClientPlatform.ClientPlatform();
         if (!clientPlatform || !clientPlatform.data) {

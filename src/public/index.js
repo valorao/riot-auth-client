@@ -13,25 +13,29 @@ window.onload = function() {
     const rank_name = document.getElementById('rank-tier-name');
     const rank_icon = document.getElementById('rank-tier-icon');
     player_id_rank.style.display = 'none';
+    const player_banner_img = document.getElementById('player-banner-img');
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     fetch('/v1/riot/fromstatic/cookies')
     .then(response => response.json())
     .then(data => {
         if (data.puuid && data.ssid) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-            let cooldown = Number(localStorage.getItem('cooldown'));
-            if (cooldown) {
-                dodgeBtn.textContent = 'On Cooldown: ' + cooldown + 's';
+            const endTime = localStorage.getItem('cooldownEnd');
+            if (endTime && Date.now() < endTime) {
                 dodgeBtn.disabled = true;
+                dodgeBtn.style.cursor = 'default';
+                dodgeBtn.style.backgroundColor = '#ffa500';
                 const intervalId = setInterval(() => {
-                    cooldown--;
-                    dodgeBtn.textContent = 'On Cooldown: ' + cooldown + 's';
-                    localStorage.setItem('cooldown', cooldown);
-                    if (cooldown === 0) {
+                    const remainingTime = Math.round((endTime - Date.now()) / 1000);
+                    if (remainingTime <= 0) {
                         clearInterval(intervalId);
                         dodgeBtn.disabled = false;
+                        dodgeBtn.style.backgroundColor = '';
                         dodgeBtn.textContent = 'Dodge Queue';
-                        localStorage.removeItem('cooldown');
+                        dodgeBtn.style.cursor = '';
+                        localStorage.removeItem('cooldownEnd');
+                    } else {
+                        dodgeBtn.textContent = 'On Cooldown: ' + remainingTime + 's';
                     }
                 }, 1000);
             }
@@ -44,7 +48,7 @@ window.onload = function() {
             document.getElementById('reauthBtn').style.display = 'block';
             document.getElementById('dodgeBtn').style.display = 'block';
             document.getElementById('logoutBtn').style.display = 'block';
-            loginBtn.style.backgroundColor = '#00ff00';
+            loginBtn.style.backgroundColor = '#005400';
             loginBtn.textContent = 'Logged in';
             document.getElementById('password-inputbox').style.display = 'none';
             document.getElementById('username-inputbox').style.display = 'none';
@@ -59,6 +63,7 @@ window.onload = function() {
                         response.json().then(data => {
                             player_name.textContent = data.riotid;
                             player_tagline.textContent = '#' + data.tagline;
+                            player_banner_img.src = data.bannerimg;
                             rank_name.textContent = data.tierName;
                             rank_icon.src = data.tierSmallIcon;
                             player_id_rank.style.display = '';
@@ -84,8 +89,11 @@ window.onload = function() {
             loginBtn.disabled = false;
             setTimeout(() => {
                 loginBtn.style.backgroundColor = '';
-                loginBtn.textContent = 'Login';
-                loginBtn.style.cursor = 'pointer';
+                loginBtn.textContent = 'Login with Riot Games';
+                let img = document.createElement('img');
+                img.src = 'riotlogo.png';
+                img.style.cursor = 'pointer';
+                loginBtn.appendChild(img);
             }, 3000);
             return;
         }
@@ -151,7 +159,7 @@ window.onload = function() {
             method: 'GET'
         }).then(response => {
             if (response.status === 303) {
-                reauthBtn.style.backgroundColor = '#00ff00';
+                reauthBtn.style.backgroundColor = '#005400';
                 reauthBtn.textContent = 'Cookie Reauthenticated';
                 setTimeout(() => {
                     reauthBtn.style.backgroundColor = '';
@@ -178,30 +186,31 @@ window.onload = function() {
             method: 'GET'
         }).then(response => {
             if (response.status === 204) {
-                dodgeBtn.style.backgroundColor = '#00ff00';
+                dodgeBtn.style.backgroundColor = '#005400';
                 dodgeBtn.textContent = 'Queue Dodged.';
                 dodgeBtn.style.backgroundColor = '#ffa500';
-                let counter = 60;
+                dodgeBtn.style.cursor = 'default';
+                dodgeBtn.disabled = true;
+        
+                const endTime = Date.now() + 60 * 1000; // 60 seconds from now
+                localStorage.setItem('cooldownEnd', endTime);
+        
                 const intervalId = setInterval(() => {
-                    counter--;
-                    dodgeBtn.textContent = 'On Cooldown: ' + counter + 's';
-                    dodgeBtn.style.cursor = 'default';
-                    dodgeBtn.disabled = true;
-                    localStorage.setItem('cooldown', counter);
-                    if (counter === 0) {
+                    const remainingTime = Math.round((endTime - Date.now()) / 1000);
+                    if (remainingTime <= 0) {
                         clearInterval(intervalId);
                         dodgeBtn.disabled = false;
+                        dodgeBtn.style.backgroundColor = '';
                         dodgeBtn.textContent = 'Dodge Queue';
-                        localStorage.removeItem('cooldown');
+                        dodgeBtn.style.cursor = '';
+                        localStorage.removeItem('cooldownEnd');
+                    } else {
+                        dodgeBtn.textContent = 'On Cooldown: ' + remainingTime + 's';
                     }
                 }, 1000);
-
-                dodgeBtn.style.cursor = '';
-                dodgeBtn.style.backgroundColor = '';
-                dodgeBtn.disabled = true;
             }
             if (response.status === 404) {
-                dodgeBtn.style.backgroundColor = '#ff0000';
+                dodgeBtn.style.backgroundColor = '#D63021';
                 dodgeBtn.textContent = 'You are not in a pre-game.';
                 dodgeBtn.style.cursor = 'default';
                 dodgeBtn.disabled = true;

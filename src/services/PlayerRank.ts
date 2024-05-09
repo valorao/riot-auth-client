@@ -51,8 +51,25 @@ export class GetPlayerRank {
         const riotid = nameresponse.data[0].GameName;
         const tagline = nameresponse.data[0].TagLine;
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        const bannerurl = `https://pd.na.a.pvp.net/personalization/v2/players/${puuid}/playerloadout
+        `
+        const bannerconfig = {
+            headers: {
+                Authorization: `Bearer ${token}`,
+                'X-Riot-Entitlements-JWT': entitlements,
+                'X-Riot-ClientPlatform': client_platform,
+                'X-Riot-ClientVersion': client_version,
+            }
+        }
+        const bannerresponse  = await axios.get(bannerurl, bannerconfig).catch(err => {return err.response});
+        if (!bannerresponse || !bannerresponse.data || bannerresponse.status !== 200) {
+            throw bannerresponse.data;
+        }
+        const banner = bannerresponse.data.Identity.PlayerCardID;
+        const title = bannerresponse.data.Identity.PlayerTitleID;
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-        const ranknameurl = `http://valorant.api.valorao.cloud/valorant/v1/competitive/tiers?tier=${rank}&language=pt-BR`
+        const ranknameurl = `http://valorant.api.valorao.cloud/valorant/v1/competitive/tiers?tier=${rank}&language=en-US`
         const getRankName  = await axios.get(ranknameurl)
         if (!getRankName || !getRankName.data || getRankName.status !== 200) {
             throw getRankName.data;
@@ -61,7 +78,21 @@ export class GetPlayerRank {
         const tierName = getRankName.data.latestepisode[0].tiers[0].tierName;
         const tierSmallIcon = getRankName.data.latestepisode[0].tiers[0].smallIcon;
         const tierLargeIcon = getRankName.data.latestepisode[0].tiers[0].largeIcon;
-
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        const bannerimg = `https://valorant-api.com/v1/playercards/${banner}?language=en-US`
+        const getbannerimg  = await axios.get(bannerimg)
+        if (!getbannerimg || !getbannerimg.data || getbannerimg.status !== 200) {
+            throw getbannerimg.data;
+        }
+        const bannerwideimg = getbannerimg.data.data.wideArt;
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        const playertitle = `https://valorant-api.com/v1/playertitles/${title}?language=en-US`
+        const nametitle  = await axios.get(playertitle)
+        if (!nametitle || !nametitle.data || nametitle.status !== 200) {
+            throw nametitle.data;
+        }
+        const titletext = nametitle.data.data.titleText;
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         return {
             status: rankresponse.status,
             riotid: riotid,
@@ -70,6 +101,8 @@ export class GetPlayerRank {
             tierName: tierName,
             tierSmallIcon: tierSmallIcon,
             tierLargeIcon: tierLargeIcon,
+            bannerimg: bannerwideimg,
+            title: titletext,
             tierID: tierID
         };
         } catch (err) {
