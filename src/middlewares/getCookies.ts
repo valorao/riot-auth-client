@@ -21,35 +21,39 @@ export class GetCookies {
 
 
     postAuthCookies = async () => {
-        const version = await getClientVersion.ClientVersion();
-        const url = 'https://auth.riotgames.com/api/v1/authorization';
-        const body = {
-            'client_id': 'play-valorant-web-prod',
-            'nonce': '1',
-            'redirect_uri': 'https://playvalorant.com/opt_in',
-            'response_mode': 'query',
-            'response_type': 'token id_token',
-            'scope': 'account openid'
-        };
-
-        let UserAgent = `RiotClient/${version} rso-auth (Windows; 10;;Professional, x64)`;
-        let headers = {
-            'Content-Type': 'application/json',
-            'User-Agent': UserAgent
-        };
-
-        let Config: AxiosRequestConfig = {
-            headers: headers,
-            httpsAgent: this.agent
-        };
-
-        let response  = await axios.post(url, body, Config).then(res => {
-            return res;
-        }).catch(err => {
-            return err.response;
-        })
-        return response;
-
+        try {
+            const version = await getClientVersion.ClientVersion();
+            const url = 'https://auth.riotgames.com/api/v1/authorization';
+            const body = {
+                'client_id': 'play-valorant-web-prod',
+                'nonce': '1',
+                'redirect_uri': 'https://playvalorant.com/opt_in',
+                'response_mode': 'query',
+                'response_type': 'token id_token',
+                'scope': 'account openid'
+            };
+    
+            let UserAgent = `RiotClient/${version} rso-auth (Windows; 10;;Professional, x64)`;
+            let headers = {
+                'Content-Type': 'application/json',
+                'User-Agent': UserAgent
+            };
+    
+            let Config: AxiosRequestConfig = {
+                headers: headers,
+                httpsAgent: this.agent
+            };
+    
+            let response  = await axios.post(url, body, Config).then(res => {
+                return res;
+            }).catch(err => {
+                return err.response;
+            })
+            return response;
+        }
+        catch (error) {
+            return {status: 500, message: 'Internal Server Error',};
+        }
     }
 }
 
