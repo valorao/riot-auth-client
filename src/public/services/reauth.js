@@ -16,10 +16,18 @@ export function reauth () {
                 }
                 if (response.status === 400) {
                     reauthBtn.style.backgroundColor = '#ff0000';
-                    reauthBtn.textContent = 'No Cookies to Reauth';
+                    reauthBtn.textContent = "Session Expired - Please login again. You'll be disconnected";
                     setTimeout(() => {
-                        reauthBtn.style.backgroundColor = '';
-                        reauthBtn.textContent = 'Reauth Cookies';
+                        fetch('/v1/riot/fromstatic/logout', {
+                            method: 'GET'
+                        }).then(response => {
+                            if (response.status === 204) {
+                                window.location.reload();
+                            }
+                            if (response.status === 404) {
+                                window.location.reload();
+                            }
+                        })
                     }, 3000);
                 }
                 return response.json();

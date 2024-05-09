@@ -8,17 +8,17 @@ export const ReauthCookie = async (req: Request, res: Response) => {
     if(!req.headers.cookie) {
         return res.status(400).json({
             "status": 400,
-            "error": "Bad Request",
-            "message": "Cookies are required"
+            "error": "Bad Request - NO_COOKIES",
+            "message": "Authenticate first"
         });
     }
     const response = await reauthCookiesService.handle(
         req.headers.cookie || ''
     )
     if (response.data.accessToken === null) {
-        res.status(200).json({
+        res.status(400).json({
             "status": 400,
-            "message": "Bad Request"
+            "message": "Bad Request - NO_TOKEN"
         })
     }
     res.clearCookie('token');

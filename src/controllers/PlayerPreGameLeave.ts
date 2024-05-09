@@ -15,6 +15,12 @@ export const PlayerDodge = async (req: Request, res: Response) => {
     try {
         const response = await playerDodgeQueue.DodgeQueue(req.body.token, req.body.pregame_id,
             req.body.entitlements, req.body.client_platform, req.body.client_version);
+            if (response.status != 204){
+                return res.status(response.status).json({
+                    "status": response.status,
+                    "message": response.data
+                });
+            }
         res.status(response.status).json({
             "status": response.status,
             "party_id": response.data.CurrentPartyID,

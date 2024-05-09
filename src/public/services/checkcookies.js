@@ -49,6 +49,11 @@ export function checkCookies() {
                     fetch('/v1/riot/actions/player/rank', {
                         method: 'GET',
                     }).then(response => {
+                        if (response.status === 401) {
+                            response.json().then(data => {
+                                player_name.textContent = 'Please relogin or Reauth Cookies.';
+                            })
+                        }
                         if (response.status === 200) {
                             response.json().then(data => {
                                 player_name.textContent = data.riotid;
@@ -61,7 +66,6 @@ export function checkCookies() {
                                 page_title.textContent = 'valorao - ' + data.riotid + "'s Profile";
                                 
                             })
-                            console.log(player_id_rank.textContent)
                         }
                     })
             }

@@ -13,5 +13,11 @@ export const GetPlayerRank = async (req: Request, res: Response) => {
     const response = await getPlayerRankandInfo.handle(
         req.cookies.token, req.cookies.entitlements, req.cookies.puuid
     );
+    if(response.tier.status === 400) {
+        return res.status(401).json({
+            "status": 401,
+            "message": "Please relogin or reauth cookies."
+        })
+    }
     res.status(response.status).json(response)
 }
