@@ -40,7 +40,6 @@ window.onload = function() {
                 }, 1000);
             }
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-            document.getElementById('page-title').textContent = 'valorao - Control Panel';
             document.getElementById('loginBtn').disabled = true;
             document.getElementById('reauthBtn').disabled = false;
             document.getElementById('dodgeBtn').disabled = false;
@@ -152,8 +151,6 @@ window.onload = function() {
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     reauthBtn.onclick = function(event) {
         event.preventDefault();
-
-        console.log('Sending fetch request to reauthenticate');
 
         fetch('/v1/riot/auth/reauth', {
             method: 'GET'

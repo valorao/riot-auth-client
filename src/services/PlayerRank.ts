@@ -61,8 +61,7 @@ export class GetPlayerRank {
         const riotid = nameresponse.data[0].GameName;
         const tagline = nameresponse.data[0].TagLine;
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        const bannerurl = `https://pd.na.a.pvp.net/personalization/v2/players/${puuid}/playerloadout
-        `
+        const bannerurl = `https://pd.na.a.pvp.net/personalization/v2/players/${puuid}/playerloadout`
         const bannerconfig = {
             headers: {
                 Authorization: `Bearer ${token}`,
@@ -78,7 +77,6 @@ export class GetPlayerRank {
         const banner = bannerresponse.data.Identity.PlayerCardID;
         const title = bannerresponse.data.Identity.PlayerTitleID;
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
         const ranknameurl = `http://valorant.api.valorao.cloud/valorant/v1/competitive/tiers?tier=${rank}&language=en-US`
         const getRankName  = await axios.get(ranknameurl)
         if (!getRankName || !getRankName.data || getRankName.status !== 200) {

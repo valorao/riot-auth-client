@@ -15,7 +15,6 @@ export class DodgeQueueServiceWithCookies {
 
         let token, entitlements, puuid;
 
-        // Extract the individual cookies
         for (let cookie of cookieArray) {
             if (cookie.startsWith('token')) {
                 token = cookie.split('=')[1];
@@ -37,7 +36,9 @@ export class DodgeQueueServiceWithCookies {
         }
         const clientversion = version.data.data.version;
         
-            const game_id =  await playerPreGameId.PlayerPreGameId((token || ''), (puuid || ''), (entitlements || ''), client_platform, clientversion);
+            const game_id =  await playerPreGameId.PlayerPreGameId(
+                (token || ''), (puuid || ''), (entitlements || ''), client_platform, clientversion
+            );
             const pregame_id = game_id.data.MatchID;
         
             const dodgeresponse = await playerDodgeQueue.DodgeQueue((token || ''), pregame_id,

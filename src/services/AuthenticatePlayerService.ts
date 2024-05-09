@@ -4,7 +4,6 @@ import { GetClientVersion } from "../middlewares/GetClientVersionService";
 import { AuthAccount } from "../middlewares/authAccount";
 import { GetEntitlements } from "../middlewares/getEntitlements";
 import { GetPlayerInfo } from "../middlewares/PlayerInfo";
-import path from 'path';
 
 const createCookie = new CreateCookie();
 const getClientVersion = new GetClientVersion();
@@ -14,6 +13,12 @@ const getPlayerInfo = new GetPlayerInfo();
 
 export class AuthenticatePlayerService {
     handle = async (username: string, password: string) => {
+        if (!username || !password) {
+            return {
+                status: 400,
+                message: 'Invalid username or password',
+            };
+        }
         try {
             const cookiesValue = await createCookie.handle();
             const version = await getClientVersion.ClientVersion();
@@ -23,10 +28,17 @@ export class AuthenticatePlayerService {
                     return err.response;
                 });
             if (response.response.data.type === 'multifactor') {
-                throw new Error('Multifactor authentication required');
+                return {
+                    status: 403,
+                    message: 'Multifactor authentication required',
+                }
             }
+            console.log('oi')
             if (response.response.data.error) {
-                throw new Error(response.data.data);
+                return {
+                    status: 401,
+                    message: 'Invalid username or password',
+                };
             }
             const uri = response.response.data.response.parameters.uri;
             const url = new URL(uri);
@@ -155,12 +167,7 @@ export class AuthenticatePlayerService {
                  };
         }
         catch (err) {
-            if ((err as Error).message === 'Multifactor authentication required') {
-                return { status: 403, message: (err as Error).message };
-            }
-            return { status: 400, message: (err as Error).message };
+            return { status: 500, message: (err as Error).message };
         }
-
     }
 }
-
