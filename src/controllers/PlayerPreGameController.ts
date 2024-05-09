@@ -5,6 +5,13 @@ import { GetPlayerPreGameId } from '../middlewares/GetPlayerPreGameId';
 const getPlayerPreGameId = new GetPlayerPreGameId();
 
 export const PlayerPreGameId = async (req: Request, res: Response) => {
+    if (!req.body.token || !req.body.puuid || !req.body.entitlements || !req.body.client_platform || !req.body.client_version) {
+        return res.status(400).json({
+            "status": 400,
+            "error": "Bad Request",
+            "message": "missing body parameters"
+        });
+    }
     try {
         const response = await getPlayerPreGameId.PlayerPreGameId(req.body.token, req.body.puuid,
             req.body.entitlements, req.body.client_platform, req.body.client_version);

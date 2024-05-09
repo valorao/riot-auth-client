@@ -5,6 +5,13 @@ import { PlayerDodgeQueue } from '../middlewares/PlayerDodgeQueue';
 const playerDodgeQueue = new PlayerDodgeQueue();
 
 export const PlayerDodge = async (req: Request, res: Response) => {
+    if(!req.body.token || !req.body.pregame_id || !req.body.entitlements || !req.body.client_platform || !req.body.client_version) {
+        return res.status(400).json({
+            "status": 400,
+            "error": "Bad Request",
+            "message": "missing body parameters"
+        });
+    }
     try {
         const response = await playerDodgeQueue.DodgeQueue(req.body.token, req.body.pregame_id,
             req.body.entitlements, req.body.client_platform, req.body.client_version);

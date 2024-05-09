@@ -4,6 +4,13 @@ import { DodgeQueueServiceWithCookies } from '../services/DodgeQueueServiceWithC
 const dodgeQueueServiceWithCookies = new DodgeQueueServiceWithCookies();
 
 export const LeavePregameWithCookies = async (req: Request, res: Response) => {
+    if (!req.headers.cookie) {
+        return res.status(400).json({
+            "status": 400,
+            "error": "Bad Request",
+            "message": "Cookies are required"
+        });
+    }
     const response = await dodgeQueueServiceWithCookies.handle(
         req.headers.cookie || ''
     )

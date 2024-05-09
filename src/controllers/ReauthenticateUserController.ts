@@ -5,6 +5,13 @@ import { ReauthCookiesService } from '../services/ReauthCookiesService';
 const reauthCookiesService = new ReauthCookiesService();
 
 export const ReauthCookie = async (req: Request, res: Response) => {
+    if(!req.headers.cookie) {
+        return res.status(400).json({
+            "status": 400,
+            "error": "Bad Request",
+            "message": "Cookies are required"
+        });
+    }
     const response = await reauthCookiesService.handle(
         req.headers.cookie || ''
     )
