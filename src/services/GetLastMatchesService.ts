@@ -16,9 +16,10 @@ export default class GetLastMatches {
 
             const matchHistory = await getMatchHistory.handle(token, entitlements, puuid)
             .catch(err => {return err.response});
-    
+            if(matchHistory === undefined) return {status: 400, message: 'Bad Request - MISSING_MATCHHISTORY',};
             const matchData = await getMatchData.handle(token, entitlements, puuid, matchHistory.lastMatch)
             .catch(err => {return err.response});
+            if (matchData === undefined) return {status: 400, message: 'Bad Request - MISSING_MATCHDATA',};
     
             const agentInfo = await getAgentInfo.handle(matchData.characterId)
             .catch(err => {return err.response});

@@ -8,17 +8,17 @@
 }
 
 body {
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  margin-left: auto;
-  min-height: 100vh;
-  background-repeat: no-repeat;
-  background-position: center;
-  width: 90%;
-  height: 100%;
-  margin-bottom: 0;
-  gap: 30px
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    margin-left: auto;
+    min-height: 100vh;
+    background-repeat: no-repeat;
+    background-position: center;
+    width: 90%;
+    height: 100%;
+    margin-bottom: 0;
+    gap: 30px;
 }
 
 body::before {
@@ -67,7 +67,7 @@ body::before {
 }
 
 .match-history {
-  display: block ;
+  justify-content: center;
   gap: 10px;
   max-width: 500px;
   min-width: 380px;
@@ -231,7 +231,6 @@ body::before {
 }
 
 #logo > #valorao-logo {
-  display: block;
   flex-direction: column;
   justify-content: center;
   @media screen and (max-width: 768px){
