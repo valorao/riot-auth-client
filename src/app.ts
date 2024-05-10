@@ -20,10 +20,10 @@ const corsOptions = {
 }
 
 const app = express();
+app.get('/account', PublicRedirect.index)
 app.use(headersMiddleware)
 app.use(cookieParser());
 app.use(cors(corsOptions));
-app.get('/account', PublicRedirect.index)
 app.use('/account', express.static(path.join(__dirname, 'public')))
 app.use(express.json());
 
