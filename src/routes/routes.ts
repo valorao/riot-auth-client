@@ -22,7 +22,6 @@ app.use(cookieParser());
 
 routes.get('/dev/player/history', MatchHistory)
 
-
 routes.get('/actions/player/rank', GetPlayerRank);
 
 routes.get('/fromstatic/cookies', GetBrowserCookies);

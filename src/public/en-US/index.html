@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title id="page-title">Login to your Riot Account</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="https://cdn.valorao.cloud/images%2Ffavicon.ico">
+    <meta property="og:image" content="https://cdn.valorao.cloud/images%2Fvalorao.png">
+    <script type="module" src="index.js"></script>
+</head>
+<body>
+    <div class="wrapper">
+        <div id="logo">
+            <div class="header">
+                <h3>Valorao</h3>
+                <h2>Valorant Elo Tracker</h2>
+            </div>
+            <img id="valorao-logo" src="https://cdn.valorao.cloud/images%2Fvalorao.png">
+        </div>
+        <div id="player-banner">
+            <img id="player-banner-img">
+        </div>
+            <div id="player-id-rank">
+
+                <div id="riotid">
+                    <h1 id="player-name"></h1>
+                    <h2 id="player-tagline"></h2>
+                </div>
+
+                <div id="rank">
+                    <img id="rank-tier-icon">
+                    <h2 id="rank-tier-name"></h2>
+                </div>
+                
+            </div>
+        <form action="">
+            <div id="username-inputbox" class="input-box">
+                <input id="usernameBox" type="text" placeholder="username" required>
+            </div>
+            <div id="password-inputbox" class="input-box">
+                <input id="passwordBox" type="password" placeholder="password" required>
+            </div>
+
+            <div id="remember-forgot" class="remember-forgot">
+                <label><input id="remember-me" type="checkbox"> Remember me</label>
+                <a href="https://recovery.riotgames.com/en/forgot-password">Reset Password</a>
+            </div>
+            <button id="loginBtn" type="submit" class="btn">
+                Login with Riot Games
+                <img id="riotlogo" src="https://cdn.valorao.cloud/images%2Friotlogo.png">
+              </button>
+            <button id="reauthBtn" type="button" class="btn" disabled>Reauth Cookies</button>
+            <button id="dodgeBtn" type="button" class="btn" disabled>Dodge Queue</button>
+            <button id="logoutBtn" type="button" class="btn" disabled>Logout</button>
+
+            <div id="create-account" class="register-link">
+                <p>Don't have an account? <a href="https://account.riotgames.com/log-in">Register</a></p>
+            </div>
+            
+        </form>
+    </div>
+</body>
+</html>
