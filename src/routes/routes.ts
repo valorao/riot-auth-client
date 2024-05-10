@@ -15,12 +15,15 @@ import { MatchData } from '../controllers/GetMatchDataController';
 import { MapInfo } from '../controllers/GetMapInfoController';
 import { AgentInfo } from '../controllers/GetAgentInfoController';
 import { LastMatches } from '../controllers/GetLastMatchesController';
+import PublicRedirect from '../controllers/PublicRedirect';
 
 export const routes = express.Router();
 const app = express();
 app.use(cookieParser());
 
 routes.get('/dev/player/history', MatchHistory)
+
+routes.get('/dev/test', PublicRedirect.index);
 
 routes.get('/actions/player/rank', GetPlayerRank);
 

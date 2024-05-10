@@ -6,6 +6,7 @@ import cors from 'cors';
 import { routes } from "./routes/routes";
 import { headersMiddleware } from "./middlewares/SetHeaders";
 import GetMapInfo from "./services/GetMapInfo";
+import PublicRedirect from "./controllers/PublicRedirect";
 
 const port = process.env.PORT || 5110;
 const agent = process.env.AGENT || 'valorao-api';
@@ -22,8 +23,10 @@ const app = express();
 app.use(headersMiddleware)
 app.use(cookieParser());
 app.use(cors(corsOptions));
+app.get('/static', PublicRedirect.index)
 app.use('/static', express.static(path.join(__dirname, 'public')))
 app.use(express.json());
+
 
 app.use('/v1/riot', routes)
 
