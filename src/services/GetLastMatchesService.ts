@@ -37,6 +37,7 @@ export default class GetLastMatches {
                     matchId: matchId,
                     matchDate: matchDate,
                     subject: puuid,
+                    riotId: matchData.riotId,
                     stats: matchData.stats,
                     agentInfo: agentInfo,
                     mapInfo: mapInfo,

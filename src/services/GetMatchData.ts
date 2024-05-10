@@ -2,10 +2,10 @@ import axios from 'axios';
 
 import GetClientPlatform from './GetClientPlatformService';
 import GetClientVersion from './GetClientVersionService';
-import { match } from 'assert';
-
+import GetPlayerName from './GetPlayerName';
 const getClientPlatform = new GetClientPlatform();
 const getClientVersion = new GetClientVersion();
+const getPlayerName = new GetPlayerName();
 
 export default class GetMatchData {
     handle = async (token: string, entitlements: string, puuid:string, matchID: string) => {
@@ -14,6 +14,7 @@ export default class GetMatchData {
             const platform_response = await getClientPlatform.ClientPlatform();
             const version = version_response.data.data.riotClientVersion;
             const platform = platform_response.data.data.platform;
+            const getPlayerNameResponse = await getPlayerName.handle(token, entitlements, puuid);
             const url = `https://pd.na.a.pvp.net/match-details/v1/matches/${matchID}`
             const config = {
                 headers: {
@@ -60,11 +61,15 @@ export default class GetMatchData {
             const playerKills = playerData.stats.kills
             const playerDeaths = playerData.stats.deaths
             const playerAssists = playerData.stats.assists
+            const playerRiotId = getPlayerNameResponse.riotid;
+            const playerTagline = getPlayerNameResponse.tagline;
+            const riotId = playerRiotId + "#" + playerTagline;
 
             return {
                 status: response.status,
                 message: "showing only last match",
                 subject: puuid,
+                riotId: riotId,
                 stats: {
                     kills: playerKills,
                     deaths: playerDeaths,
