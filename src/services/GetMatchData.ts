@@ -64,10 +64,14 @@ export default class GetMatchData {
             const playerRiotId = getPlayerNameResponse.riotid;
             const playerTagline = getPlayerNameResponse.tagline;
             const riotId = playerRiotId + "#" + playerTagline;
+            const gameDuration = response.data.matchInfo.gameLengthMillis;
+            const gameDurationMinutes = Math.floor(gameDuration / 60000);
 
             return {
                 status: response.status,
                 message: "showing only last match",
+                gameDurationMilis: gameDuration,
+                gameDurationMinutes: gameDurationMinutes + " minutes",
                 subject: puuid,
                 riotId: riotId,
                 stats: {
