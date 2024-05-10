@@ -8,7 +8,6 @@ export default class GetAgentInfo {
             if (!response || !response.data || response.status !== 200) {
                 throw response.data;
             }
-            console.log(url)
             const agentUuid = agentId;
             const agentName = response.data.data.displayName;
             const displayIcon = response.data.data.displayIcon;
@@ -24,7 +23,6 @@ export default class GetAgentInfo {
             }
     
             return {
-                status: 200,
                 agentUuid: agentUuid,
                 agentName: agentName,
                 displayIcon: displayIcon,

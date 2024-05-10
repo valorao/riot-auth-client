@@ -19,10 +19,6 @@ export const AuthenticateUser = async (req: Request, res: Response) => {
             res.clearCookie('entitlements');
             res.clearCookie('puuid');
             res.clearCookie('ssid');
-            res.clearCookie('puuid_onetime');
-            res.clearCookie('ssid_onetime');
-            res.clearCookie('bearertoken_onetime');
-            res.clearCookie('entitlements_onetime');
             const puuidCookie = response.cookie[0];
             res.cookie(puuidCookie.name, puuidCookie.value, puuidCookie.options);
     
@@ -40,10 +36,6 @@ export const AuthenticateUser = async (req: Request, res: Response) => {
             res.clearCookie('entitlements');
             res.clearCookie('puuid');
             res.clearCookie('ssid');
-            res.clearCookie('puuid_onetime');
-            res.clearCookie('ssid_onetime');
-            res.clearCookie('bearertoken_onetime');
-            res.clearCookie('entitlements_onetime');
             const puuidCookie = response.puuid_onetime[0];
             res.cookie(puuidCookie.name, puuidCookie.value, puuidCookie.options);
     

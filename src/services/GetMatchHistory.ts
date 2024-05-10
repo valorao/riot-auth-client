@@ -44,7 +44,6 @@ export default class GetMatchHistory {
             const date = new Date(unixTimeStamp);
             const matchDate = date.toLocaleString('pt-BR', {timeZone: 'America/Sao_Paulo'});
             return {
-                status: response.status,
                 lastMatch: matchid,
                 lastMatchDate: matchDate,
             }

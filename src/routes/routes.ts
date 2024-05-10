@@ -14,12 +14,13 @@ import { MatchHistory } from '../controllers/GetMatchHistoryController';
 import { MatchData } from '../controllers/GetMatchDataController';
 import { MapInfo } from '../controllers/GetMapInfoController';
 import { AgentInfo } from '../controllers/GetAgentInfoController';
+import { LastMatches } from '../controllers/GetLastMatchesController';
 
 export const routes = express.Router();
 const app = express();
 app.use(cookieParser());
 
-routes.get('/dev/actions/player/history', MatchHistory)
+routes.get('/dev/player/history', MatchHistory)
 
 
 routes.get('/actions/player/rank', GetPlayerRank);
@@ -36,11 +37,13 @@ routes.get('/actions/player/pregame/leave', LeavePregameWithCookies);
 
 routes.get('/auth/reauth', ReauthCookie);
 
-routes.post('/dev/actions/player/history/matches/map', MapInfo)
+routes.post('/dev/player/history/matches/map', MapInfo)
 
-routes.post('/dev/actions/player/history/matches', MatchData)
+routes.post('/dev/player/history/matches/:matchId', MatchData)
 
-routes.post('/dev/actions/data/agents', AgentInfo)
+routes.post('/dev/data/agents/:agentId', AgentInfo)
+
+routes.get('/dev/player/last-matches', LastMatches)
 
 routes.post('/auth',AuthenticateUser);
 
