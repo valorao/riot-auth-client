@@ -257,6 +257,7 @@ body::before {
   user-select: none;
   display: flex;
   justify-content: space-between;
+  align-items: center;
   font-size: 14.5px;
   margin: 15px 10px 15px;
 }
@@ -268,6 +269,9 @@ body::before {
 }
 
 .remember-forgot label input {
+  align-items: center;
+  display: flex;
+  justify-content: center;
   -webkit-tap-highlight-color: transparent;
   -webkit-appearance: none;
   -moz-appearance: none;
@@ -279,9 +283,8 @@ body::before {
   outline: none;
   -webkit-tap-highlight-color: transparent;
   accent-color: black;
-  margin-right: 3px;
-  accent-color: black;
-  margin-right: 3px;
+  margin-right: 6px;
+  margin-bottom: auto;
 }
 
 .remember-forgot label input:checked {
