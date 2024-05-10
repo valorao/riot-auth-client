@@ -56,7 +56,7 @@ export function login () {
                         loginBtn.style.cursor = 'pointer';
                     }, 3000);
                 }
-                if (response.status === 400) {
+                if (response.status === 400 || response.status === 401) {
                     loginBtn.style.backgroundColor = '#ff0000';
                     loginBtn.textContent = 'Invalid Username or Password';
                     setTimeout(() => {

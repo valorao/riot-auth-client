@@ -41,11 +41,10 @@ body::before {
 }
 
 .wrapper {
-  max-width: 700px;
+  max-width: 600px;
   min-width: 380px;
   width: 100%;
   max-height: 700px;
-  min-height: 520px;
   height: 100%;
   background: #171A26;
   border: 2px solid rgba(255, 255, 255, .2);
@@ -56,13 +55,12 @@ body::before {
   border-radius: 10px;
   padding: 30px 40px;
   @media screen and (max-width: 768px){
-    height: 76%;
+    height: auto;
     position: absolute;
     left: 50%;
     top: 50%;
     width: 40%;
     transform: translate(-50%, -50%);
-    margin: auto;
   };
 }
 
@@ -99,9 +97,13 @@ body::before {
   font-size: 13px;
   margin-bottom: 20px;
   margin-top: 20px;
+  @media screen and (max-width: 768px){
+    gap: 10px;
+  }
 }
 
 #player-banner {
+  max-width: 700px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -156,6 +158,7 @@ body::before {
   gap: 5px;
   justify-content: center;
   display: flex;
+  text-align: center;
   align-items: center;
   grid-template-areas: "rank-icon", "rank-name";
   grid-template-columns: 1fr 1fr;
@@ -166,6 +169,9 @@ body::before {
   width: 50px;
   height: 50px;
   gap: 5px;
+  margin: 0;
+  padding: 0;
+  margin-bottom: 0;
 }
 
 #rank-tier-name {
@@ -248,15 +254,38 @@ body::before {
 }
 
 .wrapper .remember-forgot {
+  user-select: none;
   display: flex;
   justify-content: space-between;
   font-size: 14.5px;
-  margin: 15px 0 15px;
+  margin: 15px 10px 15px;
+}
+
+.remember-forgot label {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .remember-forgot label input {
-  accent-color: #fff;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  border: 1px solid #ffffff;
+  border-radius: 50%;
+  outline: none;
+  -webkit-tap-highlight-color: transparent;
+  accent-color: black;
   margin-right: 3px;
+  accent-color: black;
+  margin-right: 3px;
+}
+
+.remember-forgot label input:checked {
+  background: #D63021;
 }
 
 .remember-forgot a {
