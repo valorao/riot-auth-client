@@ -5,11 +5,14 @@ import path from 'path';
 import cors from 'cors';
 import { routes } from "./routes/routes";
 import { headersMiddleware } from "./middlewares/SetHeaders";
+import GetMapInfo from "./services/GetMapInfo";
 
 const port = process.env.PORT || 5110;
 const agent = process.env.AGENT || 'valorao-api';
 const version = process.env.VERSION || 'v1';
+const getMapInfo = new GetMapInfo();
 
+getMapInfo.handle;
 const corsOptions = {
     origin: '*',
     allowedHeaders: 'password,username,remember, content-type'

@@ -10,10 +10,17 @@ import { PlayerParty } from '../controllers/PlayerPartyController';
 import { PlayerPreGameId } from '../controllers/PlayerPreGameController';
 import { PlayerDodge } from '../controllers/PlayerPreGameLeave';
 import { ClientPlatform, ClientVersion, TestCookies } from '../controllers/RiotClient/VersionController';
+import { MatchHistory } from '../controllers/GetMatchHistoryController';
+import { MatchData } from '../controllers/GetMatchDataController';
+import { MapInfo } from '../controllers/GetMapInfoController';
+import { AgentInfo } from '../controllers/GetAgentInfoController';
 
 export const routes = express.Router();
 const app = express();
 app.use(cookieParser());
+
+routes.get('/dev/actions/player/history', MatchHistory)
+
 
 routes.get('/actions/player/rank', GetPlayerRank);
 
@@ -28,6 +35,12 @@ routes.get('/test/cookies', TestCookies);
 routes.get('/actions/player/pregame/leave', LeavePregameWithCookies);
 
 routes.get('/auth/reauth', ReauthCookie);
+
+routes.post('/dev/actions/player/history/matches/map', MapInfo)
+
+routes.post('/dev/actions/player/history/matches', MatchData)
+
+routes.post('/dev/actions/data/agents', AgentInfo)
 
 routes.post('/auth',AuthenticateUser);
 
