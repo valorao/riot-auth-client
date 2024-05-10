@@ -23,8 +23,8 @@ const app = express();
 app.use(headersMiddleware)
 app.use(cookieParser());
 app.use(cors(corsOptions));
-app.get('/static', PublicRedirect.index)
-app.use('/static', express.static(path.join(__dirname, 'public')))
+app.get('/account', PublicRedirect.index)
+app.use('/account', express.static(path.join(__dirname, 'public')))
 app.use(express.json());
 
 

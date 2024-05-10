@@ -5,10 +5,10 @@ export default class PublicRedirect {
         const languages = req.acceptsLanguages();
         console.log(languages);
         if (languages.includes('pt') || languages.includes('pt-BR')) {
-            res.redirect("/static/pt-BR/");
+            res.redirect("/account/pt-BR/");
         }
         if (languages.includes('en') || languages.includes('en-US')) {
-            res.redirect("/static/en-US/");
+            res.redirect("/account/en-US/");
         }
     }
 }
