@@ -43,16 +43,42 @@ export default class GetMatchData {
             const characterId = playerData.characterId;
             const teamId = playerData.teamId;
 
-            const WinData = response.data.teams.find((team: any) => team.teamId === teamId);
-            const isWinner = WinData.won;
-            // console.log(characterId, teamId, mapId, isWinner)
+            const winData = response.data.teams.find((team: any) => team.teamId === teamId);
+            const redTeam = response.data.teams.find((team: any) => team.teamId === 'Red');
+            const RedTeamScore = redTeam.numPoints;
+            const blueTeam = response.data.teams.find((team: any) => team.teamId === 'Blue');
+            const blueTeamScore = blueTeam.numPoints;
+            let playerTeamScore;
+            if (teamId === 'Red') {
+                playerTeamScore = RedTeamScore
+            }
+            if (teamId === 'Blue') {
+                playerTeamScore = blueTeamScore
+            }
+            const isWinner = winData.won;
+
+            const playerKills = playerData.stats.kills
+            const playerDeaths = playerData.stats.deaths
+            const playerAssists = playerData.stats.assists
+
             return {
                 status: response.status,
                 message: "showing only last match",
+                subject: puuid,
+                stats: {
+                    kills: playerKills,
+                    deaths: playerDeaths,
+                    assists: playerAssists,
+                },
                 mapUrl: mapUrl,
                 characterId: characterId,
                 teamId: teamId,
                 teamIsWinner: isWinner,
+                score: {
+                    playerTeamScore: playerTeamScore,
+                    blueTeamScore: blueTeamScore,
+                    RedTeamScore: RedTeamScore,
+                },
             }
         }
         catch (error) {

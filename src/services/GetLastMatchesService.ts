@@ -33,12 +33,18 @@ export default class GetLastMatches {
     
             return {
                 status: 200,
-                matchId: matchId,
-                matchDate: matchDate,
-                agentInfo: agentInfo,
-                mapInfo: mapInfo,
-                teamId: teamId,
-                teamIsWinner: teamIsWinner
+                match1: {
+                    matchId: matchId,
+                    matchDate: matchDate,
+                    subject: puuid,
+                    stats: matchData.stats,
+                    agentInfo: agentInfo,
+                    mapInfo: mapInfo,
+                    teamId: teamId,
+                    teamIsWinner: teamIsWinner,
+                    score: matchData.score,
+                }
+
             };
         }
         catch (error) {
