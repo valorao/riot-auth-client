@@ -67,6 +67,7 @@ body::before {
 }
 
 .match-history {
+  flex-direction: column;
   justify-content: center;
   gap: 10px;
   max-width: 500px;

@@ -56,7 +56,6 @@ export default class GetMatchData {
             const gameDurationMinutes = Math.floor(gameDuration / 60000);
             
             const isDeathmatch = response.data.matchInfo.gameMode === '/Game/GameModes/Deathmatch/DeathmatchGameMode.DeathmatchGameMode_C';
-            console.log(response.data.matchInfo.gameMode)
             if (isDeathmatch) {
                 return {
                     status: 200,
@@ -116,7 +115,6 @@ export default class GetMatchData {
             }
         }
         catch (error) {
-            console.log(error)
             return {status: 500, message: 'Internal Server Error',};
         }
     }

@@ -10,17 +10,17 @@ export function lastmatches() {
         fetch('/v1/riot/dev/player/last-matches')
         .then(response => response.json())
         .then(data => {
-            map_name.textContent = data.match1.mapInfo.mapName;
-            map_image.src = data.match1.mapInfo.mapListViewIcon;
+            // map_name.textContent = data.match1.matchData.mapInfo.mapName;
+            // map_image.src = data.match1.matchData.mapInfo.mapListViewIcon;
             console.log(map_image.src)
-            agent_name.textContent = data.match1.agentInfo.agentName;
-            agent_image.src = data.match1.agentInfo.displayIcon;
-            const red_team_score = data.match1.score.RedTeamScore;
-            const blue_team_score = data.match1.score.blueTeamScore;
+            agent_name.textContent = data.matches.match1.agentInfo.agentName;
+            agent_image.src = data.matches.match1.agentInfo.displayIcon;
+            const red_team_score = data.matches.match1.matchData.score.RedTeamScore;
+            const blue_team_score = data.matches.match1.matchData.score.blueTeamScore;
             match_results.textContent = red_team_score + ' x ' + blue_team_score;
-            const kills = data.match1.stats.kills;
-            const deaths = data.match1.stats.deaths;
-            const assists = data.match1.stats.assists;
+            const kills = data.matches.match1.matchData.stats.kills;
+            const deaths = data.matches.match1.matchData.stats.deaths;
+            const assists = data.matches.match1.matchData.stats.assists;
             player_stats.textContent = kills + ' / ' + deaths + ' / ' + assists;
 
             console.log(data)
