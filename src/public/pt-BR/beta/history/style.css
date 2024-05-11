@@ -1,0 +1,457 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;600;700;800;900&display=swap"); 
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    font-family: "Roboto", sans-serif;
+    overflow: hidden;
+}
+
+body::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: 
+    linear-gradient(
+      rgba(0, 0, 0, 20%), 
+      rgba(0, 0, 0, 20%)
+    ),
+    url('https://cdn.valorao.cloud/images%2FEP8_Act_2_Article_1920x1080_Clove.jpg') no-repeat;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  z-index: -1;
+}
+
+.wrapper {
+    align-items: center;
+    background: #171A26;
+    border-radius: 20px;
+    padding: 30px 40px;
+    color: #fff;
+    border: 2px solid rgba(255, 255, 255, .2);
+}
+
+#title {
+    text-align: center;
+    font-size: 24px;
+    font-weight: 600;
+    margin-bottom: 20px;
+    margin-top: -30px;
+}
+
+/* Match 1 ////////////////////////////////////////////////////////////// */
+#match-1 {
+    margin-bottom: 20px;
+}
+
+.match-1-header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    flex-direction: column;
+    position: relative;
+}
+
+#match-1-map-img {
+    border-radius: 10px;
+}
+
+#match-1-agent-img {
+    border-radius: 10px;
+    margin-top: 1%;
+    margin-left: 2%;
+    width: 20%;
+}
+
+#match-1-data {
+    background-color:rgba(0, 0, 0, 50%);
+    display: block;
+    justify-content: center;
+    align-items: flex-start;
+    flex-direction: row;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    bottom: 0;
+    box-sizing: border-box;  
+    overflow: hidden;
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+#match-1-stats {
+    display: grid;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    bottom: 0;
+    box-sizing: border-box;  
+    overflow: hidden;
+    margin: 0;
+}
+
+#match-1-gamemode {
+    margin: 0;
+    font-size: 20px;
+}
+
+#match-1-map {
+    justify-self: center;
+    margin: 0;
+    font-size: 20px;
+}
+
+#match-1-score {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 20px;
+    margin: 0;
+}
+
+#match-1-kda {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 20px;
+    margin: 0;
+}
+
+/* Match 2 ////////////////////////////////////////////////////////////// */
+#match-2 {
+    margin-bottom: 20px;
+}
+
+.match-2-header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    flex-direction: column;
+    position: relative;
+}
+
+#match-2-map-img {
+    border-radius: 10px;
+}
+
+#match-2-agent-img {
+    border-radius: 10px;
+    margin-top: 1%;
+    margin-left: 2%;
+    width: 20%;
+}
+
+#match-2-data {
+    background-color:rgba(0, 0, 0, 50%);
+    display: block;
+    justify-content: center;
+    align-items: flex-start;
+    flex-direction: row;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    bottom: 0;
+    box-sizing: border-box;  
+    overflow: hidden;
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+#match-2-stats {
+    display: grid;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    bottom: 0;
+    box-sizing: border-box;  
+    overflow: hidden;
+    margin: 0;
+}
+
+#match-2-gamemode {
+    margin: 0;
+    font-size: 20px;
+}
+
+#match-2-map {
+    justify-self: center;
+    margin: 0;
+    font-size: 20px;
+}
+
+#match-2-score {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 20px;
+    margin: 0;
+}
+
+#match-2-kda {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 20px;
+    margin: 0;
+}
+
+/* Match 1 ////////////////////////////////////////////////////////////// */
+#match-3 {
+    margin-bottom: 20px;
+}
+
+.match-3-header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    flex-direction: column;
+    position: relative;
+}
+
+#match-3-map-img {
+    border-radius: 10px;
+}
+
+#match-3-agent-img {
+    border-radius: 10px;
+    margin-top: 1%;
+    margin-left: 2%;
+    width: 20%;
+}
+
+#match-3-data {
+    background-color:rgba(0, 0, 0, 50%);
+    display: block;
+    justify-content: center;
+    align-items: flex-start;
+    flex-direction: row;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    bottom: 0;
+    box-sizing: border-box;  
+    overflow: hidden;
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+#match-3-stats {
+    display: grid;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    bottom: 0;
+    box-sizing: border-box;  
+    overflow: hidden;
+    margin: 0;
+}
+
+#match-3-gamemode {
+    margin: 0;
+    font-size: 20px;
+}
+
+#match-3-map {
+    justify-self: center;
+    margin: 0;
+    font-size: 20px;
+}
+
+#match-3-score {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 20px;
+    margin: 0;
+}
+
+#match-3-kda {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 20px;
+    margin: 0;
+}
+
+/* Match 4 ////////////////////////////////////////////////////////////// */
+#match-4 {
+    margin-bottom: 20px;
+}
+
+.match-4-header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    flex-direction: column;
+    position: relative;
+}
+
+#match-4-map-img {
+    border-radius: 10px;
+}
+
+#match-4-agent-img {
+    border-radius: 10px;
+    margin-top: 1%;
+    margin-left: 2%;
+    width: 20%;
+}
+
+#match-4-data {
+    background-color:rgba(0, 0, 0, 50%);
+    display: block;
+    justify-content: center;
+    align-items: flex-start;
+    flex-direction: row;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    bottom: 0;
+    box-sizing: border-box;  
+    overflow: hidden;
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+#match-4-stats {
+    display: grid;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    bottom: 0;
+    box-sizing: border-box;  
+    overflow: hidden;
+    margin: 0;
+}
+
+#match-4-gamemode {
+    margin: 0;
+    font-size: 20px;
+}
+
+#match-4-map {
+    justify-self: center;
+    margin: 0;
+    font-size: 20px;
+}
+
+#match-4-score {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 20px;
+    margin: 0;
+}
+
+#match-4-kda {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 20px;
+    margin: 0;
+}
+
+
+/* Match 5 ////////////////////////////////////////////////////////////// */
+#match-5 {
+    margin-bottom: 20px;
+}
+
+.match-5-header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    flex-direction: column;
+    position: relative;
+}
+
+#match-5-map-img {
+    border-radius: 10px;
+}
+
+#match-5-agent-img {
+    border-radius: 10px;
+    margin-top: 1%;
+    margin-left: 2%;
+    width: 20%;
+}
+
+#match-5-data {
+    background-color:rgba(0, 0, 0, 50%);
+    display: block;
+    justify-content: center;
+    align-items: flex-start;
+    flex-direction: row;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    bottom: 0;
+    box-sizing: border-box;  
+    overflow: hidden;
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+#match-5-stats {
+    display: grid;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    bottom: 0;
+    box-sizing: border-box;  
+    overflow: hidden;
+    margin: 0;
+}
+
+#match-5-gamemode {
+    margin: 0;
+    font-size: 20px;
+}
+
+#match-5-map {
+    justify-self: center;
+    margin: 0;
+    font-size: 20px;
+}
+
+#match-5-score {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 20px;
+    margin: 0;
+}
+
+#match-5-kda {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 20px;
+    margin: 0;
+}
