@@ -16,6 +16,7 @@ import { MapInfo } from '../controllers/GetMapInfoController';
 import { AgentInfo } from '../controllers/GetAgentInfoController';
 import { LastMatches } from '../controllers/GetLastMatchesController';
 import PublicRedirect from '../controllers/PublicRedirect';
+import { Storefront } from '../controllers/GetStorefrontController';
 
 export const routes = express.Router();
 const app = express();
@@ -23,9 +24,11 @@ app.use(cookieParser());
 
 routes.get('/dev/player/history', MatchHistory)
 
+routes.get('/player/storefront', Storefront)
+
 routes.get('/dev/test', PublicRedirect.index);
 
-routes.get('/actions/player/rank', GetPlayerRank);
+routes.get('/player/rank', GetPlayerRank);
 
 routes.get('/fromstatic/cookies', GetBrowserCookies);
 
@@ -35,17 +38,17 @@ routes.get('/client/version', ClientVersion);
 
 routes.get('/test/cookies', TestCookies);
 
-routes.get('/actions/player/pregame/leave', LeavePregameWithCookies);
+routes.get('/player/pregame/leave', LeavePregameWithCookies);
 
 routes.get('/auth/reauth', ReauthCookie);
 
-routes.post('/dev/player/history/matches/map', MapInfo)
+routes.post('/player/history/matches/map', MapInfo)
 
-routes.post('/dev/player/history/matches/:matchId', MatchData)
+routes.post('/player/history/matches/:matchId', MatchData)
 
-routes.post('/dev/data/agents/:agentId', AgentInfo)
+routes.post('/data/agents/:agentId', AgentInfo)
 
-routes.get('/dev/player/last-matches', LastMatches)
+routes.get('/player/last-matches', LastMatches)
 
 routes.post('/auth',AuthenticateUser);
 
