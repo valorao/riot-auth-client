@@ -21,10 +21,17 @@ export default class GetAgentInfo {
             else {
                 fullPortrait = response.data.data.fullPortrait;
             }
+            let agentname
+            if (agentName === 'Harbor') {
+                agentname = 'Luiz';
+            }
+            else {
+                agentname = agentName;
+            }
     
             return {
                 agentUuid: agentUuid,
-                agentName: agentName,
+                agentName: agentname,
                 displayIcon: displayIcon,
                 agentBackground: agentBackground,
                 agentRoleUuid: agentRoleUuid,

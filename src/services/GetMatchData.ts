@@ -39,12 +39,45 @@ export default class GetMatchData {
     
             }
             const mapUrl = response.data.matchInfo.mapId;
-
+            
             const playerData = response.data.players.find((player: any) => player.subject === puuid);
             const characterId = playerData.characterId;
             const teamId = playerData.teamId;
 
-            const winData = response.data.teams.find((team: any) => team.teamId === teamId);
+            
+            
+            const playerKills = playerData.stats.kills
+            const playerDeaths = playerData.stats.deaths
+            const playerAssists = playerData.stats.assists
+            const playerRiotId = getPlayerNameResponse.riotid;
+            const playerTagline = getPlayerNameResponse.tagline;
+            const riotId = playerRiotId + "#" + playerTagline;
+            const gameDuration = response.data.matchInfo.gameLengthMillis;
+            const gameDurationMinutes = Math.floor(gameDuration / 60000);
+            
+            const isDeathmatch = response.data.matchInfo.gameMode === '/Game/GameModes/Deathmatch/DeathmatchGameMode.DeathmatchGameMode_C';
+            console.log(response.data.matchInfo.gameMode)
+            if (isDeathmatch) {
+                return {
+                    status: 200,
+                    gamemode: 'Deathmatch',
+                    gameDurationMilis: gameDuration,
+                    gameDurationMinutes: gameDurationMinutes + " minutes",
+                    subject: puuid,
+                    riotId: riotId,
+                    stats: {
+                        kills: playerKills,
+                        deaths: playerDeaths,
+                        assists: playerAssists,
+                    },
+                    mapUrl: mapUrl,
+                    characterId: characterId,
+                    teamId: teamId,
+                }
+
+            }
+            else {
+                const winData = response.data.teams.find((team: any) => team.teamId === teamId);
             const redTeam = response.data.teams.find((team: any) => team.teamId === 'Red');
             const RedTeamScore = redTeam.numPoints;
             const blueTeam = response.data.teams.find((team: any) => team.teamId === 'Blue');
@@ -58,18 +91,9 @@ export default class GetMatchData {
             }
             const isWinner = winData.won;
 
-            const playerKills = playerData.stats.kills
-            const playerDeaths = playerData.stats.deaths
-            const playerAssists = playerData.stats.assists
-            const playerRiotId = getPlayerNameResponse.riotid;
-            const playerTagline = getPlayerNameResponse.tagline;
-            const riotId = playerRiotId + "#" + playerTagline;
-            const gameDuration = response.data.matchInfo.gameLengthMillis;
-            const gameDurationMinutes = Math.floor(gameDuration / 60000);
-
             return {
-                status: response.status,
-                message: "showing only last match",
+                status: 200,
+                gamemode: 'Standard',
                 gameDurationMilis: gameDuration,
                 gameDurationMinutes: gameDurationMinutes + " minutes",
                 subject: puuid,
@@ -88,6 +112,7 @@ export default class GetMatchData {
                     blueTeamScore: blueTeamScore,
                     RedTeamScore: RedTeamScore,
                 },
+            }
             }
         }
         catch (error) {
