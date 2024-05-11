@@ -3,7 +3,7 @@ export function dodge () {
     dodgeBtn.onclick = function(event) {
         event.preventDefault();
 
-        fetch('/v1/riot/actions/player/pregame/leave', {
+        fetch('/v1/riot/player/pregame/leave', {
             method: 'GET'
         }).then(response => {
             if (response.status === 400) {
@@ -13,7 +13,7 @@ export function dodge () {
                     }).then(response => {
                         if(response.status === 303)
                         {
-                            fetch('/v1/riot/actions/player/pregame/leave', {
+                            fetch('/v1/riot/player/pregame/leave', {
                                 method: 'GET'
                             })
                             if (response.status === 204) {
