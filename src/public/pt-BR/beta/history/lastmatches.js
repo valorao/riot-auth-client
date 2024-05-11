@@ -13,6 +13,7 @@ export function lastmatches() {
         })
         .then(data => {
             const matchKeys = Object.keys(data.matches);
+            
             for(let i = 0; i < matchKeys.length; i++) {
                 const match = data.matches[matchKeys[i]];
                 const map_name = document.getElementById('match-' + (i+1) + '-map');
@@ -34,6 +35,12 @@ export function lastmatches() {
                     match_results.textContent = '';
                     loading.style.display = 'none';
                     wrapper.style.display = '';
+                    for (let i = matchKeys.length + 1; i <= 5; i++) {
+                        const match = document.getElementById('match-' + i);
+                        if (match) {
+                            match.style.display = 'none';
+                        }
+                    }
                 }
                 else if (match.matchData.gamemode === 'Standard') {
                     const red_team_score = match.matchData.score.RedTeamScore;
@@ -43,7 +50,14 @@ export function lastmatches() {
                     const deaths = match.matchData.stats.deaths;
                     const assists = match.matchData.stats.assists;
                     player_stats.textContent = kills + ' / ' + deaths + ' / ' + assists;
-                    document.getElementById('spinner').style.display = 'none';
+                    loading.style.display = 'none';
+                    wrapper.style.display = '';
+                    for (let i = matchKeys.length + 1; i <= 5; i++) {
+                        const match = document.getElementById('match-' + i);
+                        if (match) {
+                            match.style.display = 'none';
+                        }
+                    }
                 }
             }
 

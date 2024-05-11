@@ -31,6 +31,7 @@ export default class GetMatchHistory {
                 }
     
             }
+            console.log(response.data);
             if (response.status === 429) {
                 return {
                     status: 429,
@@ -40,7 +41,7 @@ export default class GetMatchHistory {
 
             let matches: { [key: string]: { matchId: number; matchDate: string } } = {};
 
-            for (let i = 0; i < 5; i++) {
+            for (let i = 0; i < response.data.EndIndex; i++) {
                 const matchId = response.data.History[i].MatchID;
                 const unixTimeStamp = response.data.History[i].GameStartTime;
                 const date = new Date(unixTimeStamp);
@@ -54,6 +55,7 @@ export default class GetMatchHistory {
             
             return {
                 status: response.status,
+                lenght: response.data.EndIndex,
                 matches: matches
             };
         }

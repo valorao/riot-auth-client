@@ -13,9 +13,9 @@ export default class GetLastMatches {
         try {
             let matches: { [key: string]: any } = {};
 
-            for (let i = 1; i <= 5; i++) {
-                const matchHistory = await getMatchHistory.handle(token, entitlements, puuid)
-                .catch(err => {return err.response});
+            const matchHistory = await getMatchHistory.handle(token, entitlements, puuid)
+            .catch(err => {return err.response});
+            for (let i = 1; i <= matchHistory.lenght; i++) {
             
                 if(matchHistory === undefined) return {status: 400, message: 'Bad Request - MISSING_MATCHHISTORY',};
             
@@ -48,6 +48,7 @@ export default class GetLastMatches {
             };
         }
         catch (error) {
+            console.log(error)
             return {status: 500, message: 'Internal Server Error',};
         }
     }
