@@ -7,7 +7,7 @@ export function lastmatches() {
     const player_stats = document.getElementById('player-stats');
 
     try {
-        fetch('/v1/riot/dev/player/last-matches')
+        fetch('/v1/riot/player/last-matches')
         .then(response => response.json())
         .then(data => {
             map_name.textContent = data.matches.match1.mapInfo.mapName;
