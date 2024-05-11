@@ -31,7 +31,6 @@ export default class GetMatchHistory {
                 }
     
             }
-            console.log(response.data);
             if (response.status === 429) {
                 return {
                     status: 429,
