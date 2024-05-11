@@ -32,9 +32,13 @@ export default class GetLastMatches {
                 const agentInfo = await getAgentInfo.handle(matchData.characterId)
                 .catch(err => {return err.response});
 
+                const mapInfo = await getMapInfo.handle(matchData.mapUrl)
+                .catch(err => {return err.response});
+
                 matches[matchKey] = {
                     matchData: matchData,
-                    agentInfo: agentInfo
+                    agentInfo: agentInfo,
+                    mapInfo: mapInfo,
                 };
             }
     

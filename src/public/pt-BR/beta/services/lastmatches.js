@@ -10,8 +10,8 @@ export function lastmatches() {
         fetch('/v1/riot/dev/player/last-matches')
         .then(response => response.json())
         .then(data => {
-            // map_name.textContent = data.match1.matchData.mapInfo.mapName;
-            // map_image.src = data.match1.matchData.mapInfo.mapListViewIcon;
+            map_name.textContent = data.matches.match1.mapInfo.mapName;
+            map_image.src = data.matches.match1.mapInfo.mapListViewIcon;
             console.log(map_image.src)
             agent_name.textContent = data.matches.match1.agentInfo.agentName;
             agent_image.src = data.matches.match1.agentInfo.displayIcon;
