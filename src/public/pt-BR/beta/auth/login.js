@@ -42,7 +42,7 @@ export function login () {
                     data.remember = 'false';
                 }
         
-                fetch('/v1/riot/auth', {
+                fetch('https://apis.valorao.cloud/rso/auth', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'

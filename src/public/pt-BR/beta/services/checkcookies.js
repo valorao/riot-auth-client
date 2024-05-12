@@ -10,7 +10,7 @@ export function checkCookies() {
         const player_banner_img = document.getElementById('player-banner-img');
         const page_title = document.getElementById('page-title')
         const dodgeBtn = document.getElementById('dodgeBtn');
-        fetch('/v1/riot/fromstatic/cookies')
+        fetch('https://apis.valorao.cloud/rso/fromstatic/cookies')
         .then(response => response.json())
         .then(data => {
             if (data.puuid && data.ssid) {
@@ -49,7 +49,7 @@ export function checkCookies() {
                 document.getElementById('create-account').style.display = 'none';
                 loginBtn.style.cursor = 'default';
     
-                    fetch('/v1/riot/player/rank', {
+                    fetch('https://apis.valorao.cloud/rso/player/rank', {
                         method: 'GET',
                     }).then(response => {
                         if (response.status === 401) {

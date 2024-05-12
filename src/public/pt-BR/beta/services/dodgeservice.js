@@ -13,7 +13,7 @@ export function dodge () {
                     }).then(response => {
                         if(response.status === 303)
                         {
-                            fetch('/v1/riot/player/pregame/leave', {
+                            fetch('https://apis.valorao.cloud/rso/pregame/leave', {
                                 method: 'GET'
                             })
                             if (response.status === 204) {
