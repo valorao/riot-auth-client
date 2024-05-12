@@ -73,7 +73,7 @@ export class AuthenticatePlayerService {
                         sameSite: 'None',
                         secure: true,
                         path: '/',
-                        domain: 'valorao.cloud',
+                        domain: '.valorao.cloud',
                     }
                 }
             ];
@@ -87,7 +87,7 @@ export class AuthenticatePlayerService {
                         sameSite: 'None',
                         secure: true,
                         path: '/',
-                        domain: 'valorao.cloud',
+                        domain: '.valorao.cloud',
                     }
                 }
             ];
@@ -101,7 +101,7 @@ export class AuthenticatePlayerService {
                         secure: true,
                         expires: expiry,
                         path: '/',
-                        domain: 'valorao.cloud',
+                        domain: '.valorao.cloud',
                     }
                 }
             ];
@@ -115,7 +115,7 @@ export class AuthenticatePlayerService {
                         sameSite: 'None',
                         secure: true,
                         path: '/',
-                        domain: 'valorao.cloud',
+                        domain: '.valorao.cloud',
                     }
                 }
             ];
@@ -131,7 +131,7 @@ export class AuthenticatePlayerService {
                         sameSite: 'None',
                         secure: true,
                         path: '/',
-                        domain: 'valorao.cloud',
+                        domain: '.valorao.cloud',
                     }
                 }
             ];
@@ -144,7 +144,7 @@ export class AuthenticatePlayerService {
                         sameSite: 'None',
                         secure: true,
                         path: '/',
-                        domain: 'valorao.cloud',
+                        domain: '.valorao.cloud',
                     }
                 }
             ];
@@ -157,7 +157,7 @@ export class AuthenticatePlayerService {
                         sameSite: 'None',
                         secure: true,
                         path: '/',
-                        domain: 'valorao.cloud',
+                        domain: '.valorao.cloud',
                     }
                 }
             ];
@@ -170,7 +170,7 @@ export class AuthenticatePlayerService {
                         sameSite: 'None',
                         secure: true,
                         path: '/',
-                        domain: 'valorao.cloud',
+                        domain: '.valorao.cloud',
                     }
                 }
             ];
