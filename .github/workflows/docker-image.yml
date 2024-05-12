@@ -1,0 +1,35 @@
+name: Docker Image CI
+
+on:
+  push:
+    branches: [ "trampox" ]
+  pull_request:
+    branches: [ "trampox" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: Build the Docker image
+      run: docker build . --file Dockerfile --tag ghcr.io/valorao/riot-auth-client:$(date +%s)
+    - name: Public the Docker image
+      run: docker push ghcr.io/valorao/riot-auth-client:$(date +%s)
+  portainer-post:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send POST request to Portainer
+        id: request
+        uses: tyrrrz/action-http-request@master
+        with:
+          url: https://control.rtrampox.cloud/api/stacks/webhooks/dbbc81d6-10c6-456c-b974-1d3d019a4648
+          method: POST
+          retry-count: 3
+          retry-delay: 500
+
+      - name: Print outputs
+        run: |
+          echo "Status: ${{ steps.request.outputs.status }}"
+          echo "Success: ${{ steps.request.outputs.success }}"
+          echo "Headers: ${{ steps.request.outputs.headers }}"
+          echo "Body: ${{ steps.request.outputs.body }}"
