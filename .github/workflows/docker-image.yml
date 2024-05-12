@@ -18,19 +18,15 @@ jobs:
       run: |
         docker login -u rtrampox -p  ${{ secrets.GHCR_IO_ACTION }} ghcr.io
         docker push ghcr.io/valorao/riot-auth-client:latest
-  portainer-post:
-    runs-on: ubuntu-latest
-    steps:
-    - name: Sleep for 30 seconds
-      uses: jakejarvis/wait-action@master
-      with:
-          time: '50s'
     - name: Send POST request to Portainer
       id: request
       uses: tyrrrz/action-http-request@master
       with:
           url: https://control.rtrampox.cloud/api/stacks/webhooks/dbbc81d6-10c6-456c-b974-1d3d019a4648
           method: POST
+          headers: |
+            CF-Access-Client-Id: ${{ secrets.CLOUDFLARE_AUTH_CLIENT_ID }}
+            CF-Access-Client-Secret: ${{ secrets.CLOUDFLARE_AUTH_CLIENT_SECRET }}
           retry-count: 3
           retry-delay: 500
 
