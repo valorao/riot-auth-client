@@ -16,11 +16,17 @@ jobs:
     - name: Build the Docker image
       run: |
         docker build . --file Dockerfile --tag ghcr.io/valorao/riot-auth-client:${GITHUB_SHA::7}
-    - name: Publish the Docker image
+    - name: Publish the Docker with commit short SHA as tag.
       run: |
         docker login -u rtrampox -p  ${{ secrets.GHCR_IO_ACTION }} ghcr.io
         docker push ghcr.io/valorao/riot-auth-client:${GITHUB_SHA::7}
         echo "Pusing valorao/riot-auth-client:${GITHUB_SHA::7}"
+    - name: Re-tag Image to latest
+      run: |
+        docker image tag ghcr.io/valorao/riot-auth-client:${GITHUB_SHA::7} ghcr.io/valorao/riot-auth-client:latest
+    - name: Publish the Docker with latest as tag.
+      run: |
+        docker push ghcr.io/valorao/riot-auth-client:latest
   portainer-post:
     needs: build
     runs-on: ubuntu-latest
