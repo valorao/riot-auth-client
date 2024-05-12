@@ -12,9 +12,9 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag ghcr.io/valorao/riot-auth-client:$(date +%s)
+      run: docker build . --file Dockerfile --tag ghcr.io/valorao/riot-auth-client:latest
     - name: Public the Docker image
-      run: docker push ghcr.io/valorao/riot-auth-client:$(date +%s)
+      run: docker push ghcr.io/valorao/riot-auth-client:latest
   portainer-post:
     runs-on: ubuntu-latest
     steps:
