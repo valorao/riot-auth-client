@@ -15,8 +15,9 @@ const getMapInfo = new GetMapInfo();
 
 getMapInfo.handle;
 const corsOptions = {
-    origin: '*',
-    allowedHeaders: 'password,username,remember, content-type'
+    origin: ['https://valorao.cloud', 'https://account.valorao.cloud', 'https://apis.valorao.cloud'],
+    allowedHeaders: 'password,username,remember, content-type',
+    credentials: true,
 }
 
 const app = express();
