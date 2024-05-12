@@ -8,11 +8,12 @@ jobs:
     - name: Discord Webhook Action
       uses: tsickert/discord-webhook@v5.3.0
       with:
+        wait: true
         webhook-url: ${{ secrets.WEBHOOK_URL }}
         thread-id: "1239213001932931114"
         embed-title: Github Actions
         embed-description: The Github Action for valorao/riot-auth-client runned successfully.
         embed-footer-text: valorao
         embed-author-name: Actions
-        embed-url: "https://github.com/valorao/riot-auth-client"
-        embed-image-url: "https://cdn.valorao.cloud/images%2Fvalorao.png"
+        embed-url: "https://github.com/valorao/riot-auth-client/actions"
+        embed-thumbnail-url: "https://cdn.valorao.cloud/images%2Fvalorao.png"
