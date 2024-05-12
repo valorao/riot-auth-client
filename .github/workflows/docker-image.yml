@@ -52,9 +52,21 @@ jobs:
     needs: portainer-post
     runs-on: self-hosted
     steps:
+<<<<<<< HEAD
       - uses: windyakin/delete-package-versions-keep-latest@v1
         with:
           owner: 
           repo: 
           package-name: riot-auth-client
           keep-latest-package-versions: 3
+=======
+    - name: remove old docker images
+      uses: smartsquaregmbh/delete-old-packages@v0.7.0
+      with:
+        token: ${{ secrets.GHCR_IO_ACTION }}
+        organization: valorao
+        type: docker
+        keep: 3
+        names: |
+          riot-auth-client
+>>>>>>> f8d4f2e451885189e0c4661d35be0177ae3f76a0
