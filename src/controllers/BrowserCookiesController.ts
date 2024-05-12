@@ -6,5 +6,6 @@ export const GetBrowserCookies = (req: Request, res: Response) => {
     const token = req.cookies.token;
     const entitlements = req.cookies.entitlements;
 
-    res.json ({puuid, ssid, token, entitlements})
+    res.json ({ puuid, ssid, token, entitlements })
+    console.log({ puuid, ssid, token, entitlements })
 }
