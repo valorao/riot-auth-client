@@ -70,7 +70,8 @@ export class AuthenticatePlayerService {
                     options: {
                         httpOnly: true,
                         expires: expiry,
-                        sameSite: 'lax',
+                        sameSite: 'None',
+                        secure: true,
                         path: '/',
                         domain: 'valorao.cloud',
                     }
@@ -83,7 +84,8 @@ export class AuthenticatePlayerService {
                     options: {
                         httpOnly: true,
                         expires: expiry,
-                        sameSite: 'lax',
+                        sameSite: 'None',
+                        secure: true,
                         path: '/',
                         domain: 'valorao.cloud',
                     }
@@ -95,7 +97,8 @@ export class AuthenticatePlayerService {
                     value: puuid,
                     options: {
                         httpOnly: true,
-                        sameSite: 'lax',
+                        sameSite: 'None',
+                        secure: true,
                         expires: expiry,
                         path: '/',
                         domain: 'valorao.cloud',
@@ -109,7 +112,8 @@ export class AuthenticatePlayerService {
                     options: {
                         httpOnly: true,
                         expires: ssidExpiry,
-                        sameSite: 'lax',
+                        sameSite: 'None',
+                        secure: true,
                         path: '/',
                         domain: 'valorao.cloud',
                     }
@@ -124,7 +128,8 @@ export class AuthenticatePlayerService {
                     value: puuid,
                     options: {
                         httpOnly: true,
-                        sameSite: 'lax',
+                        sameSite: 'None',
+                        secure: true,
                         path: '/',
                         domain: 'valorao.cloud',
                     }
@@ -136,7 +141,8 @@ export class AuthenticatePlayerService {
                     value: ssidValue,
                     options: {
                         httpOnly: true,
-                        sameSite: 'lax',
+                        sameSite: 'None',
+                        secure: true,
                         path: '/',
                         domain: 'valorao.cloud',
                     }
@@ -148,7 +154,8 @@ export class AuthenticatePlayerService {
                     value: token,
                     options: {
                         httpOnly: true,
-                        sameSite: 'lax',
+                        sameSite: 'None',
+                        secure: true,
                         path: '/',
                         domain: 'valorao.cloud',
                     }
@@ -160,7 +167,8 @@ export class AuthenticatePlayerService {
                     value: entitlements_token,
                     options: {
                         httpOnly: true,
-                        sameSite: 'lax',
+                        sameSite: 'None',
+                        secure: true,
                         path: '/',
                         domain: 'valorao.cloud',
                     }
