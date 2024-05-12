@@ -15,10 +15,6 @@ export const AuthenticateUser = async (req: Request, res: Response) => {
             req.body.username, req.body.password
         )
         if(response.status === 200 && req.body.remember === 'true') {
-            res.clearCookie('token');
-            res.clearCookie('entitlements');
-            res.clearCookie('puuid');
-            res.clearCookie('ssid');
             const puuidCookie = response.cookie[0];
             res.cookie(puuidCookie.name, puuidCookie.value, puuidCookie.options);
     
@@ -32,10 +28,6 @@ export const AuthenticateUser = async (req: Request, res: Response) => {
             res.cookie(entitlements.name, entitlements.value, entitlements.options);
         }
         if (response.status === 200 && req.body.remember === 'false' || req.body.remember === undefined) {
-            res.clearCookie('token');
-            res.clearCookie('entitlements');
-            res.clearCookie('puuid');
-            res.clearCookie('ssid');
             const puuidCookie = response.puuid_onetime[0];
             res.cookie(puuidCookie.name, puuidCookie.value, puuidCookie.options);
     
