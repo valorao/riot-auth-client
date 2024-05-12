@@ -25,8 +25,8 @@ jobs:
           url: https://control.rtrampox.cloud/api/stacks/webhooks/dbbc81d6-10c6-456c-b974-1d3d019a4648
           method: POST
           headers: |
-            CF-Access-Client-Id: ${{ secrets.CLOUDFLARE_AUTH_CLIENT_ID }}
-            CF-Access-Client-Secret: ${{ secrets.CLOUDFLARE_AUTH_CLIENT_SECRET }}
+            CF-Access-Client-Id: 80b6ec4fa90294d2ea0b6fd75f885a5b.access
+            CF-Access-Client-Secret: d73feb7b28db197c1c286dd20c1b0bd8e5394cfd9af92c8bc69e9ff0097d97e2
           retry-count: 3
           retry-delay: 500
 
