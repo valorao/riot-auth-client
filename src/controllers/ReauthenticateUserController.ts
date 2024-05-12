@@ -28,12 +28,14 @@ export const ReauthCookie = async (req: Request, res: Response) => {
     res.cookie('token', response.data.accessToken, {
         maxAge: 60 * 60 * 24 * 7 * 1000,
         httpOnly: true,
-        domain: '.valorao.cloud',
+        path: '/',
+        domain: 'apis.valorao.cloud',
     });
     res.cookie('entitlements', response.data.entitlements, {
         maxAge: 60 * 60 * 24 * 7 * 1000,
         httpOnly: true,
-        domain: '.valorao.cloud',
+        path: '/',
+        domain: 'apis.valorao.cloud',
     });
     res.status(response.status).json({
         "status": response.status,

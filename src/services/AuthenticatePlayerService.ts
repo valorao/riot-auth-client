@@ -71,7 +71,7 @@ export class AuthenticatePlayerService {
                         httpOnly: true,
                         expires: expiry,
                         path: '/',
-                        domain: '.valorao.cloud',
+                        domain: 'apis.valorao.cloud',
                     }
                 }
             ];
@@ -83,7 +83,7 @@ export class AuthenticatePlayerService {
                         httpOnly: true,
                         expires: expiry,
                         path: '/',
-                        domain: '.valorao.cloud',
+                        domain: 'apis.valorao.cloud',
                     }
                 }
             ];
@@ -95,7 +95,7 @@ export class AuthenticatePlayerService {
                         httpOnly: true,
                         expires: expiry,
                         path: '/',
-                        domain: '.valorao.cloud',
+                        domain: 'apis.valorao.cloud',
                     }
                 }
             ];
@@ -107,7 +107,7 @@ export class AuthenticatePlayerService {
                         httpOnly: true,
                         expires: ssidExpiry,
                         path: '/',
-                        domain: '.valorao.cloud',
+                        domain: 'apis.valorao.cloud',
                     }
                 }
             ];
@@ -121,7 +121,7 @@ export class AuthenticatePlayerService {
                     options: {
                         httpOnly: true,
                         path: '/',
-                        domain: '.valorao.cloud',
+                        domain: 'apis.valorao.cloud',
                     }
                 }
             ];
@@ -132,7 +132,7 @@ export class AuthenticatePlayerService {
                     options: {
                         httpOnly: true,
                         path: '/',
-                        domain: '.valorao.cloud',
+                        domain: 'apis.valorao.cloud',
                     }
                 }
             ];
@@ -143,7 +143,7 @@ export class AuthenticatePlayerService {
                     options: {
                         httpOnly: true,
                         path: '/',
-                        domain: '.valorao.cloud',
+                        domain: 'apis.valorao.cloud',
                     }
                 }
             ];
@@ -154,7 +154,7 @@ export class AuthenticatePlayerService {
                     options: {
                         httpOnly: true,
                         path: '/',
-                        domain: '.valorao.cloud',
+                        domain: 'apis.valorao.cloud',
                     }
                 }
             ];
