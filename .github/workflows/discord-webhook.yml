@@ -11,3 +11,8 @@ jobs:
         webhook-url: ${{ secrets.WEBHOOK_URL }}
         thread-id: "1239213001932931114"
         content: "Test"
+        embed-title: Github Actions
+        embed-description: The Github Action for valorao/riot-auth-client runned successfully.
+        embed-footer-text: valorao
+        embed-author-name: Actions
+        
