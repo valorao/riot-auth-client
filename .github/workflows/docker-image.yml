@@ -16,7 +16,7 @@ jobs:
         docker build . --file Dockerfile --tag ghcr.io/valorao/riot-auth-client:latest
     - name: Publish the Docker image
       run: |
-        docker login -u rtrampox -p  ${{ secrets.GHCR_IO_ACTION }}
+        docker login -u rtrampox -p  ${{ secrets.GHCR_IO_ACTION }} ghcr.io
         docker push ghcr.io/valorao/riot-auth-client:latest
   portainer-post:
     runs-on: ubuntu-latest
