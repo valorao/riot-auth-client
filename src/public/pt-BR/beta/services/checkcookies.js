@@ -10,7 +10,9 @@ export function checkCookies() {
         const player_banner_img = document.getElementById('player-banner-img');
         const page_title = document.getElementById('page-title')
         const dodgeBtn = document.getElementById('dodgeBtn');
-        fetch('https://apis.valorao.cloud/rso/fromstatic/cookies')
+        fetch('https://apis.valorao.cloud/rso/fromstatic/cookies', {
+            credentials: 'include',
+        })
         .then(response => response.json())
         .then(data => {
             if (data.puuid && data.ssid) {
