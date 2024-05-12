@@ -47,14 +47,3 @@ jobs:
           echo "Success: ${{ steps.request.outputs.success }}"
           echo "Headers: ${{ steps.request.outputs.headers }}"
           echo "Body: ${{ steps.request.outputs.body }}"
-
-  remove-package-versions:
-    needs: portainer-post
-    runs-on: self-hosted
-    steps:
-      - uses: windyakin/delete-package-versions-keep-latest@v1
-        with:
-          owner: 
-          repo: 
-          package-name: riot-auth-client
-          keep-latest-package-versions: 3
