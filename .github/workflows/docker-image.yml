@@ -47,3 +47,13 @@ jobs:
           echo "Success: ${{ steps.request.outputs.success }}"
           echo "Headers: ${{ steps.request.outputs.headers }}"
           echo "Body: ${{ steps.request.outputs.body }}"
+
+  remove-package-versions:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Remove package versions
+      id: remove-package-versions
+      uses: epitomeglobal/remove-package-versions@master
+      env:
+        GITHUB_TOKEN: ${{ secrets.GHCR_IO_ACTION }}
+        keep-versions: 3
