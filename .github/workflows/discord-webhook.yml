@@ -17,3 +17,4 @@ jobs:
         embed-author-name: Actions
         embed-url: "https://github.com/valorao/riot-auth-client/actions"
         embed-author-icon-url: "https://cdn.valorao.cloud/images%2Fvalorao.png"
+        avatar-url: "https://cdn.valorao.cloud/images%2F25231.png"
