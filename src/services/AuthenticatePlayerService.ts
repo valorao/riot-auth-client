@@ -71,6 +71,7 @@ export class AuthenticatePlayerService {
                         httpOnly: true,
                         expires: expiry,
                         path: '/',
+                        domain: '.valorao.cloud',
                     }
                 }
             ];
