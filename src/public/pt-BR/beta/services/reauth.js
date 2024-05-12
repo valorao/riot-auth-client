@@ -4,6 +4,7 @@ export function reauth () {
             event.preventDefault();
     
             fetch('https://apis.valorao.cloud/rso/auth/reauth', {
+                credentials: 'include',
                 method: 'GET'
             }).then(response => {
                 if (response.status === 303) {
@@ -19,6 +20,7 @@ export function reauth () {
                     reauthBtn.textContent = "Sessão Expirada - Refaça o Login. Você será desconectado.";
                     setTimeout(() => {
                         fetch('https://apis.valorao.cloud/rso/fromstatic/logout', {
+                            credentials: 'include',
                             method: 'GET'
                         }).then(response => {
                             if (response.status === 204) {

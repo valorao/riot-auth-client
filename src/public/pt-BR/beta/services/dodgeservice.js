@@ -9,7 +9,8 @@ export function dodge () {
             if (response.status === 400) {
                 try {
                     fetch('/v1/riot/auth/reauth', {
-                        method: 'GET'
+                        method: 'GET',
+                        credentials: 'include',
                     }).then(response => {
                         if(response.status === 303)
                         {

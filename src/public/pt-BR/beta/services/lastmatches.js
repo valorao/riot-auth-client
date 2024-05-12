@@ -7,7 +7,10 @@ export function lastmatches() {
     const player_stats = document.getElementById('player-stats');
 
     try {
-        fetch('https://apis.valorao.cloud/rso/player/last-matches')
+        fetch('https://apis.valorao.cloud/rso/player/last-matches', {
+            method: 'GET',
+            credentials: 'include',
+        })
         .then(response => response.json())
         .then(data => {
             map_name.textContent = data.matches.match1.mapInfo.mapName;
