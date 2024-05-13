@@ -1,13 +1,22 @@
 import { Request, Response } from 'express';
+import 'dotenv/config';
+
+const domain = process.env.DOMAIN || 'localhost';
 
 export const BrowserLogout = (req: Request, res: Response) => {
-    res.clearCookie('puuid'),
-    res.clearCookie('ssid'),
-    res.clearCookie('token'),
-    res.clearCookie('entitlements'),
-    res.clearCookie('puuid_onetime');
-    res.clearCookie('ssid_onetime');
-    res.clearCookie('bearertoken_onetime');
-    res.clearCookie('entitlements_onetime');
-    res.status(204).json({message: 'Logged out'})
+    const cookieOptions = {
+        httpOnly: true,
+        expires: new Date(0),
+        sameSite: 'none' as const,
+        secure: true,
+        path: '/',
+        domain: domain, // replace with your domain
+    };
+
+    res.cookie('token', '', cookieOptions);
+    res.cookie('entitlements', '', cookieOptions);
+    res.cookie('puuid', '', cookieOptions);
+    res.cookie('ssid', '', cookieOptions);
+
+    res.status(204).json({message: 'Logged out'});
 }

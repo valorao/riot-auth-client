@@ -17,10 +17,14 @@ import { AgentInfo } from '../controllers/GetAgentInfoController';
 import { LastMatches } from '../controllers/GetLastMatchesController';
 import PublicRedirect from '../controllers/PublicRedirect';
 import { Storefront } from '../controllers/GetStorefrontController';
+import { FrontCheckApiController } from '../controllers/FrontCheckApiController';
 
 export const routes = express.Router();
+const frontCheckApiController = new FrontCheckApiController();
 const app = express();
 app.use(cookieParser());
+
+routes.get('/api/status', frontCheckApiController.handle);
 
 routes.get('/dev/player/history', MatchHistory)
 
