@@ -4,7 +4,8 @@ export function dodge () {
         event.preventDefault();
 
         fetch('/v1/riot/player/pregame/leave', {
-            method: 'GET'
+            method: 'GET',
+            credentials: 'include',
         }).then(response => {
             if (response.status === 400) {
                 try {
@@ -15,7 +16,8 @@ export function dodge () {
                         if(response.status === 303)
                         {
                             fetch('https://apis.valorao.cloud/rso/pregame/leave', {
-                                method: 'GET'
+                                method: 'GET',
+                                credentials: 'include',
                             })
                             if (response.status === 204) {
                                 dodgeBtn.style.backgroundColor = '#005400';
@@ -58,7 +60,8 @@ export function dodge () {
                                 dodgeBtn.textContent = "Sessão expirada - refaça o login. Você será desconectado.";
                                 setTimeout(() => {
                                     fetch('/v1/riot/fromstatic/logout', {
-                                        method: 'GET'
+                                        method: 'GET',
+                                        credentials: 'include',
                                     }).then(response => {
                                         if (response.status === 204) {
                                             window.location.reload();

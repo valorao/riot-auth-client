@@ -4,7 +4,10 @@ export function lastmatches() {
     const loading = document.getElementById('spinner');
     wrapper.style.display = 'none';
     try {
-        fetch('/v1/riot/player/last-matches')
+        fetch('/v1/riot/player/last-matches', {
+            method: 'GET',
+            credentials: 'include',
+        })
         .then(response => {
             if(response.status === 400 || response.status === 401) {
                 window.location.href = `/account/pt-BR/beta/auth/?redirect=${window.location.pathname}`;

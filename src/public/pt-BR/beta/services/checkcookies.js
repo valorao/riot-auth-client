@@ -54,6 +54,7 @@ export function checkCookies() {
     
                     fetch('https://apis.valorao.cloud/rso/player/rank', {
                         method: 'GET',
+                        credentials: 'include',
                     }).then(response => {
                         if (response.status === 401) {
                             response.json().then(data => {

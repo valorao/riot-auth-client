@@ -44,6 +44,7 @@ export function login () {
         
                 fetch('https://apis.valorao.cloud/rso/auth', {
                     method: 'POST',
+                    credentials: 'include',
                     headers: {
                         'Content-Type': 'application/json'
                     },
@@ -125,6 +126,7 @@ export function login () {
         
                 fetch('https://apis.valorao.cloud/rso/auth', {
                     method: 'POST',
+                    credentials: 'include',
                     headers: {
                         'Content-Type': 'application/json'
                     },
