@@ -28,11 +28,13 @@ export default class GetPlayerName {
     
             const nameresponse  = await axios.put(url, body, config).catch(err => {return err.response});
             if (!nameresponse || !nameresponse.data || nameresponse.status !== 200) {
-                throw nameresponse.data;
+                return {status: nameresponse.status, message: nameresponse.data};
             }
             const riotid = nameresponse.data[0].GameName;
             const tagline = nameresponse.data[0].TagLine;
             return {
+                status: 200,
+                health: 'healthy',
                 riotid: riotid,
                 tagline: tagline,
             };
