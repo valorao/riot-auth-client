@@ -39,7 +39,7 @@ export function login () {
                 data.remember = 'false';
             }
     
-            fetch('https://apis.valorao.cloud/rso/riot/auth', {
+            fetch('https://apis.valorao.cloud/rso/auth', {
                 method: 'POST',
                 credentials: 'include',
                 headers: {
