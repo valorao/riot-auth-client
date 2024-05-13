@@ -33,10 +33,10 @@ export function login () {
             };
             
             if (rememberCheckbox && rememberCheckbox.checked) {
-                data.remember = 'true';
+                data.remember = true;
             }
             if (!rememberCheckbox || !rememberCheckbox.checked) {
-                data.remember = 'false';
+                data.remember = false;
             }
     
             fetch('https://apis.valorao.cloud/rso/auth', {
