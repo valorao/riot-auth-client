@@ -5,26 +5,23 @@ import path from 'path';
 import cors from 'cors';
 import { routes } from "./routes/routes";
 import { headersMiddleware } from "./middlewares/SetHeaders";
-import GetMapInfo from "./services/GetMapInfo";
 import PublicRedirect from "./controllers/PublicRedirect";
 
 const port = process.env.PORT || 5110;
 const agent = process.env.AGENT || 'valorao-api';
 const version = process.env.VERSION || 'v1';
-const getMapInfo = new GetMapInfo();
-
-getMapInfo.handle;
-const corsOptions = {
-    origin: ['https://valorao.cloud', 'https://account.valorao.cloud', 'https://apis.valorao.cloud'],
-    allowedHeaders: 'password,username,remember, content-type',
-    credentials: true,
-}
 
 const app = express();
+app.use(cors({
+    origin: ['http://localhost:3000', /\valorao\.cloud$/],
+    credentials: true,
+    allowedHeaders: ['Content-Type', 'Authorization'],
+    methods: ['GET', 'POST', 'PUT', 'DELETE']
+  }));
+
+app.use(cookieParser());
 app.get('/account', PublicRedirect.index)
 app.use(headersMiddleware)
-app.use(cookieParser());
-app.use(cors(corsOptions));
 app.use('/account', express.static(path.join(__dirname, 'public')))
 app.use(express.json());
 
