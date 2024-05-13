@@ -3,7 +3,7 @@ import axios from 'axios';
 export default class GetWeaponStorefrontInfo {
     handle = async (uuid: string) => {
         try {
-            const url = `http://valorant.api.valorao.cloud/valorant/v1/weapons/storefront?uuid=${uuid}&language=en-US`
+            const url = `https://apis.valorao.cloud/data/weapons/storefront?uuid=${uuid}&language=en-US`
             const response  = await axios.get(url)
             if (!response || !response.data || response.status !== 200) {
                 return {

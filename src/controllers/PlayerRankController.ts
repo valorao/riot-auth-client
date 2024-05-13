@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import GetPlayerRankandInfo from '../services/PlayerRank';
+
 const getPlayerRankandInfo = new GetPlayerRankandInfo();
 
 export const GetPlayerRank = async (req: Request, res: Response) => {

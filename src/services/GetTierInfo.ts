@@ -3,7 +3,7 @@ import axios from 'axios';
 export default class GetTierInfo {
     handle = async (rank: number) => {
         try {
-            const ranknameurl = `http://valorant.api.valorao.cloud/valorant/v1/competitive/tiers?tier=${rank}&language=en-US`
+            const ranknameurl = `https://apis.valorao.cloud/data/competitive/tiers?tier=${rank}&language=en-US`
             const getRankName  = await axios.get(ranknameurl)
             if (!getRankName || !getRankName.data || getRankName.status !== 200) {
                 return {
