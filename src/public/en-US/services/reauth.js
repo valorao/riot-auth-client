@@ -3,8 +3,9 @@ export function reauth () {
         reauthBtn.onclick = function(event) {
             event.preventDefault();
     
-            fetch('/v1/riot/auth/reauth', {
-                method: 'GET'
+            fetch('https://apis.valorao.cloud/rso/auth/reauth', {
+                method: 'GET',
+                credentials: 'include'
             }).then(response => {
                 if (response.status === 303) {
                     reauthBtn.style.backgroundColor = '#005400';
@@ -18,8 +19,9 @@ export function reauth () {
                     reauthBtn.style.backgroundColor = '#ff0000';
                     reauthBtn.textContent = "Session Expired - Please login again. You'll be disconnected";
                     setTimeout(() => {
-                        fetch('/v1/riot/fromstatic/logout', {
-                            method: 'GET'
+                        fetch('https://apis.valorao.cloud/rso/fromstatic/logout', {
+                            method: 'GET',
+                            credentials: 'include'
                         }).then(response => {
                             if (response.status === 204) {
                                 window.location.reload();

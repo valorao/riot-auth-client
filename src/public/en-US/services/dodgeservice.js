@@ -3,17 +3,19 @@ export function dodge () {
     dodgeBtn.onclick = function(event) {
         event.preventDefault();
 
-        fetch('/v1/riot/actions/player/pregame/leave', {
-            method: 'GET'
+        fetch('https://apis.valorao.cloud/rso/player/pregame/leave', {
+            method: 'GET',
+            credentials: 'include'
         }).then(response => {
             if (response.status === 400) {
                 try {
-                    fetch('/v1/riot/auth/reauth', {
-                        method: 'GET'
+                    fetch('https://apis.valorao.cloud/rso/auth/reauth', {
+                        method: 'GET',
+                        credentials: 'include'
                     }).then(response => {
                         if(response.status === 303)
                         {
-                            fetch('/v1/riot/actions/player/pregame/leave', {
+                            fetch('https://apis.valorao.cloud/rso/player/pregame/leave', {
                                 method: 'GET'
                             })
                             if (response.status === 204) {
@@ -56,7 +58,7 @@ export function dodge () {
                                 dodgeBtn.style.backgroundColor = '#ff0000';
                                 dodgeBtn.textContent = "Session Expired - Please login again. You'll be disconnected";
                                 setTimeout(() => {
-                                    fetch('/v1/riot/fromstatic/logout', {
+                                    fetch('https://apis.valorao.cloud/rso/fromstatic/logout', {
                                         method: 'GET'
                                     }).then(response => {
                                         if (response.status === 204) {

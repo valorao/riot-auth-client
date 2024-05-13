@@ -14,7 +14,7 @@ export const AuthenticateUser = async (req: Request, res: Response) => {
         const response = await authenticatePlayerService.handle(
             req.body.username, req.body.password
         )
-        if(response.status === 200 && req.body.remember === true) {
+        if(response.status === 200 && req.body.remember === true || req.body.remember === 'true') {
             res.cookie(response.tokenCookie[0].name, response.tokenCookie[0].value, response.tokenCookie[0].options);
 
             res.cookie(response.entitlementsCookie[0].name, response.entitlementsCookie[0].value, response.entitlementsCookie[0].options);
@@ -24,7 +24,7 @@ export const AuthenticateUser = async (req: Request, res: Response) => {
             res.cookie(response.ssidCookie[0].name, response.ssidCookie[0].value, response.ssidCookie[0].options);
         }
 
-        else if (response.status === 200 && req.body.remember === false || req.body.remember === undefined) {
+        else if (response.status === 200 && req.body.remember === false || req.body.remember === undefined || req.body.remember === 'false') {
             res.cookie(response.token_onetimeCookie[0].name, response.token_onetimeCookie[0].value, response.token_onetimeCookie[0].options);
 
             res.cookie(response.entitlements_onetimeCookie[0].name, response.entitlements_onetimeCookie[0].value, response.entitlements_onetimeCookie[0].options);

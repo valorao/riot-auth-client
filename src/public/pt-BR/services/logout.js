@@ -2,8 +2,9 @@ export function logout () {
     let logoutBtn = document.getElementById('logoutBtn');
     logoutBtn.onclick = function(event) {
         event.preventDefault();
-        fetch('/v1/riot/fromstatic/logout', {
-            method: 'DELETE'
+        fetch('https://apis.valorao.cloud/rso/fromstatic/logout', {
+            method: 'DELETE',
+            credentials: 'include'
         })
         .then(response => response.text())
         .then(data => {
