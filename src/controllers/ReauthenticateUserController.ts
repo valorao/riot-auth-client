@@ -1,8 +1,9 @@
 import { Request, Response } from 'express';
-
 import { ReauthCookiesService } from '../services/ReauthCookiesService';
+import 'dotenv/config';
 
 const reauthCookiesService = new ReauthCookiesService();
+const domain = process.env.DOMAIN || '.valorao.cloud';
 
 export const ReauthCookie = async (req: Request, res: Response) => {
     if(!req.headers.cookie) {
@@ -29,13 +30,13 @@ export const ReauthCookie = async (req: Request, res: Response) => {
         maxAge: 60 * 60 * 24 * 7 * 1000,
         httpOnly: true,
         path: '/',
-        domain: 'apis.valorao.cloud',
+        domain: domain,
     });
     res.cookie('entitlements', response.data.entitlements, {
         maxAge: 60 * 60 * 24 * 7 * 1000,
         httpOnly: true,
         path: '/',
-        domain: 'apis.valorao.cloud',
+        domain: domain,
     });
     res.status(response.status).json({
         "status": response.status,

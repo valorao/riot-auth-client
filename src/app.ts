@@ -13,7 +13,9 @@ const version = process.env.VERSION || 'v1';
 
 const app = express();
 app.use(cors({
-    origin: ['http://localhost:3000', /\valorao\.cloud$/],
+    origin: ['http://localhost:3000', 'https://t1.rtrampox.cloud',
+     'htpps://valorao.cloud', 'https://account.valorao.cloud',
+      'https://apis.valorao.cloud'],
     credentials: true,
     allowedHeaders: ['Content-Type', 'Authorization'],
     methods: ['GET', 'POST', 'PUT', 'DELETE']

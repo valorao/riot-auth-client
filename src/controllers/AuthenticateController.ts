@@ -14,42 +14,36 @@ export const AuthenticateUser = async (req: Request, res: Response) => {
         const response = await authenticatePlayerService.handle(
             req.body.username, req.body.password
         )
-        if(response.status === 200 && req.body.remember === 'true') {
-            const puuidCookie = response.cookie[0];
-            res.cookie(puuidCookie.name, puuidCookie.value, puuidCookie.options);
-    
-            const ssidCookie = response.ssid[0];
-            res.cookie(ssidCookie.name, ssidCookie.value, ssidCookie.options);
-    
-            const token = response.bearertoken[0];
-            res.cookie(token.name, token.value, token.options);
-    
-            const entitlements = response.entitlements[0];
-            res.cookie(entitlements.name, entitlements.value, entitlements.options);
+        if(response.status === 200 && req.body.remember === true) {
+            res.cookie(response.tokenCookie[0].name, response.tokenCookie[0].value, response.tokenCookie[0].options);
+
+            res.cookie(response.entitlementsCookie[0].name, response.entitlementsCookie[0].value, response.entitlementsCookie[0].options);
+
+            res.cookie(response.puuidCookie[0].name, response.puuidCookie[0].value, response.puuidCookie[0].options);
+
+            res.cookie(response.ssidCookie[0].name, response.ssidCookie[0].value, response.ssidCookie[0].options);
         }
-        if (response.status === 200 && req.body.remember === 'false' || req.body.remember === undefined) {
-            const puuidCookie = response.puuid_onetime[0];
-            res.cookie(puuidCookie.name, puuidCookie.value, puuidCookie.options);
-    
-            const ssidCookie = response.ssid_onetime[0];
-            res.cookie(ssidCookie.name, ssidCookie.value, ssidCookie.options);
-    
-            const token = response.bearertoken_onetime[0];
-            res.cookie(token.name, token.value, token.options);
-    
-            const entitlements = response.entitlements_onetime[0];
-            res.cookie(entitlements.name, entitlements.value, entitlements.options);
-            
+
+        else if (response.status === 200 && req.body.remember === false || req.body.remember === undefined) {
+            res.cookie(response.token_onetimeCookie[0].name, response.token_onetimeCookie[0].value, response.token_onetimeCookie[0].options);
+
+            res.cookie(response.entitlements_onetimeCookie[0].name, response.entitlements_onetimeCookie[0].value, response.entitlements_onetimeCookie[0].options);
+
+            res.cookie(response.puuid_onetimeCookie[0].name, response.puuid_onetimeCookie[0].value, response.puuid_onetimeCookie[0].options);
+
+            res.cookie(response.ssid_onetimeCookie[0].name, response.ssid_onetimeCookie[0].value, response.ssid_onetimeCookie[0].options);
         }
-        delete response.cookie
-        delete response.bearertoken
-        delete response.bearertoken_onetime
-        delete response.entitlements,
-        delete response.entitlements_onetime
-        delete response.puuid
-        delete response.puuid_onetime
-        delete response.ssid
-        delete response.ssid_onetime;
+        else {
+            console.error('Unexpected status or remember value:', response.status, req.body.remember);
+        }
+        delete response.tokenCookie;
+        delete response.entitlementsCookie;
+        delete response.puuidCookie;
+        delete response.ssidCookie;
+        delete response.token_onetimeCookie;
+        delete response.entitlements_onetimeCookie;
+        delete response.puuid_onetimeCookie;
+        delete response.ssid_onetimeCookie;
     
         res.status(response.status).json(response);
     }

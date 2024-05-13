@@ -4,12 +4,14 @@ import GetClientVersion from "./GetClientVersionService";
 import { AuthAccount } from "../middlewares/authAccount";
 import { GetEntitlements } from "../middlewares/getEntitlements";
 import { GetPlayerInfo } from "../middlewares/PlayerInfo";
+import 'dotenv/config';
 
 const createCookie = new CreateCookie();
 const getClientVersion = new GetClientVersion();
 const authAccount = new AuthAccount();
 const getEntitlements = new GetEntitlements();
 const getPlayerInfo = new GetPlayerInfo();
+const domain = process.env.DOMAIN || '.valorao.cloud';
 
 export class AuthenticatePlayerService {
     handle = async (username: string, password: string) => {
@@ -73,7 +75,7 @@ export class AuthenticatePlayerService {
                         sameSite: 'None',
                         secure: true,
                         path: '/',
-                        domain: '.valorao.cloud',
+                        domain: domain,
                     }
                 }
             ];
@@ -87,7 +89,7 @@ export class AuthenticatePlayerService {
                         sameSite: 'None',
                         secure: true,
                         path: '/',
-                        domain: '.valorao.cloud',
+                        domain: domain,
                     }
                 }
             ];
@@ -101,7 +103,7 @@ export class AuthenticatePlayerService {
                         secure: true,
                         expires: expiry,
                         path: '/',
-                        domain: '.valorao.cloud',
+                        domain: domain,
                     }
                 }
             ];
@@ -115,7 +117,7 @@ export class AuthenticatePlayerService {
                         sameSite: 'None',
                         secure: true,
                         path: '/',
-                        domain: '.valorao.cloud',
+                        domain: domain,
                     }
                 }
             ];
@@ -131,7 +133,7 @@ export class AuthenticatePlayerService {
                         sameSite: 'None',
                         secure: true,
                         path: '/',
-                        domain: '.valorao.cloud',
+                        domain: domain,
                     }
                 }
             ];
@@ -144,7 +146,7 @@ export class AuthenticatePlayerService {
                         sameSite: 'None',
                         secure: true,
                         path: '/',
-                        domain: '.valorao.cloud',
+                        domain: domain,
                     }
                 }
             ];
@@ -157,7 +159,7 @@ export class AuthenticatePlayerService {
                         sameSite: 'None',
                         secure: true,
                         path: '/',
-                        domain: '.valorao.cloud',
+                        domain: domain,
                     }
                 }
             ];
@@ -170,21 +172,21 @@ export class AuthenticatePlayerService {
                         sameSite: 'None',
                         secure: true,
                         path: '/',
-                        domain: '.valorao.cloud',
+                        domain: domain,
                     }
                 }
             ];
 
             return {
-                    bearertoken: response.token,
-                    entitlements: response.entitlements,
+                    tokenCookie: response.token,
+                    entitlementsCookie: response.entitlements,
                     status: response.response.status,
-                    cookie: response.puuid,
-                    ssid: response.ssid,
-                    ssid_onetime: response.ssid_onetime,
-                    puuid_onetime: response.puuid_onetime,
-                    bearertoken_onetime: response.token_onetime,
-                    entitlements_onetime: response.entitlements_onetime,
+                    puuidCookie: response.puuid,
+                    ssidCookie: response.ssid,
+                    ssid_onetimeCookie: response.ssid_onetime,
+                    puuid_onetimeCookie: response.puuid_onetime,
+                    token_onetimeCookie: response.token_onetime,
+                    entitlements_onetimeCookie: response.entitlements_onetime,
                     riotid, puuid, token, expires, id_token, entitlements_token
                  };
         }
