@@ -14,7 +14,7 @@ export const LastMatches = async (req: Request, res: Response) => {
         req.cookies.token, req.cookies.entitlements, req.cookies.puuid
     );
 
-    if(response.status === 400) {
+    if(response.status === 400 || Object.keys(response).length === 0) {
         return res.status(401).json({
             "status": 401,
             "message": "Please relogin or reauth cookies.",
