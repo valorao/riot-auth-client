@@ -1,8 +1,4 @@
 export function lastmatches() {
-    document.getElementById('spinner').style.display = 'block';
-    const wrapper = document.querySelector('.wrapper');
-    const loading = document.getElementById('spinner');
-    wrapper.style.display = 'none';
     try {
         fetch('/v1/riot/player/last-matches', {
             method: 'GET',
@@ -36,8 +32,7 @@ export function lastmatches() {
                     const assists = match.matchData.stats.assists;
                     player_stats.textContent = kills + ' / ' + deaths + ' / ' + assists;
                     match_results.textContent = '';
-                    loading.style.display = 'none';
-                    wrapper.style.display = '';
+                    
                     for (let i = matchKeys.length + 1; i <= 5; i++) {
                         const match = document.getElementById('match-' + i);
                         if (match) {
@@ -53,8 +48,6 @@ export function lastmatches() {
                     const deaths = match.matchData.stats.deaths;
                     const assists = match.matchData.stats.assists;
                     player_stats.textContent = kills + ' / ' + deaths + ' / ' + assists;
-                    loading.style.display = 'none';
-                    wrapper.style.display = '';
                     for (let i = matchKeys.length + 1; i <= 5; i++) {
                         const match = document.getElementById('match-' + i);
                         if (match) {
@@ -63,6 +56,25 @@ export function lastmatches() {
                     }
                 }
             }
+            document.querySelectorAll('.skeleton').forEach(element => {
+                element.classList.remove('skeleton');
+            });
+            let images = document.querySelectorAll('img');
+            let imagesLoaded = 0;
+
+            images.forEach(img => {
+                img.onload = () => {
+                    imagesLoaded++;
+                    if (imagesLoaded === images.length) {
+                        const h1 = document.createElement('h1');
+                        h1.textContent = 'Match History';
+                        document.getElementById('title').appendChild(h1);
+                        var element = document.querySelector('.skeleton-text');
+                        element.remove();
+                    }
+                };
+            });
+
 
             console.log(data)
         })
