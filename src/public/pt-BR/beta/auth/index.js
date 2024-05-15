@@ -1,3 +1,4 @@
 import { login } from "./login.js";
-
-login();
+window.onload = function() {
+    login();
+  };

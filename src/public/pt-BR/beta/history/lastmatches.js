@@ -6,7 +6,7 @@ export function lastmatches() {
         })
         .then(response => {
             if(response.status === 400 || response.status === 401) {
-                window.location.href = `/account/pt-BR/beta/auth/?redirect=${window.location.pathname}`;
+                window.location.href = `/account/pt-BR/beta/auth?redirect=${window.location.pathname}`;
             }
             return response.json();
         })

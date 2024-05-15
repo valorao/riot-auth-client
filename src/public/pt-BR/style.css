@@ -40,6 +40,11 @@ body::before {
   z-index: -1;
 }
 
+.agent-image {
+  width: 60px;
+  height: auto;
+}
+
 .wrapper {
   max-width: 500px;
   min-width: 380px;
@@ -61,6 +66,43 @@ body::before {
   };
 }
 
+.match-history {
+  flex-direction: column;
+  justify-content: center;
+  gap: 10px;
+  max-width: 500px;
+  min-width: 380px;
+  width: 100%;
+  height: 100%;
+  background: #171A26;
+  border: 2px solid rgba(255, 255, 255, .2);
+  box-shadow: 0 0 10px rgba(0, 0, 0, .2);
+  color: #fff;
+  border-radius: 10px;
+  padding: 30px 40px;
+  @media screen and (max-width: 768px){
+    height: auto;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 40%;
+    transform: translate(-50%, -50%);
+  };
+}
+
+.map-image {
+  width: 100%;
+  height: auto;
+  border-radius: 20px;
+}
+
+#loginBtn {
+  justify-content: center;
+  align-items: center;
+  background-color: #D63021;
+  margin-right: auto;
+}
+
 #loginBtn img {
   height: 20px;
   vertical-align: middle;
@@ -69,6 +111,112 @@ body::before {
 
 #loginBtn:hover {
   background-color: #971b10;
+}
+
+#player-id-rank {
+  background-color: #292b36;
+  flex-wrap: wrap;
+  gap: 1rem;
+  border-radius: 20px;
+  min-width: fit-content;
+  padding: 10px;
+  display: flex;
+  width: 100%;
+  gap: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 13px;
+  margin-bottom: 20px;
+  margin-top: 20px;
+  @media screen and (max-width: 768px){
+    gap: 10px;
+  }
+}
+
+#player-banner {
+  max-width: 700px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+#player-banner-img {
+  max-width: 516px;
+  min-width: 100px;
+  width: 100%;
+  height: 100%;
+  border-radius: 20px;
+  opacity: 90%;
+}
+
+#riot-id {
+  display: grid;
+  grid-template-areas: "riotid" "tagline", "rank-icon", "rank-name";
+  grid-template-columns: repeat(2, 1fr);
+  padding: 0;
+  gap: 0;
+  margin-bottom: 0;
+}
+
+#player-name {
+  font-weight: 600;
+  grid-area: riotid;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 30px;
+  margin: 0;
+  @media screen and (max-width: 768px){
+    font-size: 20px;
+  }
+}
+
+#player-tagline {
+  color: rgba(246, 246, 246, 0.4);
+  margin: 0;
+  margin-top: -15px;
+  font-size: 15px;
+  font-weight: 600;
+  grid-area: tagline;
+  @media screen and (max-width: 768px){
+    margin-top: -10px;
+  }
+}
+
+#rank {
+  gap: 5px;
+  justify-content: center;
+  display: flex;
+  text-align: center;
+  align-items: center;
+  grid-template-areas: "rank-icon", "rank-name";
+  grid-template-columns: 1fr 1fr;
+}
+
+#rank-tier-icon {
+  grid-area: rank-icon;
+  width: 50px;
+  height: 50px;
+  gap: 5px;
+  margin: 0;
+  padding: 0;
+  margin-bottom: 0;
+}
+
+#rank-tier-name {
+  grid-area: rank-name;
+  font-size: 25px;
+  font-weight: 600;
+  color: #fff;
+  text-transform: uppercase;
+  @media screen and (max-width: 768px){
+    font-size: 20px;
+    height: 35px;
+    gap: 3px;
+    margin-top: 0px;
+  }
 }
 
 #logo {
@@ -83,12 +231,25 @@ body::before {
   }
 }
 
+#logo > #valorao-logo {
+  flex-direction: column;
+  justify-content: center;
+  @media screen and (max-width: 768px){
+  width: 200px;
+}
+}
+
 #valorao-logo {
   width: 300px;
 }
 
 .img-loaded {
   width: 100px;
+}
+
+#header-text {
+  background: url('valorao.png') no-repeat;
+  margin-bottom: 50px;
 }
 
 #username-inputbox,
@@ -103,25 +264,6 @@ body::before {
   justify-content: center;
   align-items: center;
   text-align: center;
-}
-
-.input-box-skeleton {
-  display: flex;
-  width: 100%;
-  height: 60px;
-  margin: 30px 0;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  width: 100%;
-  height: 100%;
-  border: none;
-  outline: none;
-  border: 2px solid rgba(255, 255, 255, .2);
-  border-radius: 40px;
-  font-size: 16px;
-  color: #fff;
-  padding: 20px 45px 20px 20px;
 }
 
 .input-box input {
@@ -202,43 +344,18 @@ body::before {
   font-weight: 600;
   margin-bottom: 10px;
   transition: background 0.15s ease;
-  justify-content: center;
-  align-items: center;
-  background-color: #D63021;
-  margin-right: auto;
 }
 
 .wrapper .btn:hover {
   background: #071658;
 }
 
-.skeleton {
-  position: relative;
+#reauthBtn, #dodgeBtn, #logoutBtn {
+  display: none;
 }
 
-.skeleton {
-  content: '';
-  background: linear-gradient(to right, #202020 0%, #414141 50%, #202020 100%);
-  background-size: 200%;
-  animation: skeleton 3s infinite ease;
-  margin-bottom: 10px;
-  width: 100%;
-  height: 45px;
-  border: none;
-  outline: none;
-  z-index: 10;
-  border-radius: 20px;
-  margin-right: auto;
-}
-
-@keyframes skeleton {
-  0% {
-    background-position: -100% 0;
-  }
-  100% {
-    background-position: 100% 0;
-  }
-  
+#dodgeBtn:disabled {
+  pointer-events: none;
 }
 
 .wrapper .register-link {

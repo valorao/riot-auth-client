@@ -48,6 +48,7 @@ export const AuthenticateUser = async (req: Request, res: Response) => {
         res.status(response.status).json(response);
     }
     catch (error) {
+        console.log(error)
         res.status(500).json({
             "status": 500,
             "error": "Internal Server Error",
