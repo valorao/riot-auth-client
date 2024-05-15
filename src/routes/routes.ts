@@ -26,7 +26,7 @@ app.use(cookieParser());
 
 routes.get('/api/status', frontCheckApiController.handle);
 
-routes.get('/dev/player/history', MatchHistory)
+routes.get('/player/history', MatchHistory)
 
 routes.get('/player/storefront', Storefront)
 

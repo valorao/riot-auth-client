@@ -4,7 +4,6 @@ const getAgentInfo = new GetAgentInfo();
 
 export const AgentInfo = async (req: Request, res: Response) => {
     const agentId = req.params.agentId;
-    console.log(agentId)
     if(!req.params.agentId) {
         return res.status(400).json({
             "status": 400,

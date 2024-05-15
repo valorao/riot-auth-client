@@ -60,6 +60,7 @@ export default class GetMatchData {
                 return {
                     status: 200,
                     gamemode: 'Deathmatch',
+                    matchId: matchID,
                     gameDurationMilis: gameDuration,
                     gameDurationMinutes: gameDurationMinutes + " minutes",
                     subject: puuid,
@@ -93,6 +94,7 @@ export default class GetMatchData {
             return {
                 status: 200,
                 gamemode: 'Standard',
+                matchId: matchID,
                 gameDurationMilis: gameDuration,
                 gameDurationMinutes: gameDurationMinutes + " minutes",
                 subject: puuid,
