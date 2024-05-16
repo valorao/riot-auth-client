@@ -1,6 +1,6 @@
 export function lastmatches() {
     try {
-        fetch('/v1/riot/player/last-matches', {
+        fetch('http://localhost:3000/player/history', {
             method: 'GET',
             credentials: 'include',
         })
@@ -11,25 +11,26 @@ export function lastmatches() {
             return response.json();
         })
         .then(data => {
-            const matchKeys = Object.keys(data.matches);
+          console.log(data)
+            const matchKeys = Object.keys(data);
             
             for(let i = 0; i < matchKeys.length; i++) {
-                const match = data.matches[matchKeys[i]];
+                const match = data[matchKeys[i]];
+                console.log(match)
                 const map_name = document.getElementById('match-' + (i+1) + '-map');
                 const map_image = document.getElementById('match-' + (i+1) + '-map-img');
                 const agent_image = document.getElementById('match-' + (i+1) + '-agent-img');
                 const match_results = document.getElementById('match-' + (i+1) + '-score');
                 const player_stats = document.getElementById('match-' + (i+1) + '-kda');
                 const game_mode = document.getElementById('match-' + (i+1) + '-gamemode');
-
-                map_name.textContent = match.mapInfo.mapName;
-                map_image.src = match.mapInfo.mapListViewIcon;
-                agent_image.src = match.agentInfo.displayIcon;
-                if (match.matchData.gamemode === 'Deathmatch') {
+                map_name.textContent = data[i].MapInfo[0].mapname;
+                map_image.src = data[i].MapInfo[0].displayicon;
+                agent_image.src = data[i].AgentInfo[0].displayicon;
+                if (data[i].gamemode === 'Deathmatch') {
                     game_mode.textContent = 'Deathmatch';
-                    const kills = match.matchData.stats.kills;
-                    const deaths = match.matchData.stats.deaths;
-                    const assists = match.matchData.stats.assists;
+                    const kills = data[i].Stats[0].kills;
+                    const deaths = data[i].Stats[0].deaths;
+                    const assists = data[i].Stats[0].assist;
                     player_stats.textContent = kills + ' / ' + deaths + ' / ' + assists;
                     match_results.textContent = '';
                     
@@ -40,13 +41,13 @@ export function lastmatches() {
                         }
                     }
                 }
-                else if (match.matchData.gamemode === 'Standard') {
-                    const red_team_score = match.matchData.score.RedTeamScore;
-                    const blue_team_score = match.matchData.score.blueTeamScore;
+                else if (data[i].gamemode === 'Standard') {
+                    const red_team_score = data[i].Score[0].redteamscore;
+                    const blue_team_score = data[i].Score[0].blueteamscore;
                     match_results.textContent = red_team_score + ' x ' + blue_team_score;
-                    const kills = match.matchData.stats.kills;
-                    const deaths = match.matchData.stats.deaths;
-                    const assists = match.matchData.stats.assists;
+                    const kills = data[i].Stats[0].kills;
+                    const deaths = data[i].Stats[0].deaths;
+                    const assists = data[i].Stats[0].assist;
                     player_stats.textContent = kills + ' / ' + deaths + ' / ' + assists;
                     for (let i = matchKeys.length + 1; i <= 5; i++) {
                         const match = document.getElementById('match-' + i);
