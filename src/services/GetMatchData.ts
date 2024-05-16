@@ -2,10 +2,8 @@ import axios from 'axios';
 
 import GetClientPlatform from './GetClientPlatformService';
 import GetClientVersion from './GetClientVersionService';
-import GetPlayerName from './GetPlayerName';
 const getClientPlatform = new GetClientPlatform();
 const getClientVersion = new GetClientVersion();
-const getPlayerName = new GetPlayerName();
 
 export default class GetMatchData {
     handle = async (token: string, entitlements: string, puuid:string, matchID: string) => {
@@ -14,7 +12,6 @@ export default class GetMatchData {
             const platform_response = await getClientPlatform.ClientPlatform();
             const version = version_response.data.data.riotClientVersion;
             const platform = platform_response.data.data.platform;
-            const getPlayerNameResponse = await getPlayerName.handle(token, entitlements, puuid);
             const url = `https://pd.na.a.pvp.net/match-details/v1/matches/${matchID}`
             const config = {
                 headers: {
@@ -39,82 +36,61 @@ export default class GetMatchData {
     
             }
             const mapUrl = response.data.matchInfo.mapId;
-            
-            const playerData = response.data.players.find((player: any) => player.subject === puuid);
-            const characterId = playerData.characterId;
-            const teamId = playerData.teamId;
-
-            
-            
-            const playerKills = playerData.stats.kills
-            const playerDeaths = playerData.stats.deaths
-            const playerAssists = playerData.stats.assists
-            const playerRiotId = getPlayerNameResponse.riotid;
-            const playerTagline = getPlayerNameResponse.tagline;
-            const riotId = playerRiotId + "#" + playerTagline;
             const gameDuration = response.data.matchInfo.gameLengthMillis;
             const gameDurationMinutes = Math.floor(gameDuration / 60000);
+            const gamemode = response.data.matchInfo.queueID;
+            const players = response.data.players;
+            const playerData = [];
             
-            const isDeathmatch = response.data.matchInfo.gameMode === '/Game/GameModes/Deathmatch/DeathmatchGameMode.DeathmatchGameMode_C';
-            if (isDeathmatch) {
-                return {
-                    status: 200,
-                    gamemode: 'Deathmatch',
-                    matchId: matchID,
-                    gameDurationMilis: gameDuration,
-                    gameDurationMinutes: gameDurationMinutes + " minutes",
-                    subject: puuid,
+            for (const player of players) {
+                const playerPuuid = player.subject;
+                const playerRiotId = player.gameName;
+                const playerTagline = player.tagLine;
+                const riotId = playerRiotId + "#" + playerTagline;
+                const playerTeam = player.teamId;
+                const playerCharacter = player.characterId;
+                const playerCompetitiveTier = player.competitiveTier;
+                const playerKills = player.stats.kills;
+                const playerDeaths = player.stats.deaths;
+                const playerAssists = player.stats.assists;
+            
+                playerData.push({
+                    puuid: playerPuuid,
                     riotId: riotId,
-                    stats: {
-                        kills: playerKills,
-                        deaths: playerDeaths,
-                        assists: playerAssists,
-                    },
-                    mapUrl: mapUrl,
-                    characterId: characterId,
-                    teamId: teamId,
-                }
-
-            }
-            else {
-                const winData = response.data.teams.find((team: any) => team.teamId === teamId);
-            const redTeam = response.data.teams.find((team: any) => team.teamId === 'Red');
-            const RedTeamScore = redTeam.numPoints;
-            const blueTeam = response.data.teams.find((team: any) => team.teamId === 'Blue');
-            const blueTeamScore = blueTeam.numPoints;
-            let playerTeamScore;
-            if (teamId === 'Red') {
-                playerTeamScore = RedTeamScore
-            }
-            if (teamId === 'Blue') {
-                playerTeamScore = blueTeamScore
-            }
-            const isWinner = winData.won;
-
-            return {
-                status: 200,
-                gamemode: 'Standard',
-                matchId: matchID,
-                gameDurationMilis: gameDuration,
-                gameDurationMinutes: gameDurationMinutes + " minutes",
-                subject: puuid,
-                riotId: riotId,
-                stats: {
+                    team: playerTeam,
+                    tier: playerCompetitiveTier,
+                    character: playerCharacter,
                     kills: playerKills,
                     deaths: playerDeaths,
                     assists: playerAssists,
-                },
-                mapUrl: mapUrl,
-                characterId: characterId,
-                teamId: teamId,
-                teamIsWinner: isWinner,
-                score: {
-                    playerTeamScore: playerTeamScore,
-                    blueTeamScore: blueTeamScore,
-                    RedTeamScore: RedTeamScore,
-                },
+                });
             }
+            const teams = response.data.teams;
+            const teamData = [];
+            for (const team of teams) {
+                const teamName = team.teamId;
+                const teamScore = team.numPoints;
+                const won = team.won;
+
+                teamData.push({
+                    name: teamName,
+                    score: teamScore,
+                    won: won,
+                });
             }
+            
+            return {
+                status: response.status,
+                matchInfo: {
+                    matchId: matchID, 
+                    map: mapUrl,
+                    gamemode: gamemode,
+                    gameDuration: gameDuration,
+                    gameDurationMinutes: gameDurationMinutes,
+                    players: playerData,
+                    teams: teamData
+                }
+            };
         }
         catch (error) {
             return {status: 500, message: 'Internal Server Error',};
