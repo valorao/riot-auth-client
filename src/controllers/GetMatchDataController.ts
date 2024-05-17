@@ -17,7 +17,7 @@ export const MatchData = async (req: Request, res: Response) => {
         }
     }
     const response = await getMatchData.handle(
-        req.cookies.token, req.cookies.entitlements, req.cookies.puuid, req.params.matchId
+        req.cookies.token, req.cookies.entitlements, req.params.matchId
     );
     if(response.status === 400) {
         return res.status(401).json({

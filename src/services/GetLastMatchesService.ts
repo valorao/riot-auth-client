@@ -24,24 +24,19 @@ export default class GetLastMatches {
                     return {status: 400, message: 'Bad Request - MISSING_MATCHHISTORY',};
                 }
 
-                const matchData = await getMatchData.handle(token, entitlements, puuid, matchHistory.matches[matchKey].matchId)
+                const matchData = await getMatchData.handle(token, entitlements, matchHistory.matches[matchKey].matchId)
                 .catch(err => {return err.response});
-
                 if (matchData === undefined) return {status: 400, message: 'Bad Request - MISSING_MATCHDATA',};
-
-                const agentInfo = await getAgentInfo.handle(matchData.characterId)
-                .catch(err => {return err.response});
 
                 const mapInfo = await getMapInfo.handle(matchData.mapUrl)
                 .catch(err => {return err.response});
 
                 matches[matchKey] = {
                     matchData: matchData,
-                    agentInfo: agentInfo,
                     mapInfo: mapInfo,
                 };
             }
-    
+
             return {
                 status: 200,
                 matches: matches,

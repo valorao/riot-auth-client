@@ -2,11 +2,12 @@ import axios from 'axios';
 
 import GetClientPlatform from './GetClientPlatformService';
 import GetClientVersion from './GetClientVersionService';
+import GetAgentInfo from './GetAgentInfo';
 const getClientPlatform = new GetClientPlatform();
 const getClientVersion = new GetClientVersion();
-
+const getAgentInfo = new GetAgentInfo();
 export default class GetMatchData {
-    handle = async (token: string, entitlements: string, puuid:string, matchID: string) => {
+    handle = async (token: string, entitlements: string, matchID: string) => {
         try {
             const version_response = await getClientVersion.ClientVersion();
             const platform_response = await getClientPlatform.ClientPlatform();
@@ -38,7 +39,13 @@ export default class GetMatchData {
             const mapUrl = response.data.matchInfo.mapId;
             const gameDuration = response.data.matchInfo.gameLengthMillis;
             const gameDurationMinutes = Math.floor(gameDuration / 60000);
-            const gamemode = response.data.matchInfo.queueID;
+            let gamemode 
+            if (response.data.matchInfo.queueID === "") {
+                gamemode = "custom"
+            }
+            else {
+                gamemode = response.data.matchInfo.queueID
+            }
             const players = response.data.players;
             const playerData = [];
             
@@ -53,18 +60,22 @@ export default class GetMatchData {
                 const playerKills = player.stats.kills;
                 const playerDeaths = player.stats.deaths;
                 const playerAssists = player.stats.assists;
-            
+                const playerCharacterData = await getAgentInfo.handle(playerCharacter).catch(err => err.response);
+
                 playerData.push({
                     puuid: playerPuuid,
                     riotId: riotId,
                     team: playerTeam,
                     tier: playerCompetitiveTier,
-                    character: playerCharacter,
+                    character: playerCharacterData,
                     kills: playerKills,
                     deaths: playerDeaths,
                     assists: playerAssists,
                 });
             }
+
+
+
             const teams = response.data.teams;
             const teamData = [];
             for (const team of teams) {
