@@ -68,9 +68,11 @@ export default class GetMatchData {
                     team: playerTeam,
                     tier: playerCompetitiveTier,
                     character: playerCharacterData,
-                    kills: playerKills,
-                    deaths: playerDeaths,
-                    assists: playerAssists,
+                    stats: {
+                        kills: playerKills,
+                        deaths: playerDeaths,
+                        assists: playerAssists,
+                    }
                 });
             }
 
@@ -92,15 +94,13 @@ export default class GetMatchData {
             
             return {
                 status: response.status,
-                matchInfo: {
-                    matchId: matchID, 
-                    map: mapUrl,
-                    gamemode: gamemode,
-                    gameDuration: gameDuration,
-                    gameDurationMinutes: gameDurationMinutes,
-                    players: playerData,
-                    teams: teamData
-                }
+                matchId: matchID, 
+                map: mapUrl,
+                gamemode: gamemode,
+                gameDuration: gameDuration,
+                gameDurationMinutes: gameDurationMinutes,
+                players: playerData,
+                teams: teamData
             };
         }
         catch (error) {

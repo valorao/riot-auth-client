@@ -27,12 +27,11 @@ export default class GetLastMatches {
                 const matchData = await getMatchData.handle(token, entitlements, matchHistory.matches[matchKey].matchId)
                 .catch(err => {return err.response});
                 if (matchData === undefined) return {status: 400, message: 'Bad Request - MISSING_MATCHDATA',};
-
-                const mapInfo = await getMapInfo.handle(matchData.mapUrl)
+                const mapInfo = await getMapInfo.handle(matchData.map)
                 .catch(err => {return err.response});
 
                 matches[matchKey] = {
-                    matchData: matchData,
+                    matchData,
                     mapInfo: mapInfo,
                 };
             }
