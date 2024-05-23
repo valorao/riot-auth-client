@@ -45,7 +45,7 @@ jobs:
       id: request
       uses: tyrrrz/action-http-request@master
       with:
-          url: https://control.rtrampox.cloud/api/stacks/webhooks/dbbc81d6-10c6-456c-b974-1d3d019a4648
+          url: ${{ secrets.PORTAINER_POST }}
           method: POST
           retry-count: 3
           retry-delay: 500
@@ -54,9 +54,6 @@ jobs:
       run: |
           echo "Portainer: Pulling and Updating docker Containers"
           echo "Status: ${{ steps.request.outputs.status }}"
-          echo "Success: ${{ steps.request.outputs.success }}"
-          echo "Headers: ${{ steps.request.outputs.headers }}"
-          echo "Body: ${{ steps.request.outputs.body }}"
   message:
     needs: portainer-post
     runs-on: self-hosted

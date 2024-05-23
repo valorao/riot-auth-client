@@ -18,6 +18,7 @@ import { LastMatches } from '../controllers/GetLastMatchesController';
 import PublicRedirect from '../controllers/PublicRedirect';
 import { Storefront, storeFrontJWT } from '../controllers/GetStorefrontController';
 import { FrontCheckApiController } from '../controllers/FrontCheckApiController';
+import { NightMarket } from '../controllers/GetNightMarketController';
 
 export const routes = express.Router();
 const frontCheckApiController = new FrontCheckApiController();
@@ -31,6 +32,8 @@ routes.get('/player/history', MatchHistory)
 routes.get('/player/storefront', Storefront)
 
 routes.put('/oauth/player/storefront', storeFrontJWT)
+
+routes.get('/player/nightmarket', NightMarket)
 
 routes.get('/dev/test', PublicRedirect.index);
 
