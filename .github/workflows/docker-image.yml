@@ -54,8 +54,6 @@ jobs:
       run: |
           echo "Portainer: Pulling and Updating docker Containers"
           echo "Status: ${{ steps.request.outputs.status }}"
-          echo "Success: ${{ steps.request.outputs.success }}"
-          echo "Headers: ${{ steps.request.outputs.headers }}"
   message:
     needs: portainer-post
     runs-on: self-hosted
