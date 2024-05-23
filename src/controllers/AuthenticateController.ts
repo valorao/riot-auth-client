@@ -1,19 +1,59 @@
 import { Request, Response } from 'express';
 import { AuthenticatePlayerService } from '../services/AuthenticatePlayerService';
+import { AuthenticatePlayerServiceJWT } from '../services/AuthenticatePlayerServiceJWT';
 const authenticatePlayerService = new AuthenticatePlayerService();
+const authenticatePlayerServiceJWT = new AuthenticatePlayerServiceJWT();
+
+export const AuthenticateUserJWT = async (req: Request, res: Response) => {
+    if (!req.body.username || !req.body.password) {
+        return res.status(400).json({
+            "status": 400,
+            "error": "Bad Request",
+            "message": "Username and password are required. - MISSING_REQUIRED_FIELDS"
+        });
+    }
+    try {
+        const response = await authenticatePlayerServiceJWT.handle(req.body.username, req.body.password);
+        const expiry = new Date();
+        expiry.setDate (expiry.getDate() + 7)
+        if(response.status == 200 && req.body.remember == false || req.body.remember == undefined || req.body.remember == 'false') {
+            res.cookie('ssid', response.cookie,{ httpOnly: true,path: '/'})
+        }
+        if(response.status === 200 && req.body.remember === true || req.body.remember === 'true') {
+            res.cookie('ssid', response.cookie,{ httpOnly: true,path: '/', expires: expiry})
+        }
+        delete response.cookie;
+        res.status(response.status).json(response);
+        res.send
+
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({
+            "status": 500,
+            "error": "Internal Server Error.",
+            "message": "Internal Server Error. - SERVER_UNEXPECTED_ERROR"
+        });
+    }
+}
 
 export const AuthenticateUser = async (req: Request, res: Response) => {
     if (!req.body.username || !req.body.password) {
         return res.status(400).json({
             "status": 400,
             "error": "Bad Request",
-            "message": "Username and password are required"
+            "message": "Username and password are required. - MISSING_REQUIRED_FIELDS"
         });
     }
     try {
         const response = await authenticatePlayerService.handle(
             req.body.username, req.body.password
         )
+        if (response.status === 429) {
+            return {
+                status: 429,
+                message: 'We are unable to process your request right now. - TOO_MANY_REQUESTS'
+            }
+        }
         if(response.status === 200 && req.body.remember === true || req.body.remember === 'true') {
             res.cookie(response.tokenCookie[0].name, response.tokenCookie[0].value, response.tokenCookie[0].options);
 
@@ -51,7 +91,8 @@ export const AuthenticateUser = async (req: Request, res: Response) => {
         console.log(error)
         res.status(500).json({
             "status": 500,
-            "error": "Internal Server Error",
+            "error": "Internal Server Error.",
+            "message": "Internal Server Error. - SERVER_UNEXPECTED_ERROR"
         });
     }
 }

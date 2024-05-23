@@ -29,6 +29,12 @@ export class AuthenticatePlayerService {
                 clientversion , username, password, cookiesValue || '').catch(err => {
                     return err.response;
                 });
+            if (response.response.status === 429) {
+                return {
+                    status: 429,
+                    message: 'We are unable to process your request right now. - TOO_MANY_REQUESTS'
+                }
+            }
             if (response.response.data.type === 'multifactor') {
                 return {
                     status: 403,
@@ -72,10 +78,10 @@ export class AuthenticatePlayerService {
                     options: {
                         httpOnly: true,
                         expires: expiry,
-                        sameSite: 'None',
-                        secure: true,
+                        // sameSite: 'None',
+                        // secure: true,
                         path: '/',
-                        domain: domain,
+                        // domain: domain,
                     }
                 }
             ];
@@ -86,10 +92,10 @@ export class AuthenticatePlayerService {
                     options: {
                         httpOnly: true,
                         expires: expiry,
-                        sameSite: 'None',
-                        secure: true,
+                        // sameSite: 'None',
+                        // secure: true,
                         path: '/',
-                        domain: domain,
+                        // domain: domain,
                     }
                 }
             ];
@@ -99,11 +105,11 @@ export class AuthenticatePlayerService {
                     value: puuid,
                     options: {
                         httpOnly: true,
-                        sameSite: 'None',
-                        secure: true,
+                        // sameSite: 'None',
+                        // secure: true,
                         expires: expiry,
                         path: '/',
-                        domain: domain,
+                        // domain: domain,
                     }
                 }
             ];
@@ -114,10 +120,10 @@ export class AuthenticatePlayerService {
                     options: {
                         httpOnly: true,
                         expires: ssidExpiry,
-                        sameSite: 'None',
-                        secure: true,
+                        // sameSite: 'None',
+                        // secure: true,
                         path: '/',
-                        domain: domain,
+                        // domain: domain,
                     }
                 }
             ];
@@ -130,10 +136,10 @@ export class AuthenticatePlayerService {
                     value: puuid,
                     options: {
                         httpOnly: true,
-                        sameSite: 'None',
-                        secure: true,
+                        // sameSite: 'None',
+                        // secure: true,
                         path: '/',
-                        domain: domain,
+                        // domain: domain,
                     }
                 }
             ];
@@ -143,10 +149,10 @@ export class AuthenticatePlayerService {
                     value: ssidValue,
                     options: {
                         httpOnly: true,
-                        sameSite: 'None',
-                        secure: true,
+                        // sameSite: 'None',
+                        // secure: true,
                         path: '/',
-                        domain: domain,
+                        // domain: domain,
                     }
                 }
             ];
@@ -156,10 +162,10 @@ export class AuthenticatePlayerService {
                     value: token,
                     options: {
                         httpOnly: true,
-                        sameSite: 'None',
-                        secure: true,
+                        // sameSite: 'None',
+                        // secure: true,
                         path: '/',
-                        domain: domain,
+                        // domain: domain,
                     }
                 }
             ];
@@ -169,10 +175,10 @@ export class AuthenticatePlayerService {
                     value: entitlements_token,
                     options: {
                         httpOnly: true,
-                        sameSite: 'None',
-                        secure: true,
+                        // sameSite: 'None',
+                        // secure: true,
                         path: '/',
-                        domain: domain,
+                        // domain: domain,
                     }
                 }
             ];
@@ -191,6 +197,7 @@ export class AuthenticatePlayerService {
                  };
         }
         catch (err) {
+            console.log(err)
             return { status: 500, message: (err as Error).message };
         }
     }

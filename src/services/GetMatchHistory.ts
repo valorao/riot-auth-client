@@ -14,7 +14,7 @@ export default class GetMatchHistory {
             const version = version_response.data.data.riotClientVersion;
             const platform = platform_response.data.data.platform;
 
-            const url = `https://pd.na.a.pvp.net/match-history/v1/history/${puuid}?startIndex=0&endIndex=5`
+            const url = `https://pd.na.a.pvp.net/match-history/v1/history/${puuid}?startIndex=0&endIndex=7`
             const config = {
                 headers: {
                     Authorization: `Bearer ${token}`,
