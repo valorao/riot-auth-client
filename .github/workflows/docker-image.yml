@@ -45,7 +45,7 @@ jobs:
       id: request
       uses: tyrrrz/action-http-request@master
       with:
-          url: ${{ PORTAINER_POST }}
+          url: ${{ secrets.PORTAINER_POST }}
           method: POST
           retry-count: 3
           retry-delay: 500
