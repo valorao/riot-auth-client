@@ -94,6 +94,7 @@ export class AuthenticatePlayerServiceJWT {
             return {
                 status: 200,
                 token: jwtresponse,
+                puuid,
                 cookie: ssidValue,
             }
         }
