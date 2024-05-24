@@ -76,8 +76,8 @@ export class AuthenticatePlayerServiceJWT {
     
                     const payload = {
                         token: token,
-                        entitlements: entitlements,
                         puuid: puuid,
+                        entitlements: entitlements,
                         expiry: expiry,
                     }
                     let jwt = await new EncryptJWT(payload).setProtectedHeader({alg: 'dir', enc: 'A256GCM'})
@@ -93,8 +93,8 @@ export class AuthenticatePlayerServiceJWT {
             const jwtresponse = await generateJWT((token as string), entitlements_token, puuid);
             return {
                 status: 200,
-                token: jwtresponse,
                 puuid,
+                token: jwtresponse,
                 cookie: ssidValue,
             }
         }

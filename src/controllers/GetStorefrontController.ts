@@ -34,6 +34,13 @@ export const storeFrontJWT = async (req: Request, res: Response) => {
     const secretHex = process.env.SECRET;
     const secret = Buffer.from((secretHex as string), 'hex');
     const { payload, protectedHeader } = await jwtDecrypt(req.headers.authorization, (secret as any))
+    const exp = (payload.exp as any) * 1000 < Date.now()
+    if (exp == true) {
+        return res.status(401).json({
+            "status": 401,
+            "message": "Please relogin or reauth cookies."
+        })
+    }
     const response = await getStorefrontService.handle(
         (payload.token as string), (payload.entitlements as string), (payload.puuid as string)
     );
