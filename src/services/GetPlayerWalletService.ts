@@ -11,6 +11,7 @@ type WalletResponse = {
 
 export default class GetPlayerWallet {
     handle = async (token: string, entitlements: string, puuid: string) => {
+        if (!token || !entitlements || !puuid) return { status: 400, message: 'Missing parameters' };
         try {
             const version_response = await getClientVersion.ClientVersion();
             const platform_response = await getClientPlatform.ClientPlatform();
