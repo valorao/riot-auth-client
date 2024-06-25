@@ -7,16 +7,6 @@ on:
     branches: [ "trampox" ]
 
 jobs:
-  push:
-    runs-on: self-hosted
-    steps:
-    - name: Send Push Notification
-      uses: techulus/push-github-action@1.0.0
-      env:
-        API_KEY: ${{ secrets.MESSAGE }}
-        TITLE: Github Actions
-        MESSAGE: "Running a Github actions for valorao/riot-auth-client"
-        LINK: https://github.com/valorao/riot-auth-client/actions
   build:
     runs-on: self-hosted
     steps:
@@ -37,25 +27,8 @@ jobs:
     - name: Publish the Docker with latest as tag.
       run: |
         docker push ghcr.io/valorao/riot-auth-client:latest
-  portainer-post:
-    needs: build
-    runs-on: self-hosted
-    steps:
-    - name: Send POST request to Portainer
-      id: request
-      uses: tyrrrz/action-http-request@master
-      with:
-          url: ${{ secrets.PORTAINER_POST }}
-          method: POST
-          retry-count: 3
-          retry-delay: 500
-
-    - name: Print outputs
-      run: |
-          echo "Portainer: Pulling and Updating docker Containers"
-          echo "Status: ${{ steps.request.outputs.status }}"
   message:
-    needs: portainer-post
+    needs: build
     runs-on: self-hosted
     steps:
     - name: Discord Webhook Action
