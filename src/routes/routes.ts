@@ -16,17 +16,17 @@ import { MapInfo } from '../controllers/GetMapInfoController';
 import { AgentInfo } from '../controllers/GetAgentInfoController';
 import { LastMatches } from '../controllers/GetLastMatchesController';
 import PublicRedirect from '../controllers/PublicRedirect';
-import { Storefront, storeFrontJWT } from '../controllers/GetStorefrontController';
+import { Storefront } from '../controllers/GetStorefrontController';
 import { FrontCheckApiController } from '../controllers/FrontCheckApiController';
 import { NightMarket } from '../controllers/GetNightMarketController';
-import GetPlayerWallet from '../services/GetPlayerWalletService';
-
-const getPlayerWallet = new GetPlayerWallet();
+import { simpleTokenDecoder } from '../middlewares/simpleTokenDecoder';
+import { PlayerInfo } from '../controllers/PlayerInfoController';
 
 export const routes = express.Router();
 const frontCheckApiController = new FrontCheckApiController();
 const app = express();
 app.use(cookieParser());
+routes.use(simpleTokenDecoder)
 
 routes.get('/api/status', frontCheckApiController.handle);
 
@@ -34,12 +34,7 @@ routes.get('/player/history', MatchHistory)
 
 routes.get('/player/storefront', Storefront)
 
-routes.get('/playerinfo', async (req: Request, res: Response) => {
-    const response = await getPlayerWallet.handle(req.cookies.token, req.cookies.entitlements, req.cookies.puuid)
-    res.status(200).json(response);
-})
-
-routes.put('/oauth/player/storefront', storeFrontJWT)
+routes.get('/playerinfo', PlayerInfo)
 
 routes.get('/player/nightmarket', NightMarket)
 
