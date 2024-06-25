@@ -20,7 +20,7 @@ export default class GetWeaponStorefrontInfo {
             const skinTier = skinTierresponse.data.data.find((tier: any) => tier.uuid === findSkin.contentTierUuid)
             const weaponuuid = data.uuid;
             const displayName = data.displayName;
-            const displayIcon = findSkin.displayIcon;
+            const displayIcon = data.displayIcon;
             const streamedVideo = data.streamedVideo;
             if (!streamedVideo) {
                 return {
