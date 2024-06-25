@@ -15,12 +15,12 @@ export const AuthenticateUserJWT = async (req: Request, res: Response) => {
     try {
         const response = await authenticatePlayerServiceJWT.handle(req.body.username, req.body.password);
         const expiry = new Date();
-        expiry.setDate (expiry.getDate() + 7)
-        if(response.status == 200 && req.body.remember == false || req.body.remember == undefined || req.body.remember == 'false') {
-            res.cookie('ssid', response.cookie,{ httpOnly: true,path: '/'})
+        expiry.setDate(expiry.getDate() + 7)
+        if (response.status == 200 && req.body.remember == false || req.body.remember == undefined || req.body.remember == 'false') {
+            res.cookie('ssid', response.cookie, { httpOnly: true, path: '/' })
         }
-        if(response.status === 200 && req.body.remember === true || req.body.remember === 'true') {
-            res.cookie('ssid', response.cookie,{ httpOnly: true,path: '/', expires: expiry})
+        if (response.status === 200 && req.body.remember === true || req.body.remember === 'true') {
+            res.cookie('ssid', response.cookie, { httpOnly: true, path: '/', expires: expiry })
         }
         delete response.cookie;
         res.status(response.status).json(response);
@@ -48,13 +48,19 @@ export const AuthenticateUser = async (req: Request, res: Response) => {
         const response = await authenticatePlayerService.handle(
             req.body.username, req.body.password
         )
-        if (response.status === 429) {
-            return {
-                status: 429,
-                message: 'We are unable to process your request right now. - TOO_MANY_REQUESTS'
-            }
+        if (response.status !== 200) {
+            return res.status(response.status).json({
+                status: response.status,
+                message: response.message,
+            })
         }
-        if(response.status === 200 && req.body.remember === true || req.body.remember === 'true') {
+        // if (response.status === 429) {
+        //     return {
+        //         status: 429,
+        //         message: 'We are unable to process your request right now. - TOO_MANY_REQUESTS'
+        //     }
+        // }
+        if (response.status === 200 && req.body.remember === true || req.body.remember === 'true') {
             res.cookie(response.tokenCookie[0].name, response.tokenCookie[0].value, response.tokenCookie[0].options);
 
             res.cookie(response.entitlementsCookie[0].name, response.entitlementsCookie[0].value, response.entitlementsCookie[0].options);
@@ -63,7 +69,6 @@ export const AuthenticateUser = async (req: Request, res: Response) => {
 
             res.cookie(response.ssidCookie[0].name, response.ssidCookie[0].value, response.ssidCookie[0].options);
         }
-
         else if (response.status === 200 && req.body.remember === false || req.body.remember === undefined || req.body.remember === 'false') {
             res.cookie(response.token_onetimeCookie[0].name, response.token_onetimeCookie[0].value, response.token_onetimeCookie[0].options);
 
@@ -84,7 +89,7 @@ export const AuthenticateUser = async (req: Request, res: Response) => {
         delete response.entitlements_onetimeCookie;
         delete response.puuid_onetimeCookie;
         delete response.ssid_onetimeCookie;
-    
+
         res.status(response.status).json(response);
     }
     catch (error) {

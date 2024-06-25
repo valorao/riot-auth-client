@@ -15,7 +15,7 @@ export default class GetStorefrontService {
             const platform_response = await getClientPlatform.ClientPlatform();
             const version = version_response.data.data.riotClientVersion;
             const platform = platform_response.data.data.platform;
-    
+
             const url = `https://pd.na.a.pvp.net/store/v2/storefront/${puuid}`
             const config = {
                 headers: {
@@ -23,45 +23,46 @@ export default class GetStorefrontService {
                     'X-Riot-Entitlements-JWT': entitlements,
                     'X-Riot-ClientPlatform': platform,
                     'X-Riot-ClientVersion': version,
-                    }
+                }
             };
-    
-            const response  = await axios.get(url, config).catch(err => {return err.response});
+
+            const response = await axios.get(url, config).catch(err => { return err.response });
             if (response.status !== 200) {
                 return {
-                    status : response.status,
+                    status: response.status,
                     message: response.data,
                 }
             }
 
             const storeOffers = response.data.SkinsPanelLayout.SingleItemStoreOffers;
-            const remainingDurationInS = response.data.SkinsPanelLayout.SingleItemOffersRemainingDurationInSeconds
-            
+            const remainingDurationInS = response.data.SkinsPanelLayout.SingleItemOffersRemainingDurationInSeconds;
+            const currentTimeInSeconds = Math.floor(Date.now() / 1000); // Convert current time from milliseconds to seconds
+            const expirationUnixTime = currentTimeInSeconds + remainingDurationInS;
+
+
             const items = await Promise.all(storeOffers.map(async (offer: any, index: number) => {
                 const offerID = offer.OfferID;
                 const cost = Object.values(offer.Cost)[0];
                 const uuid = offer.OfferID;
-                const weaponInfo = await getWeaponStorefrontInfo.handle(uuid);    
-                const offerName = `Offer${index + 1}`;
-                
+                const weaponInfo = await getWeaponStorefrontInfo.handle(uuid);
+
                 return {
-                    [offerName]: {
-                        offerID,
-                        cost,
-                        weaponInfo,
-                    },
+                    offerID,
+                    cost,
+                    weaponInfo,
                 };
             }));
-            
+
             return {
                 status: 200,
                 items,
                 remainingDurationInS,
+                remainingDurationInUNIX: expirationUnixTime,
             };
         }
         catch (error) {
             console.log(error)
-            return {status: 500, message: 'Internal Server Error',};
+            return { status: 500, message: 'Internal Server Error', };
         }
     }
 }

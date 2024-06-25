@@ -26,9 +26,10 @@ export class AuthenticatePlayerServiceJWT {
             const version = await getClientVersion.ClientVersion();
             const clientversion = version.data.data.version;
             const response = await authAccount.AuthCookies(
-                clientversion , username, password, cookiesValue || '').catch(err => {
+                clientversion, username, password, cookiesValue || '').catch(err => {
                     return err.response;
                 });
+            console.log(response)
             if (response.response.status === 429) {
                 return {
                     status: 429,
@@ -51,12 +52,12 @@ export class AuthenticatePlayerServiceJWT {
             const url = new URL(uri);
             const params = new URLSearchParams(url.search);
             const token = params.get('access_token');
-        
+
             const ent = await getEntitlements.Entitlements(token || '').catch(err => {
                 return err.response;
             });
             const entitlements_token = ent.data.entitlements_token;
-        
+
             const info = await getPlayerInfo.PlayerInfo(token || '').catch(err => {
                 return err.response;
             });
@@ -73,18 +74,18 @@ export class AuthenticatePlayerServiceJWT {
                     const secretHex = process.env.SECRET;
                     const secret = Buffer.from((secretHex as string), 'hex');
                     const expiry = '1h';
-    
+
                     const payload = {
                         token: token,
                         puuid: puuid,
                         entitlements: entitlements,
                         expiry: expiry,
                     }
-                    let jwt = await new EncryptJWT(payload).setProtectedHeader({alg: 'dir', enc: 'A256GCM'})
-                    .setExpirationTime(expiry)
-                    .encrypt(secret);
+                    let jwt = await new EncryptJWT(payload).setProtectedHeader({ alg: 'dir', enc: 'A256GCM' })
+                        .setExpirationTime(expiry)
+                        .encrypt(secret);
                     return jwt;
-                    
+
                 } catch (err) {
                     console.log(err)
                     return { status: 500, message: (err as Error).message };
@@ -101,10 +102,10 @@ export class AuthenticatePlayerServiceJWT {
         catch (err) {
             console.log(err)
             return {
-                 status: 500,
-                  "error": "Internal Server Error.",
-                  "message": "Internal Server Error. - SERVER_UNEXPECTED_ERROR"
-                 };
+                status: 500,
+                "error": "Internal Server Error.",
+                "message": "Internal Server Error. - SERVER_UNEXPECTED_ERROR"
+            };
         }
     }
 }

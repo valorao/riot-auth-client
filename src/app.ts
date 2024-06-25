@@ -13,13 +13,11 @@ const version = process.env.VERSION || 'v1';
 
 const app = express();
 app.use(cors({
-    origin: ['http://localhost:3000', 'https://t1.rtrampox.cloud', 'https://t2.rtrampox.cloud',
-     'htpps://valorao.cloud', 'https://account.valorao.cloud',
-      'https://apis.valorao.cloud'],
-    credentials: true,
-    allowedHeaders: ['Content-Type', 'Authorization'],
-    methods: ['GET', 'POST', 'PUT', 'DELETE']
-  }));
+  origin: ['http://localhost:3000', 'https://t1.rtrampox.cloud', 'http://localhost:5173', 'http://10.1.1.17:5173'],
+  credentials: true,
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  methods: ['GET', 'POST', 'PUT', 'DELETE']
+}));
 
 app.use(cookieParser());
 app.get('/account', PublicRedirect.index)
@@ -31,6 +29,6 @@ app.use(express.json());
 app.use('/v1/riot', routes)
 
 app.listen(port, () => {
-    console.log(`${agent}/${version}`)
-    console.log(`Server is running on port ${port}`)
+  console.log(`${agent}/${version}`)
+  console.log(`Server is running on port ${port}`)
 });

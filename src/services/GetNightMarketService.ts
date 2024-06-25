@@ -15,7 +15,7 @@ export default class GetNightMarket {
             const platform_response = await getClientPlatform.ClientPlatform();
             const version = version_response.data.data.riotClientVersion;
             const platform = platform_response.data.data.platform;
-    
+
             const url = `https://pd.na.a.pvp.net/store/v2/storefront/${puuid}`
             const config = {
                 headers: {
@@ -26,16 +26,22 @@ export default class GetNightMarket {
                 }
             };
 
-            
-            const response  = await axios.get(url, config).catch(err => {return err.response});
+
+            const response = await axios.get(url, config).catch(err => { return err.response });
             if (response.status !== 200) {
                 return {
-                    status : response.status,
+                    status: response.status,
                     message: response.data,
                 }
             }
+            if (!response.data.BonusStore) {
+                return {
+                    status: 404,
+                    message: "Night Market is not available"
+                }
+            }
             const offers = response.data.BonusStore.BonusStoreOffers;
-            if(!offers) {
+            if (!offers) {
                 return {
                     status: 404,
                     message: "Night Market is not available"
@@ -66,7 +72,7 @@ export default class GetNightMarket {
         }
         catch (error) {
             console.log(error)
-            return {status: 500, message: 'Internal Server Error',};
+            return { status: 500, message: 'Internal Server Error', };
         }
     }
 }

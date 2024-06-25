@@ -1,4 +1,4 @@
-import express from 'express';
+import express, { Request, Response } from 'express';
 import cookieParser from 'cookie-parser';
 import { GetBrowserCookies } from '../controllers/BrowserCookiesController';
 import { GetPlayerRank } from '../controllers/PlayerRankController';
@@ -19,6 +19,9 @@ import PublicRedirect from '../controllers/PublicRedirect';
 import { Storefront, storeFrontJWT } from '../controllers/GetStorefrontController';
 import { FrontCheckApiController } from '../controllers/FrontCheckApiController';
 import { NightMarket } from '../controllers/GetNightMarketController';
+import GetPlayerWallet from '../services/GetPlayerWalletService';
+
+const getPlayerWallet = new GetPlayerWallet();
 
 export const routes = express.Router();
 const frontCheckApiController = new FrontCheckApiController();
@@ -30,6 +33,11 @@ routes.get('/api/status', frontCheckApiController.handle);
 routes.get('/player/history', MatchHistory)
 
 routes.get('/player/storefront', Storefront)
+
+routes.get('/playerinfo', async (req: Request, res: Response) => {
+    const response = await getPlayerWallet.handle(req.cookies.token, req.cookies.entitlements, req.cookies.puuid)
+    res.status(200).json(response);
+})
 
 routes.put('/oauth/player/storefront', storeFrontJWT)
 
@@ -59,7 +67,7 @@ routes.post('/data/agents/:agentId', AgentInfo)
 
 routes.get('/player/last-matches', LastMatches)
 
-routes.post('/auth',AuthenticateUser);
+routes.post('/auth', AuthenticateUser);
 
 routes.post('/oauth', AuthenticateUserJWT)
 

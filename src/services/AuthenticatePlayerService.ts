@@ -26,9 +26,10 @@ export class AuthenticatePlayerService {
             const version = await getClientVersion.ClientVersion();
             const clientversion = version.data.data.version;
             const response = await authAccount.AuthCookies(
-                clientversion , username, password, cookiesValue || '').catch(err => {
+                clientversion, username, password, cookiesValue || '').catch(err => {
                     return err.response;
                 });
+            console.log(response.data)
             if (response.response.status === 429) {
                 return {
                     status: 429,
@@ -53,12 +54,12 @@ export class AuthenticatePlayerService {
             const token = params.get('access_token');
             const expires = params.get('expires_in');
             const id_token = params.get('id_token');
-        
+
             const ent = await getEntitlements.Entitlements(token || '').catch(err => {
                 return err.response;
             });
             const entitlements_token = ent.data.entitlements_token;
-        
+
             const info = await getPlayerInfo.PlayerInfo(token || '').catch(err => {
                 return err.response;
             });
@@ -70,7 +71,7 @@ export class AuthenticatePlayerService {
             const puuid = info.data.sub;
             const riotid = info.data.acct.game_name + '#' + info.data.acct.tag_line;
             const expiry = new Date();
-            expiry.setDate (expiry.getDate() + 7)
+            expiry.setDate(expiry.getDate() + 7)
             response.token = [
                 {
                     name: 'token',
@@ -127,9 +128,9 @@ export class AuthenticatePlayerService {
                     }
                 }
             ];
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// SESSION-ONLY TOKENS:          
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+            ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+            // SESSION-ONLY TOKENS:          
+            ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
             response.puuid_onetime = [
                 {
                     name: 'puuid',
@@ -184,17 +185,17 @@ export class AuthenticatePlayerService {
             ];
 
             return {
-                    tokenCookie: response.token,
-                    entitlementsCookie: response.entitlements,
-                    status: response.response.status,
-                    puuidCookie: response.puuid,
-                    ssidCookie: response.ssid,
-                    ssid_onetimeCookie: response.ssid_onetime,
-                    puuid_onetimeCookie: response.puuid_onetime,
-                    token_onetimeCookie: response.token_onetime,
-                    entitlements_onetimeCookie: response.entitlements_onetime,
-                    riotid, puuid, token, expires, id_token, entitlements_token
-                 };
+                tokenCookie: response.token,
+                entitlementsCookie: response.entitlements,
+                status: response.response.status,
+                puuidCookie: response.puuid,
+                ssidCookie: response.ssid,
+                ssid_onetimeCookie: response.ssid_onetime,
+                puuid_onetimeCookie: response.puuid_onetime,
+                token_onetimeCookie: response.token_onetime,
+                entitlements_onetimeCookie: response.entitlements_onetime,
+                riotid, puuid, token, expires, id_token, entitlements_token
+            };
         }
         catch (err) {
             console.log(err)
