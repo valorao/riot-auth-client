@@ -1,0 +1,15 @@
+version: '3'
+
+services:
+  rso-api:
+    build: .
+    environment:
+      - PORT=5107
+      - AGENT=valorao
+      - VERSION=2.0.0-beta
+      - REGION=gru
+      - SUBREGION=br1
+      - SERVER=valorao-rso
+      - EDGE=true
+      - DOMAIN=.rtrampox.cloud
+      - SECRET=JWT_TOKEN_SECRET
