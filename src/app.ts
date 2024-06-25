@@ -13,7 +13,7 @@ const version = process.env.VERSION || 'v1';
 
 const app = express();
 app.use(cors({
-  origin: ['http://localhost:3000', 'https://t1.rtrampox.cloud', 'http://localhost:5173', 'http://10.1.1.17:5173'],
+  origin: ['http://localhost:3000', 'http://10.1.1.17:5173', 'https://oauth.rtrampox.cloud'],
   credentials: true,
   allowedHeaders: ['Content-Type', 'Authorization'],
   methods: ['GET', 'POST', 'PUT', 'DELETE']

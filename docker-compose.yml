@@ -2,6 +2,7 @@ version: '3'
 
 services:
   rso-api:
+    image: ghcr.io/valorao/riot-auth-client:latest
     build: .
     environment:
       - PORT=5107
