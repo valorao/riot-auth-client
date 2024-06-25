@@ -29,7 +29,6 @@ export class AuthenticatePlayerServiceJWT {
                 clientversion, username, password, cookiesValue || '').catch(err => {
                     return err.response;
                 });
-            console.log(response)
             if (response.response.status === 429) {
                 return {
                     status: 429,
@@ -96,7 +95,7 @@ export class AuthenticatePlayerServiceJWT {
                 status: 200,
                 puuid,
                 token: jwtresponse,
-                cookie: ssidValue,
+                ssid: ssidValue,
             }
         }
         catch (err) {

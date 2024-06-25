@@ -4,7 +4,7 @@ import { GetBrowserCookies } from '../controllers/BrowserCookiesController';
 import { GetPlayerRank } from '../controllers/PlayerRankController';
 import { BrowserLogout } from '../controllers/BrowserLogoutController';
 import { LeavePregameWithCookies } from '../controllers/LeavePregameController';
-import { AuthenticateUser, AuthenticateUserJWT } from '../controllers/AuthenticateController';
+import { AuthenticateUser } from '../controllers/AuthenticateController';
 import { ReauthCookie } from '../controllers/ReauthenticateUserController';
 import { PlayerParty } from '../controllers/PlayerPartyController';
 import { PlayerPreGameId } from '../controllers/PlayerPreGameController';
@@ -26,9 +26,18 @@ export const routes = express.Router();
 const frontCheckApiController = new FrontCheckApiController();
 const app = express();
 app.use(cookieParser());
-routes.use(simpleTokenDecoder)
 
 routes.get('/api/status', frontCheckApiController.handle);
+
+routes.get('/dev/test', PublicRedirect.index);
+
+routes.post('/auth', AuthenticateUser);
+
+routes.delete('/fromstatic/logout', BrowserLogout);
+
+routes.get('/auth/reauth', ReauthCookie);
+
+routes.use(simpleTokenDecoder)
 
 routes.get('/player/history', MatchHistory)
 
@@ -37,8 +46,6 @@ routes.get('/player/storefront', Storefront)
 routes.get('/playerinfo', PlayerInfo)
 
 routes.get('/player/nightmarket', NightMarket)
-
-routes.get('/dev/test', PublicRedirect.index);
 
 routes.get('/player/rank', GetPlayerRank);
 
@@ -52,8 +59,6 @@ routes.get('/test/cookies', TestCookies);
 
 routes.get('/player/pregame/leave', LeavePregameWithCookies);
 
-routes.get('/auth/reauth', ReauthCookie);
-
 routes.post('/player/history/matches/map', MapInfo)
 
 routes.post('/player/history/matches/:matchId', MatchData)
@@ -61,15 +66,10 @@ routes.post('/player/history/matches/:matchId', MatchData)
 routes.post('/data/agents/:agentId', AgentInfo)
 
 routes.get('/player/last-matches', LastMatches)
-
-routes.post('/auth', AuthenticateUser);
-
-routes.post('/oauth', AuthenticateUserJWT)
-
+// routes.post('/oauth', AuthenticateUserJWT)
 routes.post('/player/party', PlayerParty);
 
 routes.post('/player/pregame', PlayerPreGameId);
 
 routes.post('/player/pregame/leave', PlayerDodge);
 
-routes.delete('/fromstatic/logout', BrowserLogout);
