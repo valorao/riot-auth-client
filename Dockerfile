@@ -9,4 +9,6 @@ COPY tsconfig.json /app/tsconfig.json
 
 RUN yarn install
 
+HEALTHCHECK CMD curl --fail http://localhost:5107/v1/riot/api/status || exit 1
+
 CMD ["yarn", "dev"]
