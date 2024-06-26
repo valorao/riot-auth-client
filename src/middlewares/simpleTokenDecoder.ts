@@ -15,12 +15,23 @@ export async function simpleTokenDecoder(req: Request, res: Response, next: Next
     if (req.headers.authorization.split(' ')[0] === 'Bearer') {
         const secretHex = process.env.SECRET;
         const secret = Buffer.from((secretHex as string), 'hex');
-        const { payload } = await jwtDecrypt(req.headers.authorization.split(' ')[1].toString(), (secret as any));
-        req.cookies = {
-            ...req.cookies,
-            ...payload
+        const parts = req.headers.authorization.split(' ')[1].toString().split('.');
+        const headerBase64 = parts[0];
+        const headerJson = atob(headerBase64);
+        const header = JSON.parse(headerJson);
+        if (header.exp <= Math.floor(Date.now() / 1000)) {
+            return res.status(401).json({ status: 401, error: 'Token expired', message: "This token is expired." })
         }
-        next();
+        try {
+            const { payload } = await jwtDecrypt(req.headers.authorization.split(' ')[1].toString(), (secret as any));
+            req.cookies = {
+                ...req.cookies,
+                ...payload
+            }
+            next();
+        } catch (err) {
+            return res.status(500).json({ status: 500, error: err, message: "There was an error while decoding your token." })
+        }
     } else {
         return res.status(422).json({
             status: 422,

@@ -73,6 +73,7 @@ export class AuthenticatePlayerServiceJWT {
                     const secretHex = process.env.SECRET;
                     const secret = Buffer.from((secretHex as string), 'hex');
                     const expiry = '1h';
+                    let UNIXExpiry = Math.floor(Date.now() + (60 * 60 * 1000));
 
                     const payload = {
                         token: token,
@@ -80,7 +81,7 @@ export class AuthenticatePlayerServiceJWT {
                         entitlements: entitlements,
                         expiry: expiry,
                     }
-                    let jwt = await new EncryptJWT(payload).setProtectedHeader({ alg: 'dir', enc: 'A256GCM' })
+                    let jwt = await new EncryptJWT(payload).setProtectedHeader({ alg: 'dir', enc: 'A256GCM', exp: UNIXExpiry })
                         .setExpirationTime(expiry)
                         .encrypt(secret);
                     return jwt;
