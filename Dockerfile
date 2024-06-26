@@ -1,4 +1,7 @@
+FROM busybox:uclibc AS builder
 FROM node:22-alpine
+
+COPY --from=builder /bin/curl /usr/bin/curl
 
 WORKDIR /app
 
