@@ -28,6 +28,7 @@ jobs:
         run: |
           docker push ghcr.io/valorao/riot-auth-client:latest
   portainer_post:
+    needs: build
     runs-on: self-hosted
     steps:
       - name: Portainer POST Docker update command
@@ -36,6 +37,7 @@ jobs:
           url: "https://admin.rtrampox.cloud/api/stacks/webhooks/e0084313-702c-4258-9a4b-63db223a812b"
           method: "POST"
   vercel_purge:
+    needs: portainer_post
     runs-on: self-hosted
     steps:
       - name: Purge Vercel cache command
@@ -45,6 +47,7 @@ jobs:
           method: "POST"
           customHeaders: '{"x-api-key": "${{ secrets.VALORAO_API_KEY }}}"'
   vercel_purge_bundles:
+    needs: portainer_post
     runs-on: self-hosted
     steps:
       - name: Purge Vercel bundles endpoint cache command
@@ -54,7 +57,7 @@ jobs:
           method: "POST"
           customHeaders: '{"x-api-key": "${{ secrets.VALORAO_API_KEY" }}}'
   message:
-    needs: build
+    needs: portainer_post
     runs-on: self-hosted
     steps:
       - name: Discord Webhook Action
