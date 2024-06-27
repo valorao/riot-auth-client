@@ -32,20 +32,22 @@ jobs:
     runs-on: self-hosted
     steps:
       - name: Portainer POST Docker update command
+        id: portainer_post
         uses: fjogeleit/http-request-action@v1
         with:
           url: "https://admin.rtrampox.cloud/api/stacks/webhooks/e0084313-702c-4258-9a4b-63db223a812b"
           method: "POST"
       - name: Show Response
         run: |
-          echo ${{ steps.myRequest.outputs.response }}
-          echo ${{ steps.myRequest.outputs.headers }}
-          echo ${{ steps.myRequest.outputs.status }}
+          echo ${{ steps.portainer_post.outputs.response }}
+          echo ${{ steps.portainer_post.outputs.headers }}
+          echo ${{ steps.portainer_post.outputs.status }}
   vercel_purge:
     needs: portainer_post
     runs-on: self-hosted
     steps:
       - name: Purge Vercel cache command
+        id: vercel_purge
         uses: fjogeleit/http-request-action@v1
         with:
           url: "https://valorao.cloud/api/revalidate?endpoint=/api/storefront"
@@ -53,14 +55,15 @@ jobs:
           customHeaders: '{"x-api-key": ${{ secrets.VALORAO_API_KEY }}}'
       - name: Show Response
         run: |
-          echo ${{ steps.myRequest.outputs.response }}
-          echo ${{ steps.myRequest.outputs.headers }}
-          echo ${{ steps.myRequest.outputs.status }}
+          echo ${{ steps.vercel_purge.outputs.response }}
+          echo ${{ steps.vercel_purge.outputs.headers }}
+          echo ${{ steps.vercel_purge.outputs.status }}
   vercel_purge_bundles:
     needs: portainer_post
     runs-on: self-hosted
     steps:
       - name: Purge Vercel bundles endpoint cache command
+        id: vercel_purge_bundles
         uses: fjogeleit/http-request-action@v1
         with:
           url: "https://valorao.cloud/api/revalidate?endpoint=/api/storefront/bundles"
@@ -68,9 +71,9 @@ jobs:
           customHeaders: '{"x-api-key": ${{ secrets.VALORAO_API_KEY }}}'
       - name: Show Response
         run: |
-          echo ${{ steps.myRequest.outputs.response }}
-          echo ${{ steps.myRequest.outputs.headers }}
-          echo ${{ steps.myRequest.outputs.status }}
+          echo ${{ steps.vercel_purge_bundles.outputs.response }}
+          echo ${{ steps.vercel_purge_bundles.outputs.headers }}
+          echo ${{ steps.vercel_purge_bundles.outputs.status }}
   message:
     needs: portainer_post
     runs-on: self-hosted
