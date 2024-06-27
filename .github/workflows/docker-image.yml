@@ -27,7 +27,6 @@ jobs:
       - name: Publish the Docker with latest as tag.
         run: |
           docker push ghcr.io/valorao/riot-auth-client:latest
-            deployment:
   portainer_post:
     runs-on: self-hosted
     steps:
@@ -44,7 +43,7 @@ jobs:
         with:
           url: "https://valorao.cloud/api/revalidate?endpoint=/api/storefront"
           method: "POST"
-          customHeaders: '{"x-api-key": ${{ secrets.VALORAO_API_KEY }}}'
+          customHeaders: '{"x-api-key": "${{ secrets.VALORAO_API_KEY }}}"'
   vercel_purge_bundles:
     runs-on: self-hosted
     steps:
@@ -53,7 +52,7 @@ jobs:
         with:
           url: "https://valorao.cloud/api/revalidate?endpoint=/api/storefront/bundles"
           method: "POST"
-          customHeaders: '{"x-api-key": ${{ secrets.VALORAO_API_KEY }}}'
+          customHeaders: '{"x-api-key": "${{ secrets.VALORAO_API_KEY" }}}'
   message:
     needs: build
     runs-on: self-hosted
