@@ -36,6 +36,11 @@ jobs:
         with:
           url: "https://admin.rtrampox.cloud/api/stacks/webhooks/e0084313-702c-4258-9a4b-63db223a812b"
           method: "POST"
+      - name: Show Response
+        run: |
+          echo ${{ steps.myRequest.outputs.response }}
+          echo ${{ steps.myRequest.outputs.headers }}
+          echo ${{ steps.myRequest.outputs.status }}
   vercel_purge:
     needs: portainer_post
     runs-on: self-hosted
@@ -46,6 +51,11 @@ jobs:
           url: "https://valorao.cloud/api/revalidate?endpoint=/api/storefront"
           method: "POST"
           customHeaders: '{"x-api-key": ${{ secrets.VALORAO_API_KEY }}}'
+      - name: Show Response
+        run: |
+          echo ${{ steps.myRequest.outputs.response }}
+          echo ${{ steps.myRequest.outputs.headers }}
+          echo ${{ steps.myRequest.outputs.status }}
   vercel_purge_bundles:
     needs: portainer_post
     runs-on: self-hosted
@@ -56,6 +66,11 @@ jobs:
           url: "https://valorao.cloud/api/revalidate?endpoint=/api/storefront/bundles"
           method: "POST"
           customHeaders: '{"x-api-key": ${{ secrets.VALORAO_API_KEY }}}'
+      - name: Show Response
+        run: |
+          echo ${{ steps.myRequest.outputs.response }}
+          echo ${{ steps.myRequest.outputs.headers }}
+          echo ${{ steps.myRequest.outputs.status }}
   message:
     needs: portainer_post
     runs-on: self-hosted
@@ -66,9 +81,9 @@ jobs:
           webhook-url: ${{ secrets.WEBHOOK_URL }}
           thread-id: "1239213001932931114"
           embed-title: Github Actions
-          embed-description: The Github Action for valorao/riot-auth-client runned successfully.
+          embed-description: The Github Action for valorao/riot-auth-client runned successfully. Vercel cache was purged.
           embed-footer-text: valorao
           embed-author-name: Actions
-          embed-url: "https://github.com/valorao/riot-auth-client/actions"
-          embed-author-icon-url: "https://cdn.valorao.cloud/images%2Fvalorao.png"
-          avatar-url: "https://cdn.valorao.cloud/images%2F25231.png"
+          embed-url: "https://valorao.cloud/"
+          embed-author-icon-url: "https://valorao-cdn.rtrampox.cloud/images%2Fvalorao.png"
+          avatar-url: "https://valorao-cdn.rtrampox.cloud/images%2F25231.png"
