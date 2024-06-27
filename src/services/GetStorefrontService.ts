@@ -59,7 +59,7 @@ export default class GetStorefrontService {
 
             const items = await Promise.all(storeOffers.map(async (offer: any) => {
                 const offerID = offer.OfferID;
-                const cost = offer.Cost[0];
+                const cost = Object.values(offer.Cost)[0];
                 const uuid = offer.OfferID;
                 const weaponInfo = await getWeaponStorefrontInfo.handle(uuid);
 
