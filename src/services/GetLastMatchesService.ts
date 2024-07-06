@@ -14,26 +14,28 @@ export default class GetLastMatches {
             let matches: { [key: string]: any } = {};
 
             const matchHistory = await getMatchHistory.handle(token, entitlements, puuid)
-            .catch(err => {return err.response});
+                .catch(err => { return err.response });
             for (let i = 1; i <= matchHistory.lenght; i++) {
-            
-                if(matchHistory === undefined) return {status: 400, message: 'Bad Request - MISSING_MATCHHISTORY',};
-            
+
+                if (matchHistory === undefined) return { status: 400, message: 'Bad Request - MISSING_MATCHHISTORY', };
+
                 const matchKey = `match${i}`;
                 if (!matchHistory.matches || !matchHistory.matches[matchKey]) {
-                    return {status: 400, message: 'Bad Request - MISSING_MATCHHISTORY',};
+                    return { status: 400, message: 'Bad Request - MISSING_MATCHHISTORY', };
                 }
 
                 const matchData = await getMatchData.handle(token, entitlements, matchHistory.matches[matchKey].matchId)
-                .catch(err => {return err.response});
-                if (matchData === undefined) return {status: 400, message: 'Bad Request - MISSING_MATCHDATA',};
+                    .catch(err => { return err.response });
+                if (matchData === undefined) return { status: 400, message: 'Bad Request - MISSING_MATCHDATA', };
                 const mapInfo = await getMapInfo.handle(matchData.map)
-                .catch(err => {return err.response});
+                    .catch(err => { return err.response });
 
-                matches[matchKey] = {
-                    matchData,
-                    mapInfo: mapInfo,
-                };
+                matches = [
+                    {
+                        matchData,
+                        mapInfo: mapInfo
+                    }
+                ]
             }
 
             return {
@@ -43,7 +45,7 @@ export default class GetLastMatches {
         }
         catch (error) {
             console.log(error)
-            return {status: 500, message: 'Internal Server Error',};
+            return { status: 500, message: 'Internal Server Error', };
         }
     }
 }

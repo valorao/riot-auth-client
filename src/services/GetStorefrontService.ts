@@ -70,14 +70,11 @@ export default class GetStorefrontService {
                 };
             }));
 
-            // const offers = await processBundles(BundleOffers.Bundles);
-
             return {
                 status: 200,
                 items,
-                // bundleOffers: offers,
-                bundleRawOffers: BundleOffers.Bundles,
-                remainingDurationInSBundle: BundleOffers.BundleRemainingDurationInSeconds,
+                bundleOffers: BundleOffers.Bundles,
+                bundleRemainingDurationInS: BundleOffers.BundleRemainingDurationInSeconds,
                 remainingDurationInS,
                 remainingDurationInUNIX: expirationUnixTime,
             };
