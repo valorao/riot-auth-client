@@ -16,6 +16,7 @@ export default class GetMapInfo {
                 const mapUuid = findMapId.uuid;
 
                 return {
+                    status: 200,
                     mapUuid: mapUuid,
                     mapName: mapName,
                     mapListViewIcon: mapListViewIcon,
@@ -29,6 +30,7 @@ export default class GetMapInfo {
                 const mapUuid = findMapId.uuid;
 
                 return {
+                    status: 200,
                     mapUuid: mapUuid,
                     mapName: mapName,
                     mapListViewIcon: mapListViewIcon,
