@@ -6,10 +6,13 @@ export default class GetMapInfo {
             const url = `https://valorant-api.com/v1/maps`
             const findmap = await axios.get(url)
             if (!findmap || !findmap.data || findmap.status !== 200) {
-                throw findmap.data;
+                return { status: 400, message: 'Bad Request', error: findmap.data };
             }
-            if (mapUrl || mapUrl === "" || mapUrl === undefined) {
+            if (mapUrl) {
                 const findMapId = findmap.data.data.find((map: any) => map.mapUrl === mapUrl);
+                if (!findMapId) {
+                    return { status: 404, message: 'Map not found' };
+                }
                 const mapName = findMapId.displayName;
                 const mapListViewIcon = findMapId.listViewIcon;
                 const mapSplash = findMapId.splash;
@@ -22,9 +25,12 @@ export default class GetMapInfo {
                     mapListViewIcon: mapListViewIcon,
                     mapSplash: mapSplash
                 };
-            } else if (mapName || mapName === "" || mapName === undefined) {
+            } if (mapName) {
                 const findMapId = findmap.data.data.find((map: any) => map.displayName === mapName);
-                const mapName = findMapId.displayName;
+                if (!findMapId) {
+                    return { status: 404, message: 'Map not found' };
+                }
+                const mapDisplayName = findMapId.displayName;
                 const mapListViewIcon = findMapId.listViewIcon;
                 const mapSplash = findMapId.splash;
                 const mapUuid = findMapId.uuid;
@@ -32,7 +38,7 @@ export default class GetMapInfo {
                 return {
                     status: 200,
                     mapUuid: mapUuid,
-                    mapName: mapName,
+                    mapName: mapDisplayName,
                     mapListViewIcon: mapListViewIcon,
                     mapSplash: mapSplash
                 };
@@ -40,7 +46,8 @@ export default class GetMapInfo {
             return { status: 400, message: 'Bad Request', };
         }
         catch (error) {
-            return { status: 500, message: 'Internal Server Error', };
+            console.log(error)
+            return { status: 500, message: 'Internal Server Error', error };
         }
     }
 }
