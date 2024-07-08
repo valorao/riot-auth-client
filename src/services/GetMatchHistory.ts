@@ -14,7 +14,7 @@ export default class GetMatchHistory {
             const version = version_response.data.data.riotClientVersion;
             const platform = platform_response.data.data.platform;
 
-            const url = `https://pd.na.a.pvp.net/match-history/v1/history/${puuid}?startIndex=0&endIndex=7`
+            const url = `https://pd.na.a.pvp.net/match-history/v1/history/${puuid}?startIndex=0&EndIndex=10`
             const config = {
                 headers: {
                     Authorization: `Bearer ${token}`,
@@ -23,13 +23,13 @@ export default class GetMatchHistory {
                     'X-Riot-ClientVersion': version,
                 }
             }
-            const response  = await axios.get(url, config).catch(err => {return err.response});
+            const response = await axios.get(url, config).catch(err => { return err.response });
             if (!response || !response.data || response.status !== 200) {
                 return {
-                    status : response.status,
+                    status: response.status,
                     message: response.data,
                 }
-    
+
             }
             if (response.status === 429) {
                 return {
@@ -44,14 +44,14 @@ export default class GetMatchHistory {
                 const matchId = response.data.History[i].MatchID;
                 const unixTimeStamp = response.data.History[i].GameStartTime;
                 const date = new Date(unixTimeStamp);
-                const matchDate = date.toLocaleString('pt-BR', {timeZone: 'America/Sao_Paulo'});
-                
-                matches[`match${i+1}`] = {
+                const matchDate = date.toLocaleString('pt-BR', { timeZone: 'America/Sao_Paulo' });
+
+                matches[`match${i + 1}`] = {
                     matchId: matchId,
                     matchDate: matchDate,
                 };
             }
-            
+
             return {
                 status: response.status,
                 lenght: response.data.EndIndex,
@@ -59,7 +59,7 @@ export default class GetMatchHistory {
             };
         }
         catch (error) {
-            return {status: 500, message: 'Internal Server Error',};
+            return { status: 500, message: 'Internal Server Error' };
         }
     }
 }

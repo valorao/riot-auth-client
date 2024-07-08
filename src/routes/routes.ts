@@ -37,6 +37,8 @@ routes.delete('/fromstatic/logout', BrowserLogout);
 
 routes.get('/auth/reauth', ReauthCookie);
 
+routes.get('/data/map', MapInfo)
+
 routes.use(simpleTokenDecoder)
 
 routes.get('/player/history', MatchHistory)
@@ -58,8 +60,6 @@ routes.get('/client/version', ClientVersion);
 routes.get('/test/cookies', TestCookies);
 
 routes.get('/player/pregame/leave', LeavePregameWithCookies);
-
-routes.post('/player/history/matches/map', MapInfo)
 
 routes.post('/player/history/matches/:matchId', MatchData)
 

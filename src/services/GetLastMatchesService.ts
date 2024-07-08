@@ -1,10 +1,8 @@
 import GetMatchHistory from './GetMatchHistory';
 import GetMatchData from './GetMatchData';
-import GetAgentInfo from './GetAgentInfo';
 import GetMapInfo from './GetMapInfo';
 const getMatchHistory = new GetMatchHistory();
 const getMatchData = new GetMatchData();
-const getAgentInfo = new GetAgentInfo();
 const getMapInfo = new GetMapInfo();
 
 
@@ -15,6 +13,7 @@ export default class GetLastMatches {
 
             const matchHistory = await getMatchHistory.handle(token, entitlements, puuid)
                 .catch(err => { return err.response });
+            console.log(matchHistory)
             for (let i = 1; i <= matchHistory.lenght; i++) {
 
                 if (matchHistory === undefined) return { status: 400, message: 'Bad Request - MISSING_MATCHHISTORY', };
