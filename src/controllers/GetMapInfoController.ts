@@ -11,7 +11,7 @@ export const MapInfo = async (req: Request, res: Response) => {
         });
     }
     const response = await getMapInfo.handle(
-        (req.query.mapUrl as string)
+        (req.query.mapUrl as string), (req.query.mapName as string)
     );
     if (response.status === 400) {
         return res.status(401).json({
