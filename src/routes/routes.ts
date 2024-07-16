@@ -39,6 +39,10 @@ routes.get('/auth/reauth', ReauthCookie);
 
 routes.get('/data/map', MapInfo)
 
+routes.get('/client/platform', ClientPlatform);
+
+routes.get('/client/version', ClientVersion);
+
 routes.use(simpleTokenDecoder)
 
 routes.get('/player/history', MatchHistory)
@@ -53,10 +57,6 @@ routes.get('/player/rank', GetPlayerRank);
 
 routes.get('/fromstatic/cookies', GetBrowserCookies);
 
-routes.get('/client/platform', ClientPlatform);
-
-routes.get('/client/version', ClientVersion);
-
 routes.get('/test/cookies', TestCookies);
 
 routes.get('/player/pregame/leave', LeavePregameWithCookies);
@@ -66,7 +66,7 @@ routes.post('/player/history/matches/:matchId', MatchData)
 routes.post('/data/agents/:agentId', AgentInfo)
 
 routes.get('/player/last-matches', LastMatches)
-// routes.post('/oauth', AuthenticateUserJWT)
+
 routes.post('/player/party', PlayerParty);
 
 routes.post('/player/pregame', PlayerPreGameId);
